@@ -22,9 +22,13 @@ cd to project directory
 
 I needed sudo to get proper permissions for these, maybe you won't:
 
-docker compose up -d
+```console
+$ docker compose up -d
+```
 
 should be running on http://localhost:80
 
 To end container: 
-docker compose down
+```console
+$ docker compose down
+```
