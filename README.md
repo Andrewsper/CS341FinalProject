@@ -13,3 +13,18 @@ Packages
 =======================
 https://docs.python.org/3/library/calendar.html calendar
 https://www.mongodb.com/docs/drivers/pymongo/#pymongo PyMongo 
+
+Running docker container with Nginx proxy, MongoDB, Flask
+
+To get working install docker (sudo apt install docker)
+
+cd to project directory
+
+I needed sudo to get proper permissions for these, maybe you won't:
+
+docker compose up -d
+
+should be running on http://localhost:80
+
+To end container: 
+docker compose down
