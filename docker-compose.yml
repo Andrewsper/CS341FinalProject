@@ -1,0 +1,47 @@
+services:
+  web:
+    image: nginx
+    ports:
+      - 80:80
+    environment:
+      - FLASK_SERVER_ADDR=localhost:5000
+    volumes:
+      - ./nginx/nginx.conf:/src/nginx.conf
+    depends_on:
+      - backend
+    command: /bin/bash -c "envsubst < /tmp/nginx.conf > /src/nginx/conf.d/default.conf && nginx -g 'daemon off;'" 
+    links:
+      - backend
+      - ang
+
+  ang:
+    build:
+      context: angular
+    depends_on:
+      - backend
+    ports:
+      - 4200:4200
+    expose:
+      - "4200"
+    volumes:
+      - ./angular:/project
+      - /project/node_modules
+    network_mode: host
+
+  backend:
+    build: 
+      context: flask
+    stop_signal: SIGINT
+    environment:
+      - FLASK_SERVER_PORT=5000
+    restart: always
+    volumes:
+      - ./flask:/src
+    depends_on:
+      - mongo
+    network_mode: host
+  mongo:
+    image: mongo
+
+    
+  
