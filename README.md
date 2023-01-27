@@ -20,7 +20,7 @@ To get working install docker (sudo apt install docker)
 
 cd to project directory
 
-I needed sudo to get proper permissions for these, maybe you won't:
+add docker to sudo groups or just use sudo every time
 
 ```console
 docker compose up -d
