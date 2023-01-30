@@ -2,7 +2,13 @@
 CS341 Final Project YMCA Program Registration Software
 
 Python
+
 Mongo Db (no sql)
+https://www.mongodb.com/try/download/community
+
+In order to share the same mongoDB we will need to import and export changes as JSON each time an edit is made
+See below link to so how
+https://stackoverflow.com/questions/11255630/how-to-export-all-collections-in-mongodb
 
 Gui Options:
 Flask?
