@@ -1,17 +1,17 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template, request, json
 from pymongo import MongoClient
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="../angular/dist/ymca-schedule")
 CORS(app)
 
 client = MongoClient("mongo:27017")
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    return render_template("index.html")
 
 @app.route("/test", methods=['GET'])
 def test():

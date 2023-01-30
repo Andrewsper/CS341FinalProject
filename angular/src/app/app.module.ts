@@ -5,10 +5,12 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestService } from './services/test.service';
+import { YmcaHeaderComponent } from './ymca-header/ymca-header.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    YmcaHeaderComponent
   ],
   imports: [
     BrowserModule,
