@@ -30,7 +30,7 @@ add docker to sudo groups or just use sudo every time
 docker compose up -d
 ```
 
-should be running on http://localhost:80
+should be running on http://localhost:4200
 
 To end container: 
 ```console
