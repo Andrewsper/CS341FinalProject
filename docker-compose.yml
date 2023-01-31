@@ -1,18 +1,4 @@
 services:
-  web:
-    image: nginx
-    ports:
-      - 80:80
-    environment:
-      - FLASK_SERVER_ADDR=localhost:5000
-    volumes:
-      - ./nginx/nginx.conf:/src/nginx.conf
-    depends_on:
-      - backend
-    command: /bin/bash -c "envsubst < /tmp/nginx.conf > /src/nginx/conf.d/default.conf && nginx -g 'daemon off;'" 
-    links:
-      - backend
-      - ang
 
   ang:
     build:
