@@ -3,9 +3,38 @@
 header{
     background-color: rgb(160, 92, 160);
     padding: 1em;
+    display: flex;
+    justify-content: space-between;
 }
 span.title{
     color:white;
     font-size: 5em;
     font-family: Georgia, 'Times New Roman', Times, serif;
-}  
+} 
+
+div.profile{
+    display: flex;
+    flex-direction: row;
+}
+
+div.loggedin span{
+    padding: 1em;
+    font-size: 1.5em;
+    color: white;
+}
+
+
+div.user a{
+    display: block;
+    padding: 1em;
+    background-color: rgb(199, 199, 199);
+    margin: .25em;
+    color: white;
+    border-radius: .25em;
+    text-decoration: none;
+    font-size: 1.25em;
+}
+
+div.profile a:hover {
+    background-color: cadetblue;
+}

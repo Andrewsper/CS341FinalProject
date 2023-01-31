@@ -2,4 +2,20 @@
     <div>
         <span class = "title">YMCA</span>
     </div>
+
+    <div class="user">
+        <div *ngIf="this.userService.isLoggedIn()" class="loggedin">
+            <span >Hello {{this.userService.curUser?.firstName}}!</span>
+            <a routerLink="logout">Logout</a>
+
+        </div>
+        <nav *ngIf="!this.userService.isLoggedIn()">
+            <div class="col-auto">
+                <a routerLink="login">Login</a>
+            </div>
+            <div class="col-auto">
+                <a *ngIf="!this.userService.isLoggedIn()" routerLink="register">Register</a>
+            </div>
+        </nav>
+    </div>
 </header>

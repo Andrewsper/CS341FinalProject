@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-ymca-header',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./ymca-header.component.scss']
 })
 export class YmcaHeaderComponent {
-
+  constructor(public userService : UserService){
+    
+  }
 }
