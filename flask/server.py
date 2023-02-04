@@ -1,13 +1,12 @@
 import os
 
 from flask import Flask, render_template, request, json
-from pymongo import MongoClient
 from flask_cors import CORS
+from database.database import Database
 
+database: Database
 app = Flask(__name__,template_folder="../angular/dist/ymca-schedule")
 CORS(app)
-
-client = MongoClient("mongo:27017")
 
 @app.route("/")
 def hello():
@@ -17,5 +16,10 @@ def hello():
 def test():
     return "it has been changed"
 
+@app.route("/database/users", methods=['GET'])
+def get_users():
+    return database.get_all_users()
+
 if __name__ == "__main__":
+    database = Database()
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
