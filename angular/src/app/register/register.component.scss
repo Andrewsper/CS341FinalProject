@@ -1,0 +1,27 @@
+form {
+    padding: 30px;
+    margin: 30px;
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+.input-field {
+    margin: 10px;
+}
+
+input {
+    width: 100px;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+}
+
+button {
+    margin: 10px;
+}
+
+.error-msg {
+    color: red;
+}

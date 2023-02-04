@@ -1,1 +1,38 @@
-<p>register works!</p>
+<div>
+    <form [formGroup]="form" (ngSubmit)="register()">
+        <div class="input-field">
+            <label>Username</label>
+            <input formControlName="username">
+        </div>
+        <div class="input-field">
+            <label>First Name</label>
+            <input formControlName="firstname" type="text">
+        </div>
+        <div class="input-field">
+            <label>Last Name</label>
+            <input formControlName="lastname" type="text">
+        </div>
+        <div class="input-field">
+            <label>Street Address</label>
+            <input formControlName="address" type="text">
+        </div>
+        <div class="input-field">
+            <label>Phone Number</label>
+            <input formControlName="phoneNumber" type="text">
+        </div>
+        <div class="input-field">
+            <label>Email</label>
+            <input formControlName="email" type="text">
+        </div>
+        <div class="input-field">
+            <label>Password</label>
+            <input formControlName="password" type="text">
+        </div>
+        <div class="input-field">
+            <label>User Type</label>
+            <input formControlName="password" type="text">
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    <p class="error-msg" *ngIf="registrationError">Registration unsuccessful, username already taken</p>
+</div>
