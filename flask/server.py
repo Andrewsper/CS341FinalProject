@@ -20,6 +20,17 @@ def test():
 def get_users():
     return database.get_all_users()
 
+@app.route("/database/testing/add/user", methods=['POST'])
+def add_user_test():
+    database.add_test_user()
+    return "1"
+
+@app.route("/database/add/user", methods=['POST'])
+def add_user():
+    user = request.get_json()
+    database.add_user(user)
+    return "1"
+
 if __name__ == "__main__":
     database = Database()
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
