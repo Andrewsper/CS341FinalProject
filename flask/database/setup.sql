@@ -5,13 +5,14 @@ DROP TABLE IF EXISTS Owns;
 
 CREATE TABLE Users (
     UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Username varchar(255) NOT NULL,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
     Address varchar(255) NOT NULL,
-    ZipCode varchar(255) NOT NULL,
     PhoneNumber varchar(255) NOT NULL,
     Email varchar(255) NOT NULL,
     Password varchar(255) NOT NULL,
+    ZipCode INTEGER NOT NULL,
     Balance FLOAT NOT NULL,
     Type TINYINT NOT NULL
 );
