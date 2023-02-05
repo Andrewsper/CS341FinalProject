@@ -12,7 +12,7 @@ import { RegisterModel } from '../models/RegisterModel';
 export class RegisterComponent {
 
   form!: FormGroup;
-  registrationError: boolean = false;
+  errorText: string = "";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,28 +30,44 @@ export class RegisterComponent {
         phoneNumber: [''],
         email: [''],
         password: [''],
+        confirmPassword: [''],
         admin: ['']
       })
   }
 
+  checkLogin(): boolean {
+    if(this.form.value.password != this.form.value.confirmPassword) {
+      this.errorText = "Passwords do not match";
+      return false;
+    }
+    if(this.form.value.username == "" || this.form.value.firstname == "" || this.form.value.lastname == "" || this.form.value.address == "" || this.form.value.zipcode == "" || this.form.value.phoneNumber == "" || this.form.value.email == "") {
+      this.errorText = "Please fill out all fields";
+      return false;
+    }
+    return true;
+  }
+
   async register() {
+    if(!this.checkLogin()) {
+      return;
+    }
     let payload: RegisterModel = {
-      username: this.form.value.username,
-      firstname: this.form.value.firstname,
-      lastname: this.form.value.lastname,
-      address: this.form.value.address,
-      zipcode: this.form.value.zipcode,
-      phoneNumber: this.form.value.phoneNumber,
-      email: this.form.value.email,
-      password: this.form.value.password,
-      admin: this.form.value.admin
+      Username: this.form.value.username,
+      FirstName: this.form.value.firstname,
+      LastName: this.form.value.lastname,
+      Address: this.form.value.address,
+      ZipCode: this.form.value.zipcode,
+      PhoneNumber: this.form.value.phoneNumber,
+      Email: this.form.value.email,
+      Password: this.form.value.password,
+      Type: this.form.value.admin
     }
     let response = await this.loginService.register(payload);
     let responseJSON = JSON.parse(JSON.stringify(response));
     if (responseJSON['success'] == "true") {
       this.router.navigate(['/']);
     } else {
-      this.registrationError = false;
+      this.errorText = "Username already exists"
     }
     
 

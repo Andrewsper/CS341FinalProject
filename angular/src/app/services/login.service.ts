@@ -7,7 +7,7 @@ import { RegisterModel } from '../models/RegisterModel';
 @Injectable()
 export class LoginService {
     loginEndpoint = 'http://0.0.0.0:5000/verifyLogin';
-    registerEndpoint = 'http://0.0.0.0:5000/register';
+    registerEndpoint = 'http://0.0.0.0:5000/database/add/user';
 
 
     constructor(

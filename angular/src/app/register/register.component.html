@@ -2,7 +2,7 @@
     <form [formGroup]="form" (ngSubmit)="register()">
         <div class="input-field">
             <label>Username</label>
-            <input formControlName="username">
+            <input formControlName="username" id="username">
         </div>
         <div class="input-field">
             <label>First Name</label>
@@ -17,8 +17,12 @@
             <input formControlName="address" type="text">
         </div>
         <div class="input-field">
+            <label>Zip Code</label>
+            <input formControlName="zipCode" type="text">
+        </div>
+        <div class="input-field">
             <label>Phone Number</label>
-            <input formControlName="phoneNumber" type="text">
+            <input formControlName="phoneNumber" type="tel">
         </div>
         <div class="input-field">
             <label>Email</label>
@@ -26,13 +30,16 @@
         </div>
         <div class="input-field">
             <label>Password</label>
-            <input formControlName="password" type="text">
+            <input formControlName="password" type="password">
         </div>
         <div class="input-field">
-            <label>User Type</label>
-            <input formControlName="password" type="text">
+            <label>Confirm password</label>
+            <input formControlName="confirmPassword" type="password">
         </div>
-        <button type="submit">Register</button>
+        <div>
+            <button type="submit">Register</button>
+            <div class="error-msg">{{errorText}}</div>
+        </div>
     </form>
-    <p class="error-msg" *ngIf="registrationError">Registration unsuccessful, username already taken</p>
+    
 </div>
