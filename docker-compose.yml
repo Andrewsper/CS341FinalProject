@@ -23,8 +23,6 @@ services:
     restart: always
     volumes:
       - ./flask:/src
-    depends_on:
-      - mongo
     network_mode: host
 
     
