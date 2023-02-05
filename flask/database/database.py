@@ -27,7 +27,7 @@ class Database:
         self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, ZipCode, PhoneNumber, Email, Password, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                                                (user["Username"], user["FirstName"], user["LastName"], user["Address"], 
                                                user["ZipCode"], user["PhoneNumber"], user["Email"], 
-                                               user["Password"], user["Balance"], user["Type"]))
+                                               user["Password"], 0, user["Type"]))
         self.connection.commit()
 
     def add_program(self) -> None:
