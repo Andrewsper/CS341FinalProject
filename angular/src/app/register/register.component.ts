@@ -40,7 +40,7 @@ export class RegisterComponent {
       this.errorText = "Passwords do not match";
       return false;
     }
-    if(this.form.value.username == "" || this.form.value.firstname == "" || this.form.value.lastname == "" || this.form.value.address == "" || this.form.value.zipcode == "" || this.form.value.phoneNumber == "" || this.form.value.email == "") {
+    if(this.form.value.username == "" || this.form.value.firstname == "" || this.form.value.lastname == "" || this.form.value.address == "" || this.form.value.email == "" || this.form.value.password == "" || this.form.value.confirmPassword == "") {
       this.errorText = "Please fill out all fields";
       return false;
     }

@@ -2,39 +2,39 @@
     <form [formGroup]="form" (ngSubmit)="register()">
         <div class="input-field">
             <label>Username</label>
-            <input formControlName="username" id="username">
+            <input formControlName="username" id="username" required >
         </div>
         <div class="input-field">
             <label>First Name</label>
-            <input formControlName="firstname" type="text">
+            <input formControlName="firstname" type="text" required>
         </div>
         <div class="input-field">
             <label>Last Name</label>
-            <input formControlName="lastname" type="text">
+            <input formControlName="lastname" type="text" required>
         </div>
         <div class="input-field">
             <label>Street Address</label>
-            <input formControlName="address" type="text">
+            <input formControlName="address" type="text" required>
         </div>
         <div class="input-field">
             <label>Zip Code</label>
-            <input formControlName="zipCode" type="text">
+            <input formControlName="zipCode" type="text" required>
         </div>
         <div class="input-field">
             <label>Phone Number</label>
-            <input formControlName="phoneNumber" type="tel">
+            <input formControlName="phoneNumber" type="tel" required>
         </div>
         <div class="input-field">
             <label>Email</label>
-            <input formControlName="email" type="text">
+            <input formControlName="email" type="text" required>
         </div>
         <div class="input-field">
             <label>Password</label>
-            <input formControlName="password" type="password">
+            <input formControlName="password" type="password" required>
         </div>
         <div class="input-field">
             <label>Confirm password</label>
-            <input formControlName="confirmPassword" type="password">
+            <input formControlName="confirmPassword" type="password" required>
         </div>
         <div>
             <button type="submit">Register</button>
