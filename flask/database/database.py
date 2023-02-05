@@ -17,15 +17,15 @@ class Database:
         users = self.cursor.fetchall()
         return self.convert_users_to_json(users)
 
-    def add_user(self) -> None:
+    def add_test_user(self) -> None:
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Users (FirstName, LastName, Address, ZipCode, PhoneNumber, Email, Password, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', ("1", "2", "3", "4", "5", "6", "7", 8.0, 9))
+        self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, PhoneNumber, Email, Password, ZipCode, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', ("1", "2", "3", "4", "5", "6", "7", 8, 9.0, 10))
         self.connection.commit()
 
     def add_user(self, user: dict) -> None:
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Users (FirstName, LastName, Address, ZipCode, PhoneNumber, Email, Password, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-                                               (user["FirstName"], user["LastName"], user["Address"], 
+        self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, ZipCode, PhoneNumber, Email, Password, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                                               (user["Username"], user["FirstName"], user["LastName"], user["Address"], 
                                                user["ZipCode"], user["PhoneNumber"], user["Email"], 
                                                user["Password"], user["Balance"], user["Type"]))
         self.connection.commit()
@@ -69,29 +69,31 @@ class Database:
         for user in users:
             users_json.append({
                 "UserID": user[0],
-                "FirstName": user[1],
-                "LastName": user[2],
-                "Address": user[3],
-                "ZipCode": user[4],
-                "PhoneNumber": user[5],
-                "Email": user[6],
-                "Password": user[7],
-                "Balance": user[8],
-                "Type": user[9]
+                "Username": user[1],
+                "FirstName": user[2],
+                "LastName": user[3],
+                "Address": user[4],
+                "ZipCode": user[5],
+                "PhoneNumber": user[6],
+                "Email": user[7],
+                "Password": user[8],
+                "Balance": user[9],
+                "Type": user[10]
             })
         return users_json
     
     def convert_user_to_json(self, user: list) -> dict:
         user_json = {
             "UserID": user[0],
-            "FirstName": user[1],
-            "LastName": user[2],
-            "Address": user[3],
-            "ZipCode": user[4],
-            "PhoneNumber": user[5],
-            "Email": user[6],
-            "Password": user[7],
-            "Balance": user[8],
-            "Type": user[9]
+            "Username": user[1],
+            "FirstName": user[2],
+            "LastName": user[3],
+            "Address": user[4],
+            "ZipCode": user[5],
+            "PhoneNumber": user[6],
+            "Email": user[7],
+            "Password": user[8],
+            "Balance": user[9],
+            "Type": user[10]
         }
         return user_json
