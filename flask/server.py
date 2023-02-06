@@ -12,24 +12,24 @@ CORS(app)
 def hello():
     return render_template("index.html")
 
-@app.route("/test", methods=['GET'])
-def test():
-    return "it has been changed"
-
 @app.route("/database/users", methods=['GET'])
 def get_users():
     return database.get_all_users()
 
+@app.route("/database/programs", methods=['GET'])
+def get_programs():
+    return database.get_all_programs()
+
 @app.route("/database/testing/add/user", methods=['POST'])
 def add_user_test():
     database.add_test_user()
-    return "1"
+    return "Success"
 
 @app.route("/database/add/user", methods=['POST'])
 def add_user():
     user = request.get_json()
     database.add_user(user)
-    return "1"
+    return "Success"
 
 if __name__ == "__main__":
     database = Database()

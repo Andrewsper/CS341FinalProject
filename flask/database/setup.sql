@@ -12,7 +12,7 @@ CREATE TABLE Users (
     PhoneNumber varchar(255) NOT NULL,
     Email varchar(255) NOT NULL,
     Password varchar(255) NOT NULL,
-    ZipCode INTEGER NOT NULL,
+    ZipCode varchar(255) NOT NULL,
     Balance FLOAT NOT NULL,
     Type TINYINT NOT NULL
 );
