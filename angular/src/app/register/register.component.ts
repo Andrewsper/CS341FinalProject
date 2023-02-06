@@ -52,15 +52,15 @@ export class RegisterComponent {
       return;
     }
     let payload: RegisterModel = {
-      Username: this.form.value.username,
-      FirstName: this.form.value.firstname,
-      LastName: this.form.value.lastname,
-      Address: this.form.value.address,
-      ZipCode: this.form.value.zipcode,
-      PhoneNumber: this.form.value.phoneNumber,
-      Email: this.form.value.email,
-      Password: this.form.value.password,
-      Type: this.form.value.admin
+      Username: this.form.value.username.trim(),
+      FirstName: this.form.value.firstname.trim(),
+      LastName: this.form.value.lastname.trim(),
+      Address: this.form.value.address.trim(),
+      ZipCode: this.form.value.zipcode.trim(),
+      PhoneNumber: this.form.value.phoneNumber.trim(),
+      Email: this.form.value.email.trim(),
+      Password: this.form.value.password.trim(),
+      Type: this.form.value.admin.trim()
     }
     let response = await this.loginService.register(payload);
     let responseJSON = JSON.parse(JSON.stringify(response));

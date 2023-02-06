@@ -1,43 +1,43 @@
 <div>
     <form [formGroup]="form" (ngSubmit)="register()">
         <div class="input-field">
-            <label>Username</label>
-            <input formControlName="username" id="username" required >
+            <label for="username">Username</label>
+            <input formControlName="username" id="username" id="username" required >
         </div>
         <div class="input-field">
-            <label>First Name</label>
-            <input formControlName="firstname" type="text" required>
+            <label for="first-name">First Name</label>
+            <input formControlName="firstname" type="text" id="first-name" required>
         </div>
         <div class="input-field">
-            <label>Last Name</label>
-            <input formControlName="lastname" type="text" required>
+            <label for="last-name">Last Name</label>
+            <input id="last-name" formControlName="lastname" type="text" required>
         </div>
         <div class="input-field">
-            <label>Street Address</label>
-            <input formControlName="address" type="text" required>
+            <label for="street-address">Street Address</label>
+            <input id="street-address" formControlName="address" type="text" required>
         </div>
         <div class="input-field">
-            <label>Zip Code</label>
-            <input formControlName="zipCode" type="text" required>
+            <label for="zip-code">Zip Code</label>
+            <input id="zip-code" formControlName="zipCode" type="text" required>
         </div>
         <div class="input-field">
-            <label>Phone Number</label>
-            <input formControlName="phoneNumber" type="tel" required>
+            <label for="phone">Phone Number</label>
+            <input id="phone" formControlName="phoneNumber" type="tel" required>
         </div>
         <div class="input-field">
-            <label>Email</label>
-            <input formControlName="email" type="text" required>
+            <label for="email">Email</label>
+            <input id="email" formControlName="email" type="text" required>
         </div>
         <div class="input-field">
-            <label>Password</label>
-            <input formControlName="password" type="password" required>
+            <label for="password">Password</label>
+            <input id="password" formControlName="password" type="password" required>
         </div>
         <div class="input-field">
-            <label>Confirm password</label>
+            <label for="confirm-password">Confirm password</label>
             <input formControlName="confirmPassword" type="password" required>
         </div>
         <div>
-            <button type="submit">Register</button>
+            <button id="confirm-password" type="submit">Register</button>
             <div class="error-msg">{{errorText}}</div>
         </div>
     </form>
