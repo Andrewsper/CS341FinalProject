@@ -1,0 +1,38 @@
+form {
+    padding: 30px;
+    margin: 30px;
+    border: 1px solid #ccc;
+    width: 30%;
+    margin:auto;
+    margin-top: 5%;
+}
+
+.input-field {
+    margin: 10px;
+}
+
+input {
+    width: 50%;
+    height: 2em
+}
+
+label {
+    display: inline-block;
+    width: 40%;
+}
+
+button {
+    display: block;
+    padding: 1em;
+    background-color: rgb(199, 199, 199);
+    margin: 2em;
+    color: white;
+    border-radius: 0.25em;
+    text-decoration: none;
+    font-size: 1.25em;
+    width: 30%;
+}
+
+.error-msg {
+    color: red;
+}

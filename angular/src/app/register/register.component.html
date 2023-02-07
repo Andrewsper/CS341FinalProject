@@ -1,1 +1,45 @@
-<p>register works!</p>
+<div>
+    <form [formGroup]="form" (ngSubmit)="register()">
+        <div class="input-field">
+            <label for="username">Username</label>
+            <input formControlName="username" id="username" id="username" required >
+        </div>
+        <div class="input-field">
+            <label for="first-name">First Name</label>
+            <input formControlName="firstname" type="text" id="first-name" required>
+        </div>
+        <div class="input-field">
+            <label for="last-name">Last Name</label>
+            <input id="last-name" formControlName="lastname" type="text" required>
+        </div>
+        <div class="input-field">
+            <label for="street-address">Street Address</label>
+            <input id="street-address" formControlName="address" type="text" required>
+        </div>
+        <div class="input-field">
+            <label for="zip-code">Zip Code</label>
+            <input id="zip-code" formControlName="zipCode" type="text" required>
+        </div>
+        <div class="input-field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" formControlName="phoneNumber" type="tel" required>
+        </div>
+        <div class="input-field">
+            <label for="email">Email</label>
+            <input id="email" formControlName="email" type="text" required>
+        </div>
+        <div class="input-field">
+            <label for="password">Password</label>
+            <input id="password" formControlName="password" type="password" required>
+        </div>
+        <div class="input-field">
+            <label for="confirm-password">Confirm password</label>
+            <input formControlName="confirmPassword" type="password" required>
+        </div>
+        <div>
+            <button id="confirm-password" type="submit">Register</button>
+            <div class="error-msg">{{errorText}}</div>
+        </div>
+    </form>
+    
+</div>
