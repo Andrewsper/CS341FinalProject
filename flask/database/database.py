@@ -39,6 +39,8 @@ class Database:
         self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, ZipCode, PhoneNumber, Email, Password, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                                                (user["Username"], user["FirstName"], user["LastName"], user["Address"], 
                                                user["ZipCode"], user["PhoneNumber"], user["Email"], 
+                                               user["Password"], 0, user["Type"]))
+        self.connection.commit()
                                                user["Password"], user["Balance"], user["Type"]))
         self.commit_changes()
 
