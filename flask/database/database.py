@@ -41,7 +41,6 @@ class Database:
                                                user["ZipCode"], user["PhoneNumber"], user["Email"], 
                                                user["Password"], 0, user["Type"]))
         self.connection.commit()
-                                               user["Password"], user["Balance"], user["Type"]))
         self.commit_changes()
 
     def add_program(self) -> None:
