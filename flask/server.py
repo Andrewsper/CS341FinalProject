@@ -23,18 +23,22 @@ def test():
 def get_users():
     return database.get_all_users()
 
+@app.route("/database/programs", methods=['GET'])
+def get_programs():
+    return database.get_all_programs()
+
 @app.route("/database/testing/add/user", methods=['POST'])
 @cross_origin()
 def add_user_test():
     database.add_test_user()
-    return "1"
+    return "Success"
 
 @app.route("/database/add/user", methods=['POST'])
 @cross_origin()
 def add_user():
     user = request.get_json()
     database.add_user(user)
-    return "1"
+    return "Success"
 
 if __name__ == "__main__":
     database = Database()

@@ -11,16 +11,28 @@ class Database:
     def reset_cursor(self):
         self.cursor = self.connection.cursor()
 
+    def commit_changes(self):
+        self.connection.commit()
+
     def get_all_users(self):
         self.reset_cursor()
         self.cursor.execute('SELECT * FROM Users')
         users = self.cursor.fetchall()
+
         return self.convert_users_to_json(users)
+
+    def get_all_programs(self):
+        self.reset_cursor()
+        self.cursor.execute('SELECT * FROM Programs')
+        programs = self.cursor.fetchall()
+
+        return self.convert_programs_to_json(programs)
 
     def add_test_user(self) -> None:
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, PhoneNumber, Email, Password, ZipCode, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', ("1", "2", "3", "4", "5", "6", "7", 8, 9.0, 10))
-        self.connection.commit()
+        self.cursor.execute('INSERT INTO Users (Username, FirstName, LastName, Address, PhoneNumber, Email, Password, ZipCode, Balance, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                                               ("1", "2", "3", "4", "5", "6", "7", "54601", 9.0, 10))
+        self.commit_changes()
 
     def add_user(self, user: dict) -> None:
         self.reset_cursor()
@@ -29,10 +41,13 @@ class Database:
                                                user["ZipCode"], user["PhoneNumber"], user["Email"], 
                                                user["Password"], 0, user["Type"]))
         self.connection.commit()
+        self.commit_changes()
 
     def add_program(self) -> None:
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ("1", "2", "3", "4", 5.0, 6, 7, 8))
+        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                                                  ("1", "2", "3", "4", 5.0, 6, 7, 8))
+        self.commit_changes()
 
     def convert_programs_to_json(self, programs: list) -> list:
         programs_json: list = list()
