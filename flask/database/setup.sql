@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS Owns;
 
 CREATE TABLE Users (
     UserID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Username varchar(255) NOT NULL,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
     Address varchar(255) NOT NULL,
@@ -14,7 +13,8 @@ CREATE TABLE Users (
     Password varchar(255) NOT NULL,
     ZipCode varchar(255) NOT NULL,
     Balance FLOAT NOT NULL,
-    Type TINYINT NOT NULL
+    IsStaff BOOLEAN NOT NULL,
+    IsMember BOOLEAN NOT NULL
 );
 
 CREATE TABLE Programs (

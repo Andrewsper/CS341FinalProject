@@ -24,6 +24,7 @@ def login():
     else:
         user = database.verify_user_login(loginData)
         if(user):
+            user
             user["password"]=""
             session["user"] = user
             return user
@@ -59,15 +60,9 @@ def add_user():
     database.add_user(user)
     return "Success"
 
-def setTemplate():
-    for file in os.listdir("templates"):
-        if file != "index.html" and file != "assets":
-            os.replace("templates/{}".format(file),"static/{}".format(file))
-    
 
 if __name__ == "__main__":
     database = Database()
-    setTemplate()
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
     
     
