@@ -1,8 +1,8 @@
 <div>
     <form [formGroup]="form" (ngSubmit)="register()">
         <div class="input-field">
-            <label for="username">Username</label>
-            <input formControlName="username" id="username" id="username" required >
+            <label for="email">Email</label>
+            <input formControlName="email" type="email" id="email"  id="email" required >
         </div>
         <div class="input-field">
             <label for="first-name">First Name</label>
@@ -17,16 +17,12 @@
             <input id="street-address" formControlName="address" type="text" required>
         </div>
         <div class="input-field">
-            <label for="zip-code">Zip Code</label>
-            <input id="zip-code" formControlName="zipCode" type="text" required>
+            <label for="zipCode">Zip Code</label>
+            <input id="zipCode" formControlName="zipCode" type="text" required>
         </div>
         <div class="input-field">
             <label for="phone">Phone Number</label>
             <input id="phone" formControlName="phoneNumber" type="tel" required>
-        </div>
-        <div class="input-field">
-            <label for="email">Email</label>
-            <input id="email" formControlName="email" type="text" required>
         </div>
         <div class="input-field">
             <label for="password">Password</label>

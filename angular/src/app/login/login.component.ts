@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../models/User';
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      username: [''],
+      email: [''],
       password: ['']
     })
   }

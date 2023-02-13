@@ -5,8 +5,13 @@ from flask_session import Session
 from flask_cors import CORS, cross_origin
 from database.database import Database
 
+
+
 database: Database
 app = Flask(__name__)
+app.secret_key = 'hamburgers'
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
 CORS(app)
 Session(app)
 
@@ -18,13 +23,18 @@ def hello():
 @app.route("/login",methods = ["POST"])
 @cross_origin()
 def login():
-    loginData = json.load(request.data)
-    if(session["user"]):
+    
+    if "user" in session :
+        print(session["user"])
         return session["user"]
     else:
-        user = database.verify_user_login(loginData)
+        loginData = request.get_json()
+        try: 
+            user = database.verify_user_login(loginData)
+        except:
+            return "failed to login" , 400
+
         if(user):
-            user
             user["password"]=""
             session["user"] = user
             return user
@@ -32,6 +42,12 @@ def login():
             return "failed to login" , 400
 
 
+@app.route("/logout",methods = ["POST"])
+@cross_origin()
+def logout():
+    if "user" in session :
+        session.pop("user",None)
+    return 'ok', 200
 
 @app.route("/test", methods=['GET'])
 @cross_origin()
@@ -63,6 +79,7 @@ def add_user():
 
 if __name__ == "__main__":
     database = Database()
+
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
     
     

@@ -1,19 +1,19 @@
-import { Component } from '@angular/core';
+import { Component , OnInit} from '@angular/core';
 import { TestService } from './services/test.service';
-
+import { UserService } from './services/user.service';
+import { User } from './models/User';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   testString = "notChanged";
 
-  constructor(private testService: TestService) {}
+  constructor(public userService: UserService) {}
 
-  getWord(): void {
-    this.testService.getWord()
-      .subscribe(testString => (this.testString = testString))
+  ngOnInit( ): void{
+    this.userService.validateLogin(new User('',''));
   }
 }

@@ -9,7 +9,8 @@ import { YmcaHeaderComponent } from './ymca-header/ymca-header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from './services/login.service';
+import { UserService } from './services/user.service';
+import { User } from './models/User';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,11 @@ import { LoginService } from './services/login.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ HttpClientModule, TestService, LoginService ],
+  providers: [HttpClientModule, TestService, UserService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor() {}
+
+}

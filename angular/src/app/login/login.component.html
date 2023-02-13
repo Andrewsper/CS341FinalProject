@@ -2,11 +2,11 @@
     <form [formGroup]="form" (ngSubmit)="verifyLogin()">
         <div class="input-field">
             <label>Email</label>
-            <input formControlName="email" , type="email">
+            <input formControlName="email"  type="email">
         </div>
         <div class="input-field">
             <label>Password</label>
-            <input formControlName="password" type="text">
+            <input formControlName="password" type="password">
         </div>
         <button type="submit">Login</button>
     </form>

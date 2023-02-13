@@ -5,8 +5,8 @@
 
     <div class="user">
         <div *ngIf="this.userService.isLoggedIn()" class="loggedin">
-            <span >Hello {{this.userService.curUser?.firstName}}!</span>
-            <a routerLink="logout">Logout</a>
+            <span >Hello {{this.userService.getFirstName()}}!</span>
+            <a (click)="this.userService.logout()">Logout</a>
 
         </div>
         <nav *ngIf="!this.userService.isLoggedIn()">
