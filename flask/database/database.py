@@ -14,6 +14,13 @@ class Database:
     def commit_changes(self):
         self.connection.commit()
 
+    def verify_user_login(self,user):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT Username, FirstName, LastName, Address, PhoneNumber, Email, ZipCode, Balance, Type
+                                    WHERE Username = ? AND Password =?""",(user["Username"],user["Password"]))
+        user = self.cursor.fetchone()
+        return user
+
     def get_all_users(self):
         self.reset_cursor()
         self.cursor.execute('SELECT * FROM Users')

@@ -1,17 +1,36 @@
 import os
-
-from flask import Flask, render_template, request
+import json
+from flask import Flask, render_template, request, session
+from flask_session import Session
 from flask_cors import CORS, cross_origin
 from database.database import Database
 
 database: Database
-app = Flask(__name__,template_folder="../angular/dist/ymca-schedule")
+app = Flask(__name__)
 CORS(app)
+Session(app)
 
 @app.route("/")
 @cross_origin()
 def hello():
     return render_template("index.html")
+
+@app.route("/login",methods = ["POST"])
+@cross_origin()
+def login():
+    loginData = json.load(request.data)
+    if(session["user"]):
+        return session["user"]
+    else:
+        user = database.verify_user_login(loginData)
+        if(user):
+            user["password"]=""
+            session["user"] = user
+            return user
+        else:
+            return "failed to login" , 400
+
+
 
 @app.route("/test", methods=['GET'])
 @cross_origin()
@@ -40,6 +59,15 @@ def add_user():
     database.add_user(user)
     return "Success"
 
+def setTemplate():
+    for file in os.listdir("templates"):
+        if file != "index.html" and file != "assets":
+            os.replace("templates/{}".format(file),"static/{}".format(file))
+    
+
 if __name__ == "__main__":
     database = Database()
+    setTemplate()
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
+    
+    
