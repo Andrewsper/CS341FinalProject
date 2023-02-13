@@ -1,0 +1,5 @@
+Data base attributes do not match front end attributes.
+We need to decide on capitilized or not captitilized attributes so that we do not need to convert everytime.
+
+**note when a flask end point returns a dict it sent as JSON**
+
