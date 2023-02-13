@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
-import { LoginModel } from '../models/LoginModel';
 import { UserService } from '../services/user.service';
 import { User } from '../models/User';
 
@@ -34,16 +33,9 @@ export class LoginComponent implements OnInit {
 
   async verifyLogin() {
     let payload = new User(
-      this.form.value.username,
+      this.form.value.email,
       this.form.value.password
     );
-
-    let response = await this.userService.validateLogin(payload);
-    let responseJSON = JSON.parse(JSON.stringify(response));
-    if (responseJSON['authenticated'] == "true") {
-      this.router.navigate(['/']);
-    } else {
-      this.incorrectLogin = true;
-    }
+    this.userService.validateLogin(payload);
   }
 }

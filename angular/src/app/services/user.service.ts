@@ -21,7 +21,11 @@ export class UserService {
   validateLogin(loginInfo: User) {
     const options = {headers: {'Content-Type': 'application/json'}};
     let response = this.http.post<User>(this.loginEndpoint, JSON.stringify(loginInfo), options).subscribe((user)=>{
+      if(user){
         this.setCurrentUser(user);
+      }else{
+        alert("Invalid login please try again");
+      }
     });
 
 }
