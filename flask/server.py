@@ -29,17 +29,19 @@ def login():
         return session["user"]
     else:
         loginData = request.get_json()
+        if loginData["email"] == "":
+            return "no email provided" , 400
         try: 
             user = database.verify_user_login(loginData)
         except:
-            return "failed to login" , 400
+            return "failed to login" , 401
 
         if(user):
             user["password"]=""
             session["user"] = user
             return user
         else:
-            return "failed to login" , 400
+            return "failed to login" , 401
 
 
 @app.route("/logout",methods = ["POST"])

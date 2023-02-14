@@ -29,7 +29,11 @@ export class UserService {
           catchError((err) => this.handleError(err))
         ).subscribe((user) => {
             sessionStorage.setItem('user', JSON.stringify(user));
+            if(user.isStaff){
             this.router.navigate(["/"]);
+            } else {
+              this.router.navigate(["/staff-home"]);
+            }
         });
       }
     }
@@ -39,12 +43,12 @@ export class UserService {
   }
 
   handleError(err: HttpErrorResponse){
-    if (err.status === 400) {
+    if (err.status === 401) {
       alert("Invalid login please try again");
-    } else {
+    } else if (err.status !== 400){
       alert("Something went wrong please try again");
     }
-    return throwError(() => new Error("Something went wrong please try again"));
+    return throwError(() => new Error("Something went wrong please try "));
   }
 
 
@@ -65,6 +69,7 @@ export class UserService {
   logout() {
     sessionStorage.removeItem('user');
     this.http.post(this.logoutEndpoint, null).subscribe()
+    this.router.navigate(["/login"]);
   }
 
 
@@ -77,5 +82,10 @@ export class UserService {
       return true;
     }
     return false;
+  }
+
+  isStaff(): boolean {
+    var user = JSON.parse(sessionStorage.getItem('user') as string);
+    return user ? user.isStaff : false;
   }
 }

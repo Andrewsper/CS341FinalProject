@@ -10,7 +10,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
-import { User } from './models/User';
+import { AuthGuard } from './guards/auth-guard';
+import { StaffGuard } from './guards/staff-guard';
+import { UserHomePageComponent } from './user-home-page/user-home-page.component';
+import { StaffHomePageComponent } from './staff-home-page/staff-home-page.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,8 @@ import { User } from './models/User';
     YmcaHeaderComponent,
     LoginComponent,
     RegisterComponent,
+    UserHomePageComponent,
+    StaffHomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,7 @@ import { User } from './models/User';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [HttpClientModule, TestService, UserService],
+  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
