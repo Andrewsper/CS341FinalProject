@@ -1,1 +1,3 @@
 flask/database/__pycache__
+flask/flask_session/
+flask/__pycache__/
