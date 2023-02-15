@@ -1,41 +1,54 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable, ObservableInput, catchError, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  loginEndpoint = 'http://127.0.0.1:9090/login';
-  logoutEndpoint = 'http://127.0.0.1:9090/logout';
+  loginEndpoint = 'http://0.0.0.0:5000/login';
+  logoutEndpoint = 'http://0.0.0.0:5000/logout';
   registerEndpoint = 'http://0.0.0.0:5000/register';
 
 
   constructor(private http: HttpClient, private router: Router
   ) {
-
+  
   }
+
   validateLogin(loginInfo?: User) {
-    console.log("HIT")
     //If the session already has a user saved set it to the current user to it
     if (!sessionStorage.getItem('user')) {
       {
         const options = { headers: { 'Content-Type': 'application/json' } };
-        let response = this.http.post<User>(this.loginEndpoint, JSON.stringify(loginInfo), options).subscribe((user) => {
-          if (user) {
+        this.http.post<User>(this.loginEndpoint, JSON.stringify(loginInfo), options)
+        .pipe(
+          catchError((err) => this.handleError(err))
+        ).subscribe((user) => {
             sessionStorage.setItem('user', JSON.stringify(user));
+            if(user.isStaff){
             this.router.navigate(["/"]);
-          } else {
-            alert("Invalid login please try again");
-          }
+            } else {
+              this.router.navigate(["/staff-home"]);
+            }
         });
       }
     }
     else {
       this.router.navigate(["/"]);
     }
+  }
+
+  handleError(err: HttpErrorResponse){
+    if (err.status === 401) {
+      alert("Invalid login please try again");
+    } else if (err.status !== 400){
+      alert("Something went wrong please try again");
+    }
+    return throwError(() => new Error("Something went wrong please try "));
   }
 
 
@@ -56,11 +69,12 @@ export class UserService {
   logout() {
     sessionStorage.removeItem('user');
     this.http.post(this.logoutEndpoint, null).subscribe()
+    this.router.navigate(["/login"]);
   }
 
 
   getFirstName():String | undefined{
-    return this.curUser.firstName;
+    return sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') as string).firstName : undefined;
   }
 
   isLoggedIn(): boolean {
@@ -68,5 +82,10 @@ export class UserService {
       return true;
     }
     return false;
+  }
+
+  isStaff(): boolean {
+    var user = JSON.parse(sessionStorage.getItem('user') as string);
+    return user ? user.isStaff : false;
   }
 }

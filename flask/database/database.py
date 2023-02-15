@@ -98,9 +98,9 @@ class Database:
             "firstName": user[1],
             "lastName": user[2],
             "address": user[3],
-            "zipCode": user[4],
-            "phoneNumber": user[5],
-            "email": user[6],
+            "zipCode": user[7],
+            "phoneNumber": user[4],
+            "email": user[5],
             #Never return password
             "password": "",
             "balance": user[8],
