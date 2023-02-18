@@ -167,7 +167,6 @@ class Database:
 
         return self.success_response()
 
-
     #####
 
     ##### Validation #####

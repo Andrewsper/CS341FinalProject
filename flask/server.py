@@ -66,7 +66,6 @@ def register_user() -> tuple[str, int]:
     
     return resp
 
-
 ######
 
 ###### programs routes ######
