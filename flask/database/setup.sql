@@ -14,7 +14,8 @@ CREATE TABLE Users (
     ZipCode varchar(255) NOT NULL,
     Balance FLOAT NOT NULL,
     IsStaff BOOLEAN NOT NULL,
-    IsMember BOOLEAN NOT NULL
+    IsMember BOOLEAN NOT NULL,
+    IsActive BOOLEAN NOT NULL
 );
 
 CREATE TABLE Programs (
