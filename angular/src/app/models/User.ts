@@ -1,4 +1,5 @@
-import { Program } from "./Program";
+import { Program } from "./ProgramModel";
+
 
 export class User{
     constructor(

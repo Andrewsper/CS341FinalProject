@@ -4,6 +4,12 @@
     </div>
 
     <div class="user">
+        <div class="col-auto">
+            <a routerLink="programs">Programs</a>
+        </div>
+    </div>
+
+    <div class="user">
         <div *ngIf="this.userService.isLoggedIn()" class="loggedin">
             <span >Hello {{this.userService.getFirstName()}}!</span>
             <a (click)="this.userService.logout()">Logout</a>

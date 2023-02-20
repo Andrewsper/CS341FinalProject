@@ -20,6 +20,12 @@ Session(app)
 def hello():
     return render_template("index.html")
 
+@app.route("/addTestProgram", methods=['POST'])
+@cross_origin()
+def add_test_program():
+    database.add_test_program()
+    return "Success"
+
 @app.route("/login",methods = ["POST"])
 @cross_origin()
 def login():
@@ -51,6 +57,12 @@ def logout():
         session.pop("user",None)
     return 'ok', 200
 
+@app.route("/signup",methods = ["POST"])
+@cross_origin()
+def signup():
+    req = request.get_json()
+    database.sign_up_for_program(req["programID"],req["userID"])
+
 @app.route("/test", methods=['GET'])
 @cross_origin()
 def test():
@@ -61,7 +73,7 @@ def test():
 def get_users():
     return database.get_all_users()
 
-@app.route("/database/programs", methods=['GET'])
+@app.route("/programs", methods=['GET'])
 def get_programs():
     return database.get_all_programs()
 

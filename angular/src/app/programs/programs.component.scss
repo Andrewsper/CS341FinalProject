@@ -1,0 +1,23 @@
+.program {
+    padding: 1em;
+    margin: 1em;
+    border: 1px solid #ccc;
+    width: 60%;
+}
+
+.name {
+    width:75%;
+    float: left;
+    font-size: 2em;
+}
+
+.date {
+    width:25%;
+    float: right;
+    text-align: right;
+}
+
+.description {
+    clear: both;
+    font-size: 1em;
+}

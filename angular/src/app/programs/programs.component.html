@@ -1,0 +1,12 @@
+<div *ngFor="let program of programs" class="program">
+    <div>
+        <div class="name">{{ program.Name }}</div>
+        <div class="date">{{ program.Date | date:'mediumDate' }}</div>
+    </div>
+    
+    <p class="description">{{ program.Description }}</p>
+
+    <div *ngIf="program.CurrentCapacity == program.MaximumCapacity">Program is full</div>
+    <button (click)="showModal(program.ProgramID)" *ngIf="program.CurrentCapacity < program.MaximumCapacity">Sign Up</button>
+</div>
+

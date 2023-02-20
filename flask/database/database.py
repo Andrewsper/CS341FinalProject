@@ -40,6 +40,12 @@ class Database:
         self.cursor.execute('INSERT INTO Users (FirstName, LastName, Address, PhoneNumber, Email, Password, ZipCode, Balance, IsStaff, IsMember) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
                                                ("Bob", "Test", "1234 test street WI", "(111)-222-3333", "bob@test.com", "password", "54601",0,True,True))
         self.commit_changes()
+        
+    def add_test_program(self) -> None:
+        self.reset_cursor()
+        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                                                  ("Test Program", "This is a test program", "Summer", "2023-07-01", 10, 1, 10, 0))
+        self.commit_changes()
 
     def add_user(self, user: dict) -> None:
         self.reset_cursor()
@@ -50,10 +56,16 @@ class Database:
         self.connection.commit()
         self.commit_changes()
 
-    def add_program(self) -> None:
+    def add_program(self, program: dict) -> None:
         self.reset_cursor()
         self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-                                                  ("1", "2", "3", "4", 5.0, 6, 7, 8))
+                                                  (program["name"], program["description"], program["offeringPeriod"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
+        self.commit_changes()
+        
+    def sign_up_for_program(self, programID: int, userID: int) -> None:
+        self.reset_cursor()
+        self.cursor.execute('INSERT INTO Signed_Up (ProgramID, UserID) VALUES (?, ?)', 
+                                                  (programID, userID))
         self.commit_changes()
 
     def convert_programs_to_json(self, programs: list) -> list:

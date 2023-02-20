@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ngx-simple-modal": "^1.4.17"
+  }
+}
