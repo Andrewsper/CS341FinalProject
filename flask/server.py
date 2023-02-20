@@ -59,10 +59,11 @@ def register_user() -> tuple[str, int]:
     user = request.get_json()
     resp: tuple[str, int] = database.add_user(user)
     
+    createdUser = database.verify_user_login(user)
     if (resp[1] == 200):
-        user["password"] = ""
-        session["user"] = user
-        return resp
+        createdUser["password"] = ""
+        session["user"] = createdUser
+        return createdUser
     
     return resp
 
@@ -107,7 +108,7 @@ def test():
 def get_users() -> list[dict]:
     return database.get_all_users()
 
-@app.route("/database/users/remove", methods=['POST'])
+@app.route("/database/users/remove", methods=['DELETE'])
 @cross_origin()
 def remove_user() -> tuple[str, int]:
     user = request.get_json()
