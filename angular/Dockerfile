@@ -1,19 +1,14 @@
 FROM node:latest as build
 
-ARG ANG_APP_SERVICES_HOST=/api/v1
+WORKDIR /app
 
-RUN mkdir /project
+COPY package*.json ./
 
-WORKDIR /project
-
-RUN npm install -g @angular/cli@latest
-
-COPY package.json package-lock.json ./
-RUN npm ci
-
-COPY . .
-
-#CMD ["ng", "build","--base-href","/static/"]
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+RUN npm install -g @angular/cli @angular-devkit/build-angular && npm install
 
 EXPOSE 4200
+
+CMD ["npm","start"]
+
+
+

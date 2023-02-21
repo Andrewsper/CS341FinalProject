@@ -77,6 +77,11 @@ def get_users():
 def get_programs():
     return database.get_all_programs()
 
+@app.route("/program", methods=['GET'])
+def get_program():
+    program_id = request.args.get('id')
+    return database.get_program(program_id)
+
 @app.route("/database/testing/add/user", methods=['POST'])
 @cross_origin()
 def add_user_test():

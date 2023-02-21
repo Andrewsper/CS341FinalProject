@@ -11,6 +11,7 @@ export class ProgramService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
   programsEndpoint = 'http://0.0.0.0:5000/programs';
+  programEndpoint = 'http://0.0.0.0:5000/program?id=';
 
 
   constructor(private http: HttpClient, private router: Router
@@ -20,6 +21,10 @@ export class ProgramService {
 
   getAllPrograms(): Observable<Program[]> {
     return this.http.get<Program[]>(this.programsEndpoint);
+  }
+
+  getProgram(programID: number): Observable<Program> {
+    return this.http.get<Program>(this.programEndpoint + programID);
   }
 
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgramService } from '../services/program.service';
 import { Program } from '../models/ProgramModel';
+import {MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { ProgramModalComponent } from '../program-modal/program-modal.component';
 
 
 
@@ -14,7 +16,8 @@ export class ProgramsComponent implements OnInit {
   programs: Program[] = [];
 
   constructor(
-    private programService: ProgramService
+    private programService: ProgramService,
+    public dialog: MatDialog
   ) {
 
   }
@@ -31,7 +34,12 @@ export class ProgramsComponent implements OnInit {
   }
 
   showModal(programID: number) {
-    
-  }
+    this.dialog.open(ProgramModalComponent, {
+      height: '1000px',
+      width: '800px',
+      data: programID
+  });
+}
 
 }
+

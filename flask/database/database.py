@@ -34,6 +34,11 @@ class Database:
         programs = self.cursor.fetchall()
 
         return self.convert_programs_to_json(programs)
+    
+    def get_program(self, programID: int):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT * FROM Programs WHERE ProgramID = ?""", (programID,))
+        return self.convert_program_to_json(self.cursor.fetchone())
 
     def add_test_user(self) -> None:
         self.reset_cursor()

@@ -17,7 +17,9 @@ import { StaffHomePageComponent } from './staff-home-page/staff-home-page.compon
 import { ProgramsComponent } from './programs/programs.component';
 import { ProgramService } from './services/program.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SimpleModalModule } from 'ngx-simple-modal';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ProgramModalComponent } from './program-modal/program-modal.component';
+
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { SimpleModalModule } from 'ngx-simple-modal';
     UserHomePageComponent,
     StaffHomePageComponent,
     ProgramsComponent,
+    ProgramModalComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +40,9 @@ import { SimpleModalModule } from 'ngx-simple-modal';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    SimpleModalModule.forRoot({container:document.body})
+    MatDialogModule
   ],
-  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService],
+  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {
