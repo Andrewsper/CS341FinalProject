@@ -12,6 +12,7 @@ export class ProgramService {
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
   programsEndpoint = 'http://0.0.0.0:5000/programs';
   programEndpoint = 'http://0.0.0.0:5000/program?id=';
+  signUpEndpoint = 'http://0.0.0.0:5000/signup';
 
 
   constructor(private http: HttpClient, private router: Router
@@ -25,6 +26,14 @@ export class ProgramService {
 
   getProgram(programID: number): Observable<Program> {
     return this.http.get<Program>(this.programEndpoint + programID);
+  }
+
+  signUp(programID: number) {
+    let ProgramSignupModel = {
+      programID: programID,
+      userID: this.curUser.userid
+    };
+    this.http.post<any>(this.signUpEndpoint, ProgramSignupModel).subscribe();
   }
 
 

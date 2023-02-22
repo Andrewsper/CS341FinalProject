@@ -35,7 +35,7 @@ export class ProgramsComponent implements OnInit {
 
   showModal(programID: number) {
     this.dialog.open(ProgramModalComponent, {
-      height: '1000px',
+      height: '600px',
       width: '800px',
       data: programID
   });

@@ -3,8 +3,8 @@
         <span class = "title">YMCA</span>
     </div>
 
-    <div class="user">
-        <div class="col-auto">
+    <div class="user" >
+        <div *ngIf="this.userService.isLoggedIn()" class="col-auto">
             <a routerLink="programs">Programs</a>
         </div>
     </div>

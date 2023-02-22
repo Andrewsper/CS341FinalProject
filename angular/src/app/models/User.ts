@@ -13,7 +13,7 @@ export class User{
         public zipCode?: String,
         public isStaff?: boolean,
         public isMember?: boolean,
-        private userid? : String,
+        public userid? : String,
         public ownedClasses?: Program[],
         public classesTaken?: Program[]
     ){}

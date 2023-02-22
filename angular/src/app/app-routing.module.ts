@@ -8,12 +8,13 @@ import { AuthGuard } from './guards/auth-guard';
 import { StaffGuard } from './guards/staff-guard';
 import { ProgramsComponent } from './programs/programs.component';
 
+
+//note with routes, the order matters. The first route that matches will be used.
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '', component: UserHomePageComponent, canActivate: [AuthGuard] },
-  { path: 'staff-home', component: StaffHomePageComponent, canActivate: [AuthGuard, StaffGuard]},
   { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard] },
+  { path: '', component: UserHomePageComponent, canActivate: [AuthGuard] }
 ];
 
 

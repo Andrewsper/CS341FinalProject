@@ -23,6 +23,7 @@ export class UserService {
     //If the session already has a user saved set it to the current user to it
     if (!sessionStorage.getItem('user')) {
       {
+        debugger;
         const options = { headers: { 'Content-Type': 'application/json' } };
         this.http.post<User>(this.loginEndpoint, JSON.stringify(loginInfo), options)
         .pipe(

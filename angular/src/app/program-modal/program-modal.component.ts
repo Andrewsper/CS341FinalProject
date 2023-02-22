@@ -11,7 +11,9 @@ import { ProgramService } from '../services/program.service';
 })
 export class ProgramModalComponent implements OnInit{
 
-  program: Program;;
+  program: Program;
+  firstName: string = '';
+  lastName: string = '';
   
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
@@ -40,6 +42,7 @@ export class ProgramModalComponent implements OnInit{
   }
 
   signUp() {
+    this.programService.signUp(this.programID);
     this.dialogRef.close();
   }
 

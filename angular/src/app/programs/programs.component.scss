@@ -4,6 +4,8 @@
     width: 60%;
     margin:auto;
     margin-top: 1em;
+    min-height: 175px;
+    position: relative;
 }
 
 .name {
@@ -21,4 +23,10 @@
 .description {
     clear: both;
     font-size: 1em;
+}
+
+.base {
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 1em
 }

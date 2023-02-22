@@ -62,6 +62,7 @@ def logout():
 def signup():
     req = request.get_json()
     database.sign_up_for_program(req["programID"],req["userID"])
+    return "ok", 200
 
 @app.route("/test", methods=['GET'])
 @cross_origin()

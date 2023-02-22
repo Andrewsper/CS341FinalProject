@@ -30,7 +30,8 @@ class Database:
 
     def get_all_programs(self):
         self.reset_cursor()
-        self.cursor.execute('SELECT * FROM Programs')
+        self.cursor.execute("""SELECT * FROM Programs
+                                ORDER BY Date ASC""")
         programs = self.cursor.fetchall()
 
         return self.convert_programs_to_json(programs)
