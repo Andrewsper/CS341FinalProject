@@ -90,15 +90,10 @@ def remove_program() -> tuple[str, int]:
 @app.route("/database/programs/add/user", methods=['POST'])
 @cross_origin()
 def add_user_to_program() -> tuple[str, int]:
-    user, program = request.get_json()
-    return database.add_user_to_program(user, program)
+    req = request.get_json()
+    return database.add_user_to_program(req)
 
 ######
-
-@app.route("/test", methods=['GET'])
-@cross_origin()
-def test():
-    return "it has been changed"
 
 ###### user routes ######
 
@@ -130,6 +125,11 @@ def get_signed_up() -> list[dict]:
 @cross_origin()
 def add_user_test() -> tuple[str, int]:
     return database.add_test_user()
+
+@app.route("/test", methods=['GET'])
+@cross_origin()
+def test():
+    return "it has been changed"
 
 ######
 
