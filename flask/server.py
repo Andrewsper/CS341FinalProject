@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, request, session
+from flask import Flask, jsonify, render_template, request, session
 from flask_session import Session
 from flask_cors import CORS, cross_origin
 from database.database import Database
@@ -57,12 +57,13 @@ def logout():
         session.pop("user",None)
     return 'ok', 200
 
-@app.route("/signup",methods = ["POST"])
+@app.route("/program",methods = ["POST"])
 @cross_origin()
 def signup():
     req = request.get_json()
-    database.sign_up_for_program(req["programID"],req["userID"])
-    return "ok", 200
+    if database.sign_up_for_program(req["programID"],req["userID"]):
+        return jsonify("OK"), 200
+    return jsonify("Sign up failed"), 400
 
 @app.route("/test", methods=['GET'])
 @cross_origin()
@@ -76,7 +77,10 @@ def get_users():
 
 @app.route("/programs", methods=['GET'])
 def get_programs():
-    return database.get_all_programs()
+    userId = request.args.get('id')
+    if userId is None:
+        return database.get_all_programs()
+    return database.get_user_programs(userId)
 
 @app.route("/program", methods=['GET'])
 def get_program():

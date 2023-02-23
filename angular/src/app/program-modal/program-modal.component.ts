@@ -39,6 +39,7 @@ export class ProgramModalComponent implements OnInit{
         this.program = data;
       }
     );
+
   }
 
   signUp() {

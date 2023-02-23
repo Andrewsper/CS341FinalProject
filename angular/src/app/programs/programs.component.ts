@@ -14,6 +14,7 @@ import { ProgramModalComponent } from '../program-modal/program-modal.component'
 export class ProgramsComponent implements OnInit {
 
   programs: Program[] = [];
+  userPrograms: number[] = [];
 
   constructor(
     private programService: ProgramService,
@@ -31,6 +32,11 @@ export class ProgramsComponent implements OnInit {
         console.log(err);
       }
     );
+    this.programService.getUserPrograms().subscribe(
+      (data) => {
+        this.userPrograms = data;
+      }
+    );
   }
 
   showModal(programID: number) {
@@ -38,8 +44,12 @@ export class ProgramsComponent implements OnInit {
       height: '600px',
       width: '800px',
       data: programID
-  });
-}
+    });
+  }
+
+  userSignedUp(programID: number): boolean {
+    return this.userPrograms.findIndex((id) => id === programID) !== -1;
+  }
 
 }
 

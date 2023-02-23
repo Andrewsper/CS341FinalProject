@@ -33,8 +33,17 @@ class Database:
         self.cursor.execute("""SELECT * FROM Programs
                                 ORDER BY Date ASC""")
         programs = self.cursor.fetchall()
-
-        return self.convert_programs_to_json(programs)
+        programs = self.convert_programs_to_json(programs)
+        
+        return programs
+    
+    def get_user_programs(self, userId: int):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT ProgramID FROM Signed_Up
+                                WHERE UserID = ?""", (userId,))
+        userPrograms = self.cursor.fetchall()
+        return userPrograms
+        
     
     def get_program(self, programID: int):
         self.reset_cursor()
@@ -68,11 +77,17 @@ class Database:
                                                   (program["name"], program["description"], program["offeringPeriod"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
         self.commit_changes()
         
-    def sign_up_for_program(self, programID: int, userID: int) -> None:
+    def sign_up_for_program(self, programID: int, userID: int) -> bool:
+        self.reset_cursor()
+        self.cursor.execute("""SELECT * FROM Signed_Up
+                                WHERE ProgramID = ? AND UserID = ?""", (programID, userID,))
+        if len(self.cursor.fetchall()) != 0:
+            return False
         self.reset_cursor()
         self.cursor.execute('INSERT INTO Signed_Up (ProgramID, UserID) VALUES (?, ?)', 
-                                                  (programID, userID))
+                                                  (programID, userID,))
         self.commit_changes()
+        return True
 
     def convert_programs_to_json(self, programs: list) -> list:
         programs_json: list = list()

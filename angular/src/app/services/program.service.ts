@@ -12,7 +12,7 @@ export class ProgramService {
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
   programsEndpoint = 'http://0.0.0.0:5000/programs';
   programEndpoint = 'http://0.0.0.0:5000/program?id=';
-  signUpEndpoint = 'http://0.0.0.0:5000/signup';
+  signUpEndpoint = 'http://0.0.0.0:5000/program';
 
 
   constructor(private http: HttpClient, private router: Router
@@ -24,16 +24,18 @@ export class ProgramService {
     return this.http.get<Program[]>(this.programsEndpoint);
   }
 
+  getUserPrograms(): Observable<number[]> {
+    let params = new HttpParams();
+    params = params.append('id', this.curUser.userid as string);
+    return this.http.get<number[]>(this.programsEndpoint, {params: params});
+  }
+
   getProgram(programID: number): Observable<Program> {
     return this.http.get<Program>(this.programEndpoint + programID);
   }
 
-  signUp(programID: number) {
-    let ProgramSignupModel = {
-      programID: programID,
-      userID: this.curUser.userid
-    };
-    this.http.post<any>(this.signUpEndpoint, ProgramSignupModel).subscribe();
+  signUp(programID: number) { 
+    this.http.post<any>(this.signUpEndpoint, {userID: this.curUser.userid, programID: programID}).subscribe();
   }
 
 

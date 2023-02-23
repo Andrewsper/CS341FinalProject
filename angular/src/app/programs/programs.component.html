@@ -9,6 +9,8 @@
     <div class="base">
         <div *ngIf="program.CurrentCapacity == program.MaximumCapacity">Program is full</div>
         <button (click)="showModal(program.ProgramID)"
-            [disabled]="program.CurrentCapacity == program.MaximumCapacity">Sign Up</button>
+            [disabled]="program.CurrentCapacity == program.MaximumCapacity"
+            *ngIf="!userSignedUp(program.ProgramID)">Sign Up</button>
+        <button *ngIf="userSignedUp(program.ProgramID)">Edit Registration</button>
     </div>
 </div>
