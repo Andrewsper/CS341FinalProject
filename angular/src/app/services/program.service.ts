@@ -24,10 +24,10 @@ export class ProgramService {
     return this.http.get<Program[]>(this.programsEndpoint);
   }
 
-  getUserPrograms(): Observable<number[]> {
+  getUserPrograms(): Observable<number[][]> {
     let params = new HttpParams();
     params = params.append('id', this.curUser.userid as string);
-    return this.http.get<number[]>(this.programsEndpoint, {params: params});
+    return this.http.get<number[][]>(this.programsEndpoint, {params: params});
   }
 
   getProgram(programID: number): Observable<Program> {

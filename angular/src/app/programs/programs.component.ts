@@ -34,7 +34,7 @@ export class ProgramsComponent implements OnInit {
     );
     this.programService.getUserPrograms().subscribe(
       (data) => {
-        this.userPrograms = data;
+        this.userPrograms = data[0];
       }
     );
   }

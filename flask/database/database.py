@@ -55,6 +55,13 @@ class Database:
         programs = self.cursor.fetchall()
 
         return util.convert_programs_to_json(programs)
+    
+    def get_user_programs(self, userId: int):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT ProgramID FROM Signed_Up
+                                WHERE UserID = ?""", (userId,))
+        userPrograms = self.cursor.fetchall()
+        return userPrograms
 
     def get_all_signed_up(self) -> list[dict]:
         self.reset_cursor()
