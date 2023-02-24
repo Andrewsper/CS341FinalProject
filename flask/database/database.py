@@ -40,6 +40,12 @@ class Database:
     #####
 
     ##### Getting from Database #####
+    
+    def get_program(self, programID) -> dict: 
+        self.reset_cursor()
+        self.cursor.execute("""SELECT * FROM Programs WHERE ProgramID = ?""", programID)
+        return util.convert_program_to_json(self.cursor.fetchone())
+    
 
     def get_all_users(self) -> list[dict]:
         self.reset_cursor()
@@ -122,7 +128,7 @@ class Database:
 
         return self.success_response()
 
-    def add_user_to_program(self, user_program_ids: dict) -> tuple[str, int]:
+    def sign_up_for_program(self, user_program_ids: dict) -> tuple[str, int]:
         user_id: int = user_program_ids["userID"]
         program_id: int = user_program_ids["programID"]
 
@@ -173,6 +179,13 @@ class Database:
         self.commit_changes()
 
         return self.success_response()
+    
+    def remove_registration(self, userID: int, programID: int):
+        self.reset_cursor()
+        self.cursor.execute("""DELETE FROM Signed_Up 
+                                WHERE UserID = ? AND ProgramID = ?""", 
+                                (userID, programID))
+        self.commit_changes()
 
     #####
 

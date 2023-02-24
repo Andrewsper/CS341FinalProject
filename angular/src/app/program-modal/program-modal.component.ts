@@ -14,11 +14,12 @@ export class ProgramModalComponent implements OnInit{
   program: Program;
   firstName: string = '';
   lastName: string = '';
+  edit: boolean = false;
   
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public programID: number,
-    private programService: ProgramService  ) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private programService: ProgramService ) {
       this.program = {
         name: '',
         description: '',
@@ -30,11 +31,11 @@ export class ProgramModalComponent implements OnInit{
         maximumCapacity: 0,
         currentCapacity: 0
       };
+      this.edit = data.edit;
     }
 
   ngOnInit(): void {
-    //this.dialogRef.updatePosition({ top: (window.innerHeight/4).toString() + 'px', left: (window.innerWidth/4).toString() + 'px'})
-    this.programService.getProgram(this.programID).subscribe(
+    this.programService.getProgram(this.data.programID).subscribe(
       (data) => {
         this.program = data;
       }
@@ -43,7 +44,12 @@ export class ProgramModalComponent implements OnInit{
   }
 
   signUp() {
-    this.programService.signUp(this.programID);
+    this.programService.signUp(this.data.programID);
+    this.dialogRef.close();
+  }
+
+  cancelRegistration() {
+    this.programService.cancelRegistration(this.data.programID);
     this.dialogRef.close();
   }
 

@@ -53,14 +53,6 @@ def logout() -> tuple[str, int]:
         session.pop("user",None)
     return 'ok', 200
 
-@app.route("/program",methods = ["POST"])
-@cross_origin()
-def signup():
-    req = request.get_json()
-    if database.sign_up_for_program(req["programID"],req["userID"]):
-        return jsonify("OK"), 200
-    return jsonify("Sign up failed"), 400
-
 @app.route("/test", methods=['GET'])
 @cross_origin()
 def register_user() -> tuple[str, int]:
@@ -89,6 +81,19 @@ def get_programs():
 def get_program():
     program_id = request.args.get('id')
     return database.get_program(program_id)
+
+@app.route("/program", methods=['DELETE'])
+def unRegister():
+    database.remove_registration(request.args.get('userID'), request.args.get('programID'))
+    return jsonify("OK"), 200
+
+@app.route("/program",methods = ["POST"])
+@cross_origin()
+def signup():
+    req = request.get_json()
+    if database.sign_up_for_program(request.get_json()):
+        return jsonify("OK"), 200
+    return jsonify("Sign up failed"), 400
 
 @app.route("/database/programs/add", methods=['POST'])
 @cross_origin()

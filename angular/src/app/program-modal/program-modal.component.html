@@ -6,7 +6,8 @@
 
 
 <div class="controls">
-    <button mat-button class="sign-up" (click)="signUp()">Sign Up</button>
+    <button mat-button class="sign-up" (click)="signUp()" *ngIf="!edit">Sign Up</button>
+    <button mat-button class="sign-up" (click)="cancelRegistration()" *ngIf="edit">Cancel Registration</button>
     <button mat-button mat-dialog-close class="cancel">Cancel</button>
 </div>  
 

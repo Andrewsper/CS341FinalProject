@@ -39,11 +39,14 @@ export class ProgramsComponent implements OnInit {
     );
   }
 
-  showModal(programID: number) {
+  showModal(programID: number, edit: boolean) {
     this.dialog.open(ProgramModalComponent, {
       height: '600px',
       width: '800px',
-      data: programID
+      data: {
+        programID: programID,
+        edit: edit
+      }
     });
   }
 

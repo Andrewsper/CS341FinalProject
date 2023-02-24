@@ -38,6 +38,13 @@ export class ProgramService {
     this.http.post<any>(this.signUpEndpoint, {userID: this.curUser.userid, programID: programID}).subscribe();
   }
 
+  cancelRegistration(programID: number) {
+    let params = new HttpParams();
+    params = params.append('userID', this.curUser.userid as string);
+    params = params.append('programID', programID.toString());
+    this.http.delete<any>(this.signUpEndpoint, {params: params}).subscribe();
+  }
+
 
 
 
