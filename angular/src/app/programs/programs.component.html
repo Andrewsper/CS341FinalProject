@@ -1,16 +1,16 @@
 <div *ngFor="let program of programs" class="program">
     <div class="header">
-        <div class="name">{{ program.Name }}</div>
-        <div class="date">{{ program.Date | date:'mediumDate' }}</div>
+        <div class="name">{{ program?.name }}</div>
+        <div class="date">{{ program?.date | date:'mediumDate' }}</div>
     </div>
 
-    <p class="description">{{ program.Description }}</p>
+    <p class="description">{{ program?.description }}</p>
 
     <div class="base">
-        <div *ngIf="program.CurrentCapacity == program.MaximumCapacity">Program is full</div>
-        <button (click)="showModal(program.ProgramID)"
-            [disabled]="program.CurrentCapacity == program.MaximumCapacity"
-            *ngIf="!userSignedUp(program.ProgramID)">Sign Up</button>
-        <button *ngIf="userSignedUp(program.ProgramID)">Edit Registration</button>
+        <div *ngIf="program?.currentCapacity == program?.maximumCapacity">Program is full</div>
+        <button (click)="showModal(program.programID)"
+            [disabled]="program?.currentCapacity == program?.maximumCapacity"
+            *ngIf="!userSignedUp(program.programID)">Sign Up</button>
+        <button *ngIf="userSignedUp(program.programID)">Edit Registration</button>
     </div>
 </div>

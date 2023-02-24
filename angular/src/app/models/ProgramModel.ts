@@ -1,11 +1,11 @@
 export type Program = {
-    ProgramID: number,
-    Name: string,
-    Description: string,
-    OfferingPeriod: string,
-    Price: number,
-    Length: number,
-    Date: string,
-    MaximumCapacity: number,
-    CurrentCapacity: number
+    programID: number,
+    name: string,
+    description: string,
+    offeringPeriod: string,
+    price: number,
+    length: number,
+    date: string,
+    maximumCapacity: number,
+    currentCapacity: number
 }

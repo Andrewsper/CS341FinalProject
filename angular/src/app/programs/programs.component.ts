@@ -14,7 +14,7 @@ import { ProgramModalComponent } from '../program-modal/program-modal.component'
 export class ProgramsComponent implements OnInit {
 
   programs: Program[] = [];
-  userPrograms: number[] = [];
+  userPrograms: number[][] = [];
 
   constructor(
     private programService: ProgramService,
@@ -34,7 +34,7 @@ export class ProgramsComponent implements OnInit {
     );
     this.programService.getUserPrograms().subscribe(
       (data) => {
-        this.userPrograms = data[0];
+        this.userPrograms = data;
       }
     );
   }
@@ -48,7 +48,7 @@ export class ProgramsComponent implements OnInit {
   }
 
   userSignedUp(programID: number): boolean {
-    return this.userPrograms.findIndex((id) => id === programID) !== -1;
+   return this.userPrograms.findIndex((id) => id[0] == programID) != -1;
   }
 
 }

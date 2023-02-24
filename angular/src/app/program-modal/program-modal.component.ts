@@ -20,15 +20,15 @@ export class ProgramModalComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public programID: number,
     private programService: ProgramService  ) {
       this.program = {
-        Name: '',
-        Description: '',
-        ProgramID: 0,
-        OfferingPeriod: '',
-        Price: 0,
-        Length: 0,
-        Date: '',
-        MaximumCapacity: 0,
-        CurrentCapacity: 0
+        name: '',
+        description: '',
+        programID: 0,
+        offeringPeriod: '',
+        price: 0,
+        length: 0,
+        date: '',
+        maximumCapacity: 0,
+        currentCapacity: 0
       };
     }
 
