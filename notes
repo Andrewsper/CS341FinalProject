@@ -1,0 +1,42 @@
+Im my opinion we should use restfull end points in order to have a stardardzed way of going about writing our endpoints.
+I think this we make the code more readable and easier for everyone to understand the code.
+
+I also think that the data base class should have 2 functinalites that the server class uses 
+1. Get json information about programs and users
+2. validate querys against the data base if valdiation fails return false
+
+
+
+END POINT FORMAT:
+self explanitory
+/login
+/logout
+/register
+
+
+
+on the front end a request would be in the format
+/<type>/<typeid>/optionalattribute
+
+so a get of uri /users/
+returns all users
+
+a post to uri /users/ should contains json detailing a new user
+and apon sucess should return the newly created user
+
+a GET TO /users/1
+returns the user with id 1
+
+a DELETE TO /users/1 should 
+remove the user and return either sucess or an error code not found or forbidden.
+
+to update a field of a user a PUT should be used.
+
+An example would be to promote a user to a staff
+
+ a PUT /user/1/staff
+tries to promote/demote the user and return either sucess or an error code not found or forbidden.
+
+to obtain parameterized urls in flask use "/<parameter>" in the route name
+then when defining the function use def functname(parameter)
+flask should auto fill parameter with the value from url
