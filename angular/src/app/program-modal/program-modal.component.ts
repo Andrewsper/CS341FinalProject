@@ -3,6 +3,7 @@ import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Program } from '../models/ProgramModel';
 import { ProgramService } from '../services/program.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-program-modal',
@@ -19,6 +20,7 @@ export class ProgramModalComponent implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService,
     private programService: ProgramService ) {
       this.program = {
         name: '',
@@ -45,11 +47,14 @@ export class ProgramModalComponent implements OnInit{
 
   signUp() {
     this.programService.signUp(this.data.programID);
+    this.userService.addToUserList(this.data.programID);
     this.dialogRef.close();
   }
 
   cancelRegistration() {
-    this.programService.cancelRegistration(this.data.programID);
+    if (this.programService.cancelRegistration(this.data.programID)) {
+      this.userService.removeFromUserList(this.data.programID);
+    }
     this.dialogRef.close();
   }
 

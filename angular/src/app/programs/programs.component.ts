@@ -3,6 +3,7 @@ import { ProgramService } from '../services/program.service';
 import { Program } from '../models/ProgramModel';
 import {MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { ProgramModalComponent } from '../program-modal/program-modal.component';
+import { UserService } from '../services/user.service';
 
 
 
@@ -14,11 +15,12 @@ import { ProgramModalComponent } from '../program-modal/program-modal.component'
 export class ProgramsComponent implements OnInit {
 
   programs: Program[] = [];
-  userPrograms: number[][] = [];
+  userPrograms?: number[] = [];
 
   constructor(
     private programService: ProgramService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService
   ) {
 
   }
@@ -32,11 +34,7 @@ export class ProgramsComponent implements OnInit {
         console.log(err);
       }
     );
-    this.programService.getUserPrograms().subscribe(
-      (data) => {
-        this.userPrograms = data;
-      }
-    );
+    this.userPrograms = this.userService.getUserPrograms();
   }
 
   showModal(programID: number, edit: boolean) {
@@ -51,7 +49,12 @@ export class ProgramsComponent implements OnInit {
   }
 
   userSignedUp(programID: number): boolean {
-   return this.userPrograms.findIndex((id) => id[0] == programID) != -1;
+    if(!this.userService.curUser.classesTaken) {
+      return false;
+    }else if(this.userService.curUser.classesTaken.length == 0) {
+      return false;
+    }
+    return this.userService.curUser.classesTaken.indexOf(programID) != -1;
   }
 
 }

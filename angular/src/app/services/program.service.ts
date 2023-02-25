@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Program } from '../models/ProgramModel';
 @Injectable({
   providedIn: 'root'
@@ -24,12 +24,6 @@ export class ProgramService {
     return this.http.get<Program[]>(this.programsEndpoint);
   }
 
-  getUserPrograms(): Observable<number[][]> {
-    let params = new HttpParams();
-    params = params.append('id', this.curUser.userid as string);
-    return this.http.get<number[][]>(this.programsEndpoint, {params: params});
-  }
-
   getProgram(programID: number): Observable<Program> {
     return this.http.get<Program>(this.programEndpoint + programID);
   }
@@ -38,11 +32,13 @@ export class ProgramService {
     this.http.post<any>(this.signUpEndpoint, {userID: this.curUser.userid, programID: programID}).subscribe();
   }
 
-  cancelRegistration(programID: number) {
+  cancelRegistration(programID: number): boolean {
+    let success = true;
     let params = new HttpParams();
     params = params.append('userID', this.curUser.userid as string);
     params = params.append('programID', programID.toString());
     this.http.delete<any>(this.signUpEndpoint, {params: params}).subscribe();
+    return success;
   }
 
 

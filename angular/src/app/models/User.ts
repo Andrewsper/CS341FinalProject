@@ -14,8 +14,8 @@ export class User{
         public isStaff?: boolean,
         public isMember?: boolean,
         public userid? : String,
-        public ownedClasses?: Number[],
-        public classesTaken?: Program[]
+        public ownedClasses?: number[],
+        public classesTaken?: number[]
     ){}
 
     
