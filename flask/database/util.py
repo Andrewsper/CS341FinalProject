@@ -33,8 +33,7 @@ def convert_user_to_json(user: list) -> dict:
         "password": "",
         "balance": user[8],
         "isStaff": user[9],
-        "isMember": user[10],
-        "isActive": user[11]
+        "isMember": user[10]
     }
     
     return user_json
@@ -56,3 +55,11 @@ def convert_signed_up_to_json(signed_up: list) -> list:
         })
 
     return signed_up_json
+
+def convert_user_program_list(programs: list) -> list:
+    newList: list = list()
+    for programID in programs:
+        newList.append(programID[0])
+    newList.append("-1")
+    return newList
+        

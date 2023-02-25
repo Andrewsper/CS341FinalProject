@@ -36,10 +36,22 @@ class Database:
         self.reset_cursor()
         self.cursor.execute('SELECT ProgramID FROM Programs WHERE Name = ?', (name,))
         return self.cursor.fetchone()[0]
+    
+    def user_already_signed_up(self, user_id: int, program_id: int):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT * FROM Signed_Up WHERE ProgramID = ? AND UserID = ?""", (program_id, user_id))
+        return len(self.cursor.fetchall()) != 0
+        
 
     #####
 
     ##### Getting from Database #####
+    
+    def get_program(self, programID) -> dict: 
+        self.reset_cursor()
+        self.cursor.execute("""SELECT * FROM Programs WHERE ProgramID = ?""", programID)
+        return util.convert_program_to_json(self.cursor.fetchone())
+    
 
     def get_all_users(self) -> list[dict]:
         self.reset_cursor()
@@ -50,10 +62,18 @@ class Database:
 
     def get_all_programs(self) -> list[dict]:
         self.reset_cursor()
-        self.cursor.execute('SELECT * FROM Programs')
+        self.cursor.execute("""SELECT * FROM Programs
+                                ORDER BY Date ASC""")
         programs = self.cursor.fetchall()
 
         return util.convert_programs_to_json(programs)
+    
+    def get_user_programs(self, userId: int):
+        self.reset_cursor()
+        self.cursor.execute("""SELECT ProgramID FROM Signed_Up
+                                WHERE UserID = ?""", (userId,))
+        userPrograms = self.cursor.fetchall()
+        return util.convert_user_program_list(userPrograms)
 
     def get_all_signed_up(self) -> list[dict]:
         self.reset_cursor()
@@ -114,7 +134,7 @@ class Database:
 
         return self.success_response()
 
-    def add_user_to_program(self, user_program_ids: dict) -> tuple[str, int]:
+    def sign_up_for_program(self, user_program_ids: dict) -> tuple[str, int]:
         user_id: int = user_program_ids["userID"]
         program_id: int = user_program_ids["programID"]
 
@@ -122,6 +142,8 @@ class Database:
             return "user not found", 204
         if not self.check_for_program_by_id(program_id):
             return "program not found", 204
+        if self.user_already_signed_up(program_id, user_id):
+            return False
         if not self.is_program_full_by_id(program_id):
             return "program is full", 409
 
@@ -165,6 +187,16 @@ class Database:
         self.commit_changes()
 
         return self.success_response()
+    
+    def remove_registration(self, userID: int, programID: int):
+        self.reset_cursor()
+        self.cursor.execute("""DELETE FROM Signed_Up 
+                                WHERE UserID = ? AND ProgramID = ?""", 
+                                (userID, programID))
+        self.cursor.execute("""UPDATE Programs
+                                SET CurrentCapacity = CurrentCapacity - 1
+                                WHERE ProgramID = ? AND CurrentCapacity <> 0""", (programID,))
+        self.commit_changes()
 
     #####
 
@@ -277,7 +309,7 @@ class Database:
 
         self.reset_cursor()
         self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-                                                  ("1", "2", "3", "4", 5.0, 6, 7, 8))
+                                                  (program["name"], program["description"], program["offeringPeriod"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
         self.commit_changes()
 
         return self.success_response()

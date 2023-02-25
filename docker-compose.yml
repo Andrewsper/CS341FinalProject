@@ -10,9 +10,8 @@ services:
     expose:
       - "4200"
     volumes:
-      - ./angular:/project
-      - /project/node_modules
-    network_mode: host
+      - ./angular:/app
+      - /app/node_modules
 
   backend:
     build: 
