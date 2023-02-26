@@ -3,6 +3,12 @@
         <span class = "title">YMCA</span>
     </div>
 
+    <div class="user" >
+        <div *ngIf="this.userService.isLoggedIn()" class="col-auto">
+            <a routerLink="programs">Programs</a>
+        </div>
+    </div>
+
     <div class="user">
         <div *ngIf="this.userService.isLoggedIn()" class="loggedin">
             <span >Hello {{this.userService.getFirstName()}}!</span>

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, ObservableInput, catchError, throwError } from 'rxjs';
+import { Observable, ObservableInput, catchError, tap, throwError } from 'rxjs';
+import { Program } from '../models/ProgramModel';
+import { ProgramService } from './program.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +21,7 @@ export class UserService {
   registerEndpoint = 'http://127.0.01:9090/register';
 
 
-  constructor(private http: HttpClient, private router: Router
+  constructor(private http: HttpClient, private router: Router, private programService: ProgramService
   ) {
   
   }
@@ -99,5 +101,35 @@ export class UserService {
   isStaff(): boolean {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     return user ? user.isStaff : false;
+  }
+
+  removeFromUserList(programID: number) {
+    var user = JSON.parse(sessionStorage.getItem('user') as string);
+    if (user) {
+      this.curUser.classesTaken?.splice(this.curUser.classesTaken?.indexOf(programID), 1);
+      sessionStorage.setItem('user', JSON.stringify(this.curUser));
+    }
+  }
+
+  addToUserList(programID: number) {
+    var user = JSON.parse(sessionStorage.getItem('user') as string);
+    if (user) {
+      this.curUser.classesTaken?.push(programID);
+      sessionStorage.setItem('user', JSON.stringify(this.curUser));
+    }
+  }
+
+  getUserPrograms(): number[] | undefined{
+    this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
+    if(this.curUser.classesTaken == undefined){
+        let httpParams = new HttpParams();
+        httpParams = httpParams.append('id', this.curUser.userid?.toString() as string);
+        this.http.get<number[]>(this.userProgramsEndpoint, {params: httpParams}).subscribe(
+          (programs) => {
+            this.curUser.classesTaken = programs;
+            sessionStorage.setItem('user', JSON.stringify(this.curUser));
+        });
+    }
+    return this.curUser.classesTaken;
   }
 }
