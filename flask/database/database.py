@@ -103,6 +103,8 @@ class Database:
 
         return self.success_response()
 
+    ##### For staff and member ship we will user promotion and demotion end points on already existing users
+    # Thus we should user update on user id
     def add_staff(self, user: dict) -> tuple[str, int]:
         if self.check_for_user_by_email(user["email"]):
             return "staff already exists", 409
