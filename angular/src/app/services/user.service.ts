@@ -11,10 +11,14 @@ import { ProgramService } from './program.service';
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  loginEndpoint = 'http://0.0.0.0:5000/login';
-  logoutEndpoint = 'http://0.0.0.0:5000/logout';
-  registerEndpoint = 'http://0.0.0.0:5000/register';
-  userProgramsEndpoint = 'http://0.0.0.0:5000/programs';
+  // loginEndpoint = 'http://0.0.0.0:5000/login';
+  // logoutEndpoint = 'http://0.0.0.0:5000/logout';
+  // registerEndpoint = 'http://0.0.0.0:5000/register';
+  
+  //Leave in for people who cant get docker working
+  loginEndpoint = 'http://127.0.01:9090/login';
+  logoutEndpoint = 'http://127.0.01:9090/logout';
+  registerEndpoint = 'http://127.0.01:9090/register';
 
 
   constructor(private http: HttpClient, private router: Router, private programService: ProgramService
@@ -31,9 +35,9 @@ export class UserService {
         .pipe(
           catchError((err) => this.handleError(err))
         ).subscribe((user) => {
-            sessionStorage.setItem('user', JSON.stringify(user));
-            if(user.isStaff){
-            this.router.navigate(["/"]);
+            this.setUser(user);
+            if(!user.isStaff){
+              this.router.navigate(["/"]);
             } else {
               this.router.navigate(["/staff-home"]);
             }
@@ -60,7 +64,7 @@ export class UserService {
     let response = this.http.post<User>(this.registerEndpoint, JSON.stringify(registerInfo), options).subscribe((user) => {
       if (user) {
         //set the session storage to save the user
-        sessionStorage.setItem('user', JSON.stringify(user));
+        this.setUser(user);
         this.router.navigate(["/"])
       } else {
         alert("Failed to register please try again");
@@ -68,6 +72,13 @@ export class UserService {
     });
 
   }
+
+  setUser(user : User){
+    sessionStorage.setItem('user', JSON.stringify(user));
+  }
+
+  // getUser(): User | undefined{
+  // }
 
   logout() {
     sessionStorage.removeItem('user');
