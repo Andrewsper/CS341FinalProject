@@ -5,7 +5,17 @@ I also think that the data base class should have 2 functinalites that the serve
 1. Get json information about programs and users
 2. validate querys against the data base if valdiation fails return false
 
+For the storing of passwords, when the user is created omit the password from the entry in the DB. Get the created user's UserID and add it to the ascii value of each character in the password before hashing the sum. All of these ints are then joined into a single key string formatted as x,y,z,a,b,c...
+So to validate you need to separate the password sent through API into each character and then get the UserID associated with the Email given and check each int in the password string from DB against hash(char + ID)  pseudocode below:
+list = password.split(","), 
+for x in range 0 PasswordLength: 
+if list[x] != hash(request["password"] + ID) send_failure_response()
 
+Should we be soft deleting programs to re-use the entry by updating the time the class is offered/who is teaching it? Should there be an attribute of programs to show whether sign up is open?
+
+How are we handling family accounts? Relation for parent accounts and child accounts, parent accounts can register child accounts for programs
+
+pre-requisites handled by staff at classes outside of our program? Maybe allow a comments field for signing up?
 
 END POINT FORMAT:
 self explanitory

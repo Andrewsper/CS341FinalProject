@@ -79,7 +79,14 @@ class Database:
                                          user["phoneNumber"], user["email"], user["password"], 
                                          user["zipCode"], 0, False, user["isMember"], True))
         self.commit_changes()
-
+        self.reset_cursor()
+        id = self.get_user_id(self,user)
+        passKey = []
+        for letter in user["password"]:
+            passKey.append(hash(letter + id))
+        ','.join(passKey)
+        self.cursor.execute("UPDATE Users SET Password = ? WHERE UserID = ?",passKey,id)
+        self.commit_changes()
         return self.success_response()
 
     def add_staff(self, user: dict) -> tuple[str, int]:

@@ -18,7 +18,7 @@ Packages
 https://docs.python.org/3/library/calendar.html calendar
 https://www.mongodb.com/docs/drivers/pymongo/#pymongo PyMongo 
 
-Running docker container with Nginx proxy, MongoDB, Flask
+Running docker container with Nginx proxy, SQLite3, Flask
 
 To get working install docker (sudo apt install docker)
 
