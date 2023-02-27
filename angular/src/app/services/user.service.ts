@@ -36,11 +36,7 @@ export class UserService {
           catchError((err) => this.handleError(err))
         ).subscribe((user) => {
             this.setUser(user);
-            if(!user.isStaff){
-              this.router.navigate(["/"]);
-            } else {
-              this.router.navigate(["/staff-home"]);
-            }
+            this.router.navigate(["/"])
         });
       }
     }
