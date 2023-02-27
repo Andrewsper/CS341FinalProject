@@ -1,0 +1,13 @@
+<h1 mat-dialog-title class="title">{{program.name}}<h1 mat-dialog-title class="date">{{program.date | date:'mediumDate'}}</h1></h1>
+<mat-dialog-content>
+    <p class="description">{{program.description}}</p>
+</mat-dialog-content>
+
+
+
+<div class="controls">
+    <button mat-button class="sign-up" (click)="signUp()" *ngIf="!edit">Sign Up</button>
+    <button mat-button class="sign-up" (click)="cancelRegistration()" *ngIf="edit">Cancel Registration</button>
+    <button mat-button mat-dialog-close class="cancel">Cancel</button>
+</div>  
+

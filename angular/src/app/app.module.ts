@@ -14,6 +14,13 @@ import { AuthGuard } from './guards/auth-guard';
 import { StaffGuard } from './guards/staff-guard';
 import { UserHomePageComponent } from './user-home-page/user-home-page.component';
 import { StaffHomePageComponent } from './staff-home-page/staff-home-page.component';
+import { ProgramsComponent } from './programs/programs.component';
+import { ProgramService } from './services/program.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ProgramModalComponent } from './program-modal/program-modal.component';
+
+
 
 @NgModule({
   declarations: [
@@ -23,15 +30,19 @@ import { StaffHomePageComponent } from './staff-home-page/staff-home-page.compon
     RegisterComponent,
     UserHomePageComponent,
     StaffHomePageComponent,
+    ProgramsComponent,
+    ProgramModalComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
-  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard],
+  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {

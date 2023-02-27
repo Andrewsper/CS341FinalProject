@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, request, session
+from flask import Flask, jsonify, render_template, request, session
 from flask_session import Session
 from flask_cors import CORS, cross_origin
 from database.database import Database
@@ -59,10 +59,11 @@ def register_user() -> tuple[str, int]:
     user = request.get_json()
     resp: tuple[str, int] = database.add_user(user)
     
+    createdUser = database.verify_user_login(user)
     if (resp[1] == 200):
-        user["password"] = ""
-        session["user"] = user
-        return resp
+        createdUser["password"] = ""
+        session["user"] = createdUser
+        return createdUser
     
     return resp
 
@@ -70,10 +71,30 @@ def register_user() -> tuple[str, int]:
 
 ###### programs routes ######
 
-#get all programs
-@app.route("/database/programs", methods=['GET'])
-def get_programs() -> list[dict]:
-    return database.get_all_programs()
+@app.route("/programs", methods=['GET'])
+def get_programs():
+    userId = request.args.get('id')
+    if userId is None:
+        return database.get_all_programs()
+    return database.get_user_programs(userId)
+
+@app.route("/program", methods=['GET'])
+def get_program():
+    program_id = request.args.get('id')
+    return database.get_program(program_id)
+
+@app.route("/program", methods=['DELETE'])
+def unRegister():
+    database.remove_registration(request.args.get('userID'), request.args.get('programID'))
+    return jsonify("OK"), 200
+
+@app.route("/program",methods = ["POST"])
+@cross_origin()
+def signup():
+    req = request.get_json()
+    if database.sign_up_for_program(request.get_json()):
+        return jsonify("OK"), 200
+    return jsonify("Sign up failed"), 400
 
 #get a single program
 @app.route("/database/programs/<programID>")
