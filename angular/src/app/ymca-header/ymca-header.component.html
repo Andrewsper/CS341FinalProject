@@ -4,7 +4,7 @@
     </div>
     <nav>
         <a routerLink="programs">Programs</a>
-        <a routerLink="login">Login</a>
+        <a *ngIf="!this.userService.isLoggedIn()" routerLink="login">Login</a>
         <a *ngIf="!this.userService.isLoggedIn()" routerLink="register">Register</a>
         <div *ngIf="this.userService.isLoggedIn()" class="loggedin">
             <span >Hello {{this.userService.getFirstName()}}!</span>
