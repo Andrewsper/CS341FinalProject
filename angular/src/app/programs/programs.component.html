@@ -1,16 +1,24 @@
+
+<div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div>
+
 <div *ngFor="let program of programs" class="program">
-    <div class="header">
-        <div class="name">{{ program?.name }}</div>
-        <div class="date">{{ program?.date | date:'mediumDate' }}</div>
+    <h1 class="header">
+        <span class="name">{{ program?.name }}</span>
+        <span class="date">{{ program?.date | date:'mediumDate' }}</span>
+    </h1>
+    <div class="info"> 
+        <span>Current Capacity: {{program?.currentCapacity}}/{{program.maximumCapacity}}</span>
+        <span>Price: {{program?.price}}$</span>
+        <span>Location: {{program?.location}}</span>
+        <p>Description: {{ program?.description }}</p>
     </div>
 
-    <p class="description">{{ program?.description }}</p>
-
-    <div class="base">
+    <div *ngIf="this.userService.isLoggedIn()" class="base">
         <div *ngIf="program?.currentCapacity == program?.maximumCapacity">Program is full</div>
         <button (click)="showModal(program.programID, false)"
             [disabled]="program?.currentCapacity == program?.maximumCapacity"
             *ngIf="!userSignedUp(program.programID)">Sign Up</button>
-        <button *ngIf="userSignedUp(program.programID)" (click)="showModal(program.programID, true)">Edit Registration</button>
+        <button *ngIf="userSignedUp(program.programID)" (click)="showModal(program.programID, true)">Edit
+            Registration</button>
     </div>
 </div>
