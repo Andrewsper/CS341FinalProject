@@ -6,29 +6,53 @@
     margin-top: 1em;
     min-height: 175px;
     position: relative;
+    flex-direction: column;
+    justify-content: space-around;
+    
 }
 
+.nologin{
+    padding: 1em;
+    margin: auto;
+    width: 60%;
+    position: relative;
+    font-size: 1.5em;
+    color: red;
+    border: 1px solid black;
+    background-color: rgb(255, 255, 207);
+}
+.header{
+    font-size: 1em;
+    border-bottom:1px solid black;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
 .name {
-    width:75%;
-    float: left;
+    align-self: left;
     font-size: 2em;
 }
 
 .date {
-    width:25%;
-    float: right;
+    align-self: right;
     text-align: right;
+    display: block;
 }
 
-.description {
+.info {
     clear: both;
     font-size: 1em;
+    margin-bottom: 1em;
+    line-height: 1.5em;
 }
 
+.info span{
+    display: block;
+}
+
+
 .base {
-    bottom: 0;
-    position: absolute;
-    margin-bottom: 1em
+    flex: absolute;
 }
 
 button {

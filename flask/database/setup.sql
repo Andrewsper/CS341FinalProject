@@ -27,7 +27,8 @@ CREATE TABLE Programs (
     Price FLOAT NOT NULL,
     Length INTEGER NOT NULL,
     MaximumCapacity INTEGER NOT NULL,
-    CurrentCapacity INTEGER NOT NULL
+    CurrentCapacity INTEGER NOT NULL,
+    Location TEXT NOT NULL
 );
 
 CREATE TABLE Signed_Up (
