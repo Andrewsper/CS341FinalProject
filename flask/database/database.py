@@ -127,11 +127,11 @@ class Database:
 
         self.reset_cursor()
         self.cursor.execute("""INSERT INTO Programs 
-                                (Name, Description, Date, OfferingPeriod, Price, 
-                                Length, MaximumCapacity, CurrentCapacity) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""", 
+                                (Name, Description, Date, OfferingPeriod, Location, 
+                                Price, Length, MaximumCapacity, CurrentCapacity) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
                                         (program["name"], program["description"], program["date"],
-                                         program["offeringPeriod"], program["price"], program["length"],
+                                         program["offeringPeriod"], program["location"], program["price"], program["length"],
                                          program["maximumCapacity"], 0))
         self.commit_changes()
 
@@ -200,7 +200,7 @@ class Database:
                                 (userID, programID))
         self.cursor.execute("""UPDATE Programs
                                 SET CurrentCapacity = CurrentCapacity - 1
-                                WHERE ProgramID = ? AND CurrentCapacity <> 0""", (programID,))
+                                WHERE ProgramID = ? AND CurrentCapacity > 0""", (programID,))
         self.commit_changes()
         return True
 
@@ -314,8 +314,8 @@ class Database:
             return "program already exists", 409
 
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-                                                  (program["name"], program["description"], program["offeringPeriod"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
+        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Location, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                                                  (program["name"], program["description"], program["offeringPeriod"], program["location"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
         self.commit_changes()
 
         return self.success_response()

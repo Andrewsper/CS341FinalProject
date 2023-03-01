@@ -15,6 +15,7 @@ export class UserService {
   // loginEndpoint = 'http://0.0.0.0:5000/login';
   // logoutEndpoint = 'http://0.0.0.0:5000/logout';
   // registerEndpoint = 'http://0.0.0.0:5000/register';
+  // userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
   
   //Leave in for people who cant get docker working
   loginEndpoint = 'http://127.0.0.1:9090/login';
