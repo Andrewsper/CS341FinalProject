@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable, ObservableInput, catchError, tap, throwError } from 'rxjs';
 import { Program } from '../models/ProgramModel';
 import { ProgramService } from './program.service';
+import { ModalService } from './modal.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,15 +17,14 @@ export class UserService {
   // registerEndpoint = 'http://0.0.0.0:5000/register';
   
   //Leave in for people who cant get docker working
-  loginEndpoint = 'http://127.0.01:9090/login';
-  logoutEndpoint = 'http://127.0.01:9090/logout';
-  registerEndpoint = 'http://127.0.01:9090/register';
+  loginEndpoint = 'http://127.0.0.1:5000/login';
+  logoutEndpoint = 'http://127.0.0.1:5000/logout';
+  registerEndpoint = 'http://127.0.0.1:5000/register';
+  userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
 
 
-  constructor(private http: HttpClient, private router: Router, private programService: ProgramService
-  ) {
-  
-  }
+  constructor(private http: HttpClient, private router: Router, private modalService: ModalService, private programService: ProgramService) { }
+
 
   validateLogin(loginInfo?: User) {
     //If the session already has a user saved set it to the current user to it
@@ -36,11 +36,7 @@ export class UserService {
           catchError((err) => this.handleError(err))
         ).subscribe((user) => {
             this.setUser(user);
-            if(!user.isStaff){
-              this.router.navigate(["/"]);
-            } else {
-              this.router.navigate(["/staff-home"]);
-            }
+            this.router.navigate(["/"])
         });
       }
     }
@@ -51,9 +47,9 @@ export class UserService {
 
   handleError(err: HttpErrorResponse){
     if (err.status === 401) {
-      alert("Invalid login please try again");
+      this.modalService.showModal("Invalid login please try again", "Login Failed");
     } else if (err.status !== 400){
-      alert("Something went wrong please try again");
+      this.modalService.showModal("Something went wrong please try again", "Login Failed");
     }
     return throwError(() => new Error("Something went wrong please try "));
   }

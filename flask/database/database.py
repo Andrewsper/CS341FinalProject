@@ -3,6 +3,7 @@ import os
 import database.util as util
 
 class Database:
+    
     def __init__(self) -> None:
         self.connection = sqlite3.connect('./database/database.db', check_same_thread=False)
         self.cursor = self.connection.cursor()
@@ -190,8 +191,10 @@ class Database:
 
         return self.success_response()
     
-    def remove_registration(self, userID: int, programID: int):
+    def remove_registration(self, userID: int, programID: int) -> bool:
         self.reset_cursor()
+        if not self.user_already_signed_up(userID, programID):
+            return False
         self.cursor.execute("""DELETE FROM Signed_Up 
                                 WHERE UserID = ? AND ProgramID = ?""", 
                                 (userID, programID))
@@ -199,6 +202,7 @@ class Database:
                                 SET CurrentCapacity = CurrentCapacity - 1
                                 WHERE ProgramID = ? AND CurrentCapacity <> 0""", (programID,))
         self.commit_changes()
+        return True
 
     #####
 
