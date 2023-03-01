@@ -1,0 +1,33 @@
+<div>
+    <form [formGroup]="form" (ngSubmit)="createProgram()">
+        <div class="input-field">
+            <label>Name</label>
+            <input formControlName="name"  type="text">
+        </div>
+        <div class="input-field">
+            <label>Description</label>
+            <input formControlName="description" type="text">
+        </div>
+        <div class="input-field">
+            <label>Start Date</label>
+            <input formControlName="start"  type="date">
+        </div>
+        <div class="input-field">
+            <label>End Date</label>
+            <input formControlName="end" type="date">
+        </div>
+        <div class="input-field">
+            <label>Price</label>
+            <input formControlName="price"  type="text">
+        </div>
+        <div class="input-field">
+            <label>Location</label>
+            <input formControlName="location" type="text">
+        </div>
+        <div class="input-field">
+            <label>Max Participants</label>
+            <input formControlName="name"  type="text">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</div>

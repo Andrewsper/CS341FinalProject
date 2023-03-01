@@ -9,14 +9,15 @@ export class ModalService {
         public dialog: MatDialog
     ) { }
 
-    showModal(message: string, title: string, buttonText: string = 'Ok') {
+    showModal(message: string, title: string, buttonText: string = 'Ok', type: string = 'info') {
         this.dialog.open(YmcaModalComponent, {
             height: '200px',
             width: '400px',
             data: {
                 content: message,
                 title: title,
-                buttonText: buttonText
+                buttonText: buttonText,
+                type: type
             }
         });
     }
