@@ -314,8 +314,8 @@ class Database:
             return "program already exists", 409
 
         self.reset_cursor()
-        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-                                                  (program["name"], program["description"], program["offeringPeriod"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
+        self.cursor.execute('INSERT INTO Programs (Name, Description, OfferingPeriod, Location, Date, Price, Length, MaximumCapacity, CurrentCapacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+                                                  (program["name"], program["description"], program["offeringPeriod"], program["location"], program["date"], program["price"], program["length"], program["maxCapacity"], program["currentCapacity"]))
         self.commit_changes()
 
         return self.success_response()
