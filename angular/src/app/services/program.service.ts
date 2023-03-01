@@ -40,9 +40,5 @@ export class ProgramService {
     this.http.delete<any>(this.signUpEndpoint, {params: params}).subscribe();
     return success;
   }
-
-
-
-
-
+  
 }

@@ -3,8 +3,12 @@
     <p class="description">{{content}}</p>
 </mat-dialog-content>
 
-
-
-<div class="controls">
+<div *ngIf='type === "info"' class="controls">
     <button mat-button class="sign-up" (click)="close()">{{buttonText}}</button>
 </div>  
+
+<div *ngIf='type === "confirm"' class="controls">
+    <button mat-button class="sign-up" (click)="yes()">Yes</button>
+    <button mat-button class="sign-up" (click)="no()">No</button>
+</div>  
+
