@@ -127,11 +127,11 @@ class Database:
 
         self.reset_cursor()
         self.cursor.execute("""INSERT INTO Programs 
-                                (Name, Description, Date, OfferingPeriod, Price, 
-                                Length, MaximumCapacity, CurrentCapacity) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""", 
+                                (Name, Description, Date, OfferingPeriod, Location, 
+                                Price, Length, MaximumCapacity, CurrentCapacity) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
                                         (program["name"], program["description"], program["date"],
-                                         program["offeringPeriod"], program["price"], program["length"],
+                                         program["offeringPeriod"], program["location"], program["price"], program["length"],
                                          program["maximumCapacity"], 0))
         self.commit_changes()
 
@@ -200,7 +200,7 @@ class Database:
                                 (userID, programID))
         self.cursor.execute("""UPDATE Programs
                                 SET CurrentCapacity = CurrentCapacity - 1
-                                WHERE ProgramID = ? AND CurrentCapacity <> 0""", (programID,))
+                                WHERE ProgramID = ? AND CurrentCapacity > 0""", (programID,))
         self.commit_changes()
         return True
 
