@@ -12,16 +12,16 @@ import { ModalService } from './modal.service';
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  // loginEndpoint = 'http://0.0.0.0:5000/login';
-  // logoutEndpoint = 'http://0.0.0.0:5000/logout';
-  // registerEndpoint = 'http://0.0.0.0:5000/register';
-  // userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
+  loginEndpoint = 'http://0.0.0.0:5000/login';
+  logoutEndpoint = 'http://0.0.0.0:5000/logout';
+  registerEndpoint = 'http://0.0.0.0:5000/register';
+  userProgramsEndpoint = 'http://0.0.0.0:5000/programs';
   
   //Leave in for people who cant get docker working
-  loginEndpoint = 'http://127.0.0.1:9090/login';
-  logoutEndpoint = 'http://127.0.0.1:9090/logout';
-  registerEndpoint = 'http://127.0.0.1:9090/register';
-  userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
+  // loginEndpoint = 'http://127.0.0.1:9090/login';
+  // logoutEndpoint = 'http://127.0.0.1:9090/logout';
+  // registerEndpoint = 'http://127.0.0.1:9090/register';
+  // userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
 
 
   constructor(private http: HttpClient, private router: Router, private modalService: ModalService, private programService: ProgramService) { }

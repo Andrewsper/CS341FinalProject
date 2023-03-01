@@ -53,7 +53,7 @@ def logout() -> tuple[str, int]:
         session.pop("user",None)
     return 'ok', 200
 
-@app.route("/test", methods=['GET'])
+@app.route("/register", methods=['POST'])
 @cross_origin()
 def register_user() -> tuple[str, int]:
     user = request.get_json()
