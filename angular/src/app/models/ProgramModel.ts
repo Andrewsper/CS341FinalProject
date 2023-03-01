@@ -7,5 +7,6 @@ export type Program = {
     length: number,
     date: string,
     maximumCapacity: number,
-    currentCapacity: number
+    currentCapacity: number,
+    location: string
 }

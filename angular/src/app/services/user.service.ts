@@ -17,10 +17,10 @@ export class UserService {
   // registerEndpoint = 'http://0.0.0.0:5000/register';
   
   //Leave in for people who cant get docker working
-  loginEndpoint = 'http://127.0.0.1:5000/login';
-  logoutEndpoint = 'http://127.0.0.1:5000/logout';
-  registerEndpoint = 'http://127.0.0.1:5000/register';
-  userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
+  loginEndpoint = 'http://127.0.0.1:9090/login';
+  logoutEndpoint = 'http://127.0.0.1:9090/logout';
+  registerEndpoint = 'http://127.0.0.1:9090/register';
+  userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
 
 
   constructor(private http: HttpClient, private router: Router, private modalService: ModalService, private programService: ProgramService) { }
@@ -99,33 +99,31 @@ export class UserService {
     return user ? user.isStaff : false;
   }
 
-  removeFromUserList(programID: number) {
-    var user = JSON.parse(sessionStorage.getItem('user') as string);
-    if (user) {
-      this.curUser.classesTaken?.splice(this.curUser.classesTaken?.indexOf(programID), 1);
-      sessionStorage.setItem('user', JSON.stringify(this.curUser));
-    }
-  }
+  // removeFromUserList(programID: number) {
+  //   var user = JSON.parse(sessionStorage.getItem('user') as string);
+  //   if (user) {
+  //     this.curUser.classesTaken?.splice(this.curUser.classesTaken?.indexOf(programID), 1);
+  //     sessionStorage.setItem('user', JSON.stringify(this.curUser));
+  //   }
+  // }
 
-  addToUserList(programID: number) {
-    var user = JSON.parse(sessionStorage.getItem('user') as string);
-    if (user) {
-      this.curUser.classesTaken?.push(programID);
-      sessionStorage.setItem('user', JSON.stringify(this.curUser));
-    }
-  }
+  // addToUserList(programID: number) {
+  //   var user = JSON.parse(sessionStorage.getItem('user') as string);
+  //   if (user) {
+  //     this.curUser.classesTaken?.push(programID);
+  //     sessionStorage.setItem('user', JSON.stringify(this.curUser));
+  //   }
+  // }
 
   getUserPrograms(): number[] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    if(this.curUser.classesTaken == undefined){
-        let httpParams = new HttpParams();
-        httpParams = httpParams.append('id', this.curUser.userid?.toString() as string);
-        this.http.get<number[]>(this.userProgramsEndpoint, {params: httpParams}).subscribe(
-          (programs) => {
-            this.curUser.classesTaken = programs;
-            sessionStorage.setItem('user', JSON.stringify(this.curUser));
-        });
-    }
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('id', this.curUser.userid?.toString() as string);
+    this.http.get<number[]>(this.userProgramsEndpoint, {params: httpParams}).subscribe(
+      (programs) => {
+        this.curUser.classesTaken = programs;
+        sessionStorage.setItem('user', JSON.stringify(this.curUser));
+    });
     return this.curUser.classesTaken;
   }
 }

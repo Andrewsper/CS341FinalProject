@@ -1,21 +1,18 @@
 
 
 header{
-    background-color: rgb(160, 92, 160);
+    background-color: rgb(106, 126, 207);
     padding: 1em;
     display: flex;
-    justify-content: space-between;
+
 }
-span.title{
+div.title{
+    width: 25%;
     color:white;
     font-size: 5em;
     font-family: Georgia, 'Times New Roman', Times, serif;
 } 
 
-div.profile{
-    display: flex;
-    flex-direction: row;
-}
 
 div.loggedin span{
     padding: 1em;
@@ -23,18 +20,27 @@ div.loggedin span{
     color: white;
 }
 
-
-div.user a{
+nav{
+    width: 75%;
+    flex-direction: row;
+    justify-content: flex-end;
+    display: flex;
+}
+a{
+    height: auto;
+    width: 5em;
+    text-align: center;
     display: block;
     padding: 1em;
     background-color: rgb(199, 199, 199);
     margin: .25em;
+    margin-left: 1em;
     color: white;
     border-radius: .25em;
     text-decoration: none;
     font-size: 1.25em;
 }
 
-div.profile a:hover {
+a:hover {
     background-color: cadetblue;
 }

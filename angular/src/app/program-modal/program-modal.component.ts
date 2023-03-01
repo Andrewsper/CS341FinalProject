@@ -31,7 +31,8 @@ export class ProgramModalComponent implements OnInit{
         length: 0,
         date: '',
         maximumCapacity: 0,
-        currentCapacity: 0
+        currentCapacity: 0,
+        location: ''
       };
       this.edit = data.edit;
     }
@@ -47,13 +48,11 @@ export class ProgramModalComponent implements OnInit{
 
   signUp() {
     this.programService.signUp(this.data.programID);
-    this.userService.addToUserList(this.data.programID);
     this.dialogRef.close();
   }
 
   cancelRegistration() {
     if (this.programService.cancelRegistration(this.data.programID)) {
-      this.userService.removeFromUserList(this.data.programID);
     }
     this.dialogRef.close();
   }
