@@ -2,7 +2,7 @@
 
 <button *ngIf="this.userService?.curUser?.isStaff" (click)="showCreateProgramModal()">Add a program</button>
 
-<!-- <div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div> -->
+<div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div>
 
 <div *ngFor="let program of programs" class="program">
     <h1 class="header">

@@ -43,7 +43,10 @@ export class ProgramsComponent implements OnInit {
         programID: programID,
         edit: edit
       }
-    });
+    }).afterClosed().subscribe(() => {    
+      this.updateAllPrograms();
+      this.userPrograms = this.userService.getUserPrograms();
+  });
 }
 
 updateAllPrograms(){

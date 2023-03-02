@@ -35,20 +35,12 @@ export class ProgramService {
   }
 
   signUp(programID: number) { 
-    let httpParams = new HttpParams();
-    this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    httpParams = httpParams.append('programid', programID.toString());
-    httpParams = httpParams.append('userid', this.curUser.userid?.toString() as string);
-    this.http.post(this.signUpEndpoint, { programid: programID, userid: this.curUser.userid }).subscribe();
+    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid,{}).subscribe();
   }
 
   cancelRegistration(programID: number): boolean {
     let success = true;
-    let httpParams = new HttpParams();
-    this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    httpParams = httpParams.append('programid', programID.toString());
-    httpParams = httpParams.append('userid', this.curUser.userid?.toString() as string);
-    this.http.delete<any>(this.signUpEndpoint, { params: httpParams }).subscribe();
+    this.http.delete<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid).subscribe();
     return success;
   }
 

@@ -23,8 +23,11 @@ export class AddProgramComponent implements OnInit{
 
   ngOnInit(): void {
     this.progForm = this.formBuilder.group({
+    this.progForm = this.formBuilder.group({
       name: [''],
       description: [''],
+      start: [''],
+      end : [''],
       start: [''],
       end : [''],
       price: [''],

@@ -107,9 +107,7 @@ export class UserService {
 
   getUserPrograms(): number[] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    let httpParams = new HttpParams();
-    httpParams = httpParams.append('userid', this.curUser.userid?.toString() as string);
-    this.http.get<number[]>(this.userProgramsEndpoint, { params: httpParams }).subscribe(
+    this.http.get<number[]>(this.userProgramsEndpoint+'/'+this.curUser.userid).subscribe(
       (programs) => {
         this.curUser.classesTaken = programs;
         sessionStorage.setItem('user', JSON.stringify(this.curUser));
