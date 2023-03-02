@@ -11,12 +11,12 @@ export class ProgramService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
   // programsEndpoint = 'http://0.0.0.0:5000/programs';
-  // programEndpoint = 'http://0.0.0.0:5000/program?id=';
+  // programEndpoint = 'http://0.0.0.0:5000/program/';
   // signUpEndpoint = 'http://0.0.0.0:5000/program';
 
   //test endpoints
   programsEndpoint = 'http://127.0.0.1:9090/programs';
-  programEndpoint = 'http://127.0.0.1:9090/program?id=';
+  programEndpoint = 'http://127.0.0.1:9090/program/';
   signUpEndpoint = 'http://127.0.0.1:9090/program';
 
   constructor(private http: HttpClient, private router: Router
@@ -33,16 +33,17 @@ export class ProgramService {
   }
 
   signUp(programID: number) { 
-    this.http.post<any>(this.signUpEndpoint, {userID: this.curUser.userid, programID: programID}).subscribe();
+    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid,{}).subscribe();
   }
 
   cancelRegistration(programID: number): boolean {
     let success = true;
-    let params = new HttpParams();
-    params = params.append('userID', this.curUser.userid as string);
-    params = params.append('programID', programID.toString());
-    this.http.delete<any>(this.signUpEndpoint, {params: params}).subscribe();
+    this.http.delete<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid).subscribe();
     return success;
+  }
+
+  addProgram( p :Program){
+    this.http.post(this.programsEndpoint,p).subscribe()
   }
   
 }

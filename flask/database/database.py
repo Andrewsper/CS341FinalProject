@@ -137,9 +137,8 @@ class Database:
 
         return self.success_response()
 
-    def sign_up_for_program(self, user_program_ids: dict) -> tuple[str, int]:
-        user_id: int = user_program_ids["userID"]
-        program_id: int = user_program_ids["programID"]
+    def sign_up_for_program(self,program_id,user_id) -> tuple[str, int]:
+
 
         if not self.check_for_user_by_id(user_id):
             return "user not found", 204

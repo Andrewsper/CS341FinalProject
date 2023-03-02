@@ -1,5 +1,5 @@
 <div>
-    <form [formGroup]="form" (ngSubmit)="createProgram()">
+    <form [formGroup]="progForm" (ngSubmit)="createProgram()">
         <div class="input-field">
             <label>Name</label>
             <input formControlName="name"  type="text">
@@ -26,8 +26,8 @@
         </div>
         <div class="input-field">
             <label>Max Participants</label>
-            <input formControlName="name"  type="text">
+            <input formControlName="maxParticipants"  type="text">
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">add</button>
     </form>
 </div>

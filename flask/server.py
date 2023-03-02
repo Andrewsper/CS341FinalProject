@@ -53,7 +53,7 @@ def logout() -> tuple[str, int]:
         session.pop("user",None)
     return 'ok', 200
 
-@app.route("/test", methods=['GET'])
+@app.route("/register", methods=['POST'])
 @cross_origin()
 def register_user() -> tuple[str, int]:
     user = request.get_json()
@@ -71,37 +71,43 @@ def register_user() -> tuple[str, int]:
 
 ###### programs routes ######
 
-@app.route("/programs", methods=['GET'])
-def get_programs():
-    userId = request.args.get('id')
+
+@app.route("/programs/<userId>", methods=['GET'])
+def get_user_programs(userId):
     if userId is None:
         return database.get_all_programs()
     return database.get_user_programs(userId)
 
-@app.route("/program", methods=['GET'])
-def get_program():
-    program_id = request.args.get('id')
-    return database.get_program(program_id)
+@app.route("/programs", methods=['GET'])
+def get_programs():
+    return database.get_all_programs()
 
-@app.route("/program", methods=['DELETE'])
-def unRegister():
-    database.remove_registration(request.args.get('userID'), request.args.get('programID'))
-    return jsonify("OK"), 200
 
-@app.route("/program",methods = ["POST"])
-@cross_origin()
-def signup():
-    req = request.get_json()
-    if database.sign_up_for_program(request.get_json()):
-        return jsonify("OK"), 200
-    return jsonify("Sign up failed"), 400
-
-@app.route("/database/programs/add", methods=['POST'])
+@app.route("/programs", methods=['POST'])
 @cross_origin()
 def add_program() -> tuple[str, int]:
     program = request.get_json()
     print(program)
     return database.add_program(program)
+
+@app.route("/program/<program_id>", methods=['GET'])
+def get_program(program_id):
+    return database.get_program(program_id)
+
+@app.route("/program/<pid>/<uid>", methods=['DELETE'])
+def unRegister(pid,uid):
+    database.remove_registration(pid, uid)
+    return jsonify("OK"), 200
+
+@app.route("/program/<pid>/<uid>",methods = ["POST"])
+@cross_origin()
+def signup(pid,uid):
+    req = request.get_json()
+    if database.sign_up_for_program(pid,uid):
+        return jsonify("OK"), 200
+    return jsonify("Sign up failed"), 400
+
+
 
 @app.route("/database/programs/remove", methods=['POST'])
 @cross_origin()
