@@ -20,7 +20,7 @@ export class ProgramModalComponent implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: UserService,
+    public userService: UserService,
     private programService: ProgramService ) {
       this.program = {
         name: '',
@@ -50,6 +50,7 @@ export class ProgramModalComponent implements OnInit{
 
   signUp() {
     this.programService.signUp(this.data.programID);
+    this.userService.addToUserList(this.data.programID);
     this.dialogRef.close();
   }
 
@@ -57,6 +58,7 @@ export class ProgramModalComponent implements OnInit{
 
     console.log(this.data.programID)
     if (this.programService.cancelRegistration(this.data.programID)) {
+      this.userService.removeFromUserList(this.data.programID);
     }
     this.dialogRef.close();
   }

@@ -2,17 +2,18 @@
 
 <button *ngIf="this.userService?.curUser?.isStaff" (click)="showCreateProgramModal()">Add a program</button>
 
-<div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div>
+<!-- <div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div> -->
 
 <div *ngFor="let program of programs" class="program">
     <h1 class="header">
-        <span class="name">{{ program?.name }}</span>
-        <span class="date">{{ program?.date | date:'mediumDate' }}</span>
+        <span class="name">{{ program.name }}</span>
+        <span class="date">{{ program.offeringPeriod.split(" - ")[0] | date:"mediumDate"}} - {{ program.offeringPeriod.split(" - ")[1] | date:"mediumDate"}}</span>
     </h1>
     <div class="info"> 
         <span>Current Capacity: {{program?.currentCapacity}}/{{program.maximumCapacity}}</span>
-        <span>Price: {{program.price}}$</span>
+        <span>Price: ${{this.userService.isMember() ? program.price/2 : program.price}}</span>
         <span>Location: {{program.location}}</span>
+        <span>Duration: {{program.length}}</span>
         <p>Description: {{ program.description }}</p>
     </div>
 
@@ -25,3 +26,5 @@
             Registration</button>
     </div>
 </div>
+
+<div *ngIf="programs.length === 0">No programs to display</div>

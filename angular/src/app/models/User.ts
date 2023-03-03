@@ -16,7 +16,7 @@ export class User{
         public userid? : String,
         public ownedClasses?: number[],
         public classesTaken?: number[]
-    ){}
+    ){ }
 
     
 }

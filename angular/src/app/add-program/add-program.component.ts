@@ -29,7 +29,8 @@ export class AddProgramComponent implements OnInit{
       end : [''],
       price: [''],
       location: [''],
-      maxParticipants: ['']
+      maxParticipants: [''],
+      duration: ['']
     });
   }
 
@@ -43,7 +44,7 @@ export class AddProgramComponent implements OnInit{
                             0,
                             this.progForm.value.location as string,
                             //substute value for length rn
-                            5
+                            this.progForm.value.duration as number
                             );
 
     console.log(prog)

@@ -21,7 +21,7 @@ export class ProgramsComponent implements OnInit {
   constructor(
     private programService: ProgramService,
     public dialog: MatDialog,
-    public userService: UserService
+    public userService: UserService,
   ) {
 
   }
@@ -43,10 +43,7 @@ export class ProgramsComponent implements OnInit {
         programID: programID,
         edit: edit
       }
-    }).beforeClosed().subscribe(() => {    
-      this.updateAllPrograms();
-      this.userPrograms = this.userService.getUserPrograms();
-  });
+    });
 }
 
 updateAllPrograms(){
