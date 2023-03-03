@@ -21,6 +21,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ProgramModalComponent } from './program-modal/program-modal.component';
 import { YmcaModalComponent } from './ymca-modal/ymca-modal.component';
 import { ModalService } from './services/modal.service';
+import { AddProgramComponent } from './add-program/add-program.component';
 
 
 
@@ -34,7 +35,8 @@ import { ModalService } from './services/modal.service';
     StaffHomePageComponent,
     ProgramsComponent,
     ProgramModalComponent,
-    YmcaModalComponent
+    YmcaModalComponent,
+    AddProgramComponent
   ],
   imports: [
     BrowserModule,

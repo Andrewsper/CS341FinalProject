@@ -4,6 +4,7 @@ import { Program } from '../models/ProgramModel';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ProgramModalComponent } from '../program-modal/program-modal.component';
 import { UserService } from '../services/user.service';
+import { AddProgramComponent } from '../add-program/add-program.component';
 
 
 
@@ -20,7 +21,7 @@ export class ProgramsComponent implements OnInit {
   constructor(
     private programService: ProgramService,
     public dialog: MatDialog,
-    public userService: UserService
+    public userService: UserService,
   ) {
 
   }
@@ -30,7 +31,11 @@ export class ProgramsComponent implements OnInit {
     this.userPrograms = this.userService.getUserPrograms();
   }
 
-  showModal(programID: number, edit: boolean) {
+  showCreateProgramModal(){
+    this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'})
+  }
+
+  showSignupModal(programID: number, edit: boolean) {
     this.dialog.open(ProgramModalComponent, {
       height: '600px',
       width: '800px',
@@ -38,10 +43,7 @@ export class ProgramsComponent implements OnInit {
         programID: programID,
         edit: edit
       }
-    }).afterClosed().subscribe(() => {    
-      this.updateAllPrograms();
-      this.userPrograms = this.userService.getUserPrograms();
-  });
+    });
 }
 
 updateAllPrograms(){
@@ -53,6 +55,7 @@ updateAllPrograms(){
       console.log(err);
     });
   }
+  
 userSignedUp(programID: number): boolean {
   if (!this.userService.curUser.classesTaken) {
     return false;

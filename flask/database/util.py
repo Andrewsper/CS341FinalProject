@@ -4,11 +4,12 @@ def convert_program_to_json(program: list) -> dict:
         "name": program[1],
         "description": program[2],
         "offeringPeriod": program[3],
-        "date": program[4],
-        "price": program[5],
-        "length": program[6],
-        "maximumCapacity": program[7],
-        "currentCapacity": program[8]
+        "location" : program[4],
+        "date": program[5],
+        "price": program[6],
+        "length": program[7],
+        "maximumCapacity": program[8],
+        "currentCapacity": program[9]
     }
 
     return program_json
