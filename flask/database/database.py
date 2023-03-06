@@ -190,6 +190,7 @@ class Database:
         return self.success_response()
     
     def remove_registration(self, userID: int, programID: int) -> bool:
+        print(f"removing {userID} from {programID}")
         cursor = self.reset_cursor()
         if not self.user_already_signed_up(userID, programID):
             return False
