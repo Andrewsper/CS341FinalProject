@@ -53,14 +53,14 @@ def logout() -> tuple[str, int]:
         session.pop("user",None)
     return 'ok', 200
 
-@app.route("/database/users", methods=['POST'])
+@app.route("/users", methods=['POST'])
 @cross_origin()
 def register_user() -> tuple[str, int]:
     user = request.get_json()
     resp: tuple[str, int] = database.add_user(user)
     
     createdUser = database.verify_user_login(user)
-    if (resp[1] == 200):
+    if (resp[1] == 200 and createdUser != None):
         createdUser["password"] = ""
         session["user"] = createdUser
         return createdUser
@@ -97,12 +97,12 @@ def signup():
     return jsonify("Sign up failed"), 400
 
 #get a single program
-@app.route("/database/programs/<programID>")
+@app.route("/programs/<programID>")
 def get_program(programID) -> tuple[str,int]:
     return database.get_program(programID)
 
 #create a program
-@app.route("/database/programs", methods=['POST'])
+@app.route("/programs", methods=['POST'])
 @cross_origin()
 def add_program() -> tuple[str, int]:
     program = request.get_json()
@@ -110,14 +110,14 @@ def add_program() -> tuple[str, int]:
     return database.add_program(program)
 
 #Delete a program
-@app.route("/database/programs/<programID>", methods=['DELETE'])
+@app.route("/programs/<programID>", methods=['DELETE'])
 @cross_origin()
 def remove_program(programID) -> tuple[str, int]:
     program = request.get_json()
     return database.remove_program(program)
 
 #Sign a user up for a program
-@app.route("/database/programs/<programID>/<userID>", methods=['POST'])
+@app.route("/programs/<programID>/<userID>", methods=['POST'])
 @cross_origin()
 def add_user_to_program(programID, userID) -> tuple[str, int]:
     user, program = request.get_json()
@@ -134,13 +134,13 @@ def test():
 ###### user routes ######
 
 #Get all users
-@app.route("/database/users", methods=['GET'])
+@app.route("/users", methods=['GET'])
 @cross_origin()
 def get_users() -> list[dict]:
     return database.get_all_users()
 
 #Delete a user
-@app.route("/database/users/<userID>", methods=['DELETE'])
+@app.route("/users/<userID>", methods=['DELETE'])
 @cross_origin()
 def remove_user(userID) -> tuple[str, int]:
     user = request.get_json()
@@ -156,7 +156,7 @@ def remove_user(userID) -> tuple[str, int]:
 
 ###### signed up routes ######
 
-@app.route("/database/programs/users", methods=['GET'])
+@app.route("/programs/users", methods=['GET'])
 @cross_origin()
 def get_signed_up() -> list[dict]:
     return database.get_all_signed_up()

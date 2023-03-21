@@ -7,7 +7,7 @@ import { User } from '../models/User';
 @Injectable()
 export class LoginService {
     loginEndpoint = 'http://0.0.0.0:5000/login';
-    registerEndpoint = 'http://0.0.0.0:5000/database/add/user';
+    registerEndpoint = 'http://0.0.0.0:5000/users';
 
 
     constructor(

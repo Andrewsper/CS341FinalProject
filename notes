@@ -8,8 +8,9 @@ I also think that the data base class should have 2 functinalites that the serve
 For the storing of passwords, when the user is created omit the password from the entry in the DB. Get the created user's UserID and add it to the ascii value of each character in the password before hashing the sum. All of these ints are then joined into a single key string formatted as x,y,z,a,b,c...
 So to validate you need to separate the password sent through API into each character and then get the UserID associated with the Email given and check each int in the password string from DB against hash(char + ID)  pseudocode below:
 list = password.split(","), 
+entered = request["password"].split("")
 for x in range 0 PasswordLength: 
-if list[x] != hash(request["password"] + ID) send_failure_response()
+if list[x] != hash(entered[x] + ID) send_failure_response()
 
 Should we be soft deleting programs to re-use the entry by updating the time the class is offered/who is teaching it? Should there be an attribute of programs to show whether sign up is open?
 

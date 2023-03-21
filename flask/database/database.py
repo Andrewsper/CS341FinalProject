@@ -101,11 +101,8 @@ class Database:
         self.commit_changes()
         self.reset_cursor()
         id = self.get_user_id(self,user)
-        passKey = []
-        for letter in user["password"]:
-            passKey.append(hash(letter + id))
-        ','.join(passKey)
-        self.cursor.execute("UPDATE Users SET Password = ? WHERE UserID = ?",passKey,id)
+        hash = util.convert_password_to_hash_string(user["password"], id)
+        self.cursor.execute("UPDATE Users SET Password = ? WHERE UserID = ?", hash, id)
         self.commit_changes()
         return self.success_response()
 
@@ -288,14 +285,16 @@ class Database:
         return False
 
     def verify_user_login(self, user) -> dict:
-        self.reset_cursor()
+        self.reset_cursor()       
+        userId = self.get_user_id(user["email"])
         self.cursor.execute("""SELECT *
                                     FROM Users
-                                    WHERE Email = ? AND Password = ?""", 
-                                    (user["email"], user["password"]))
-
-        return util.convert_user_to_json(self.cursor.fetchone())
-
+                                    WHERE Email = ? """, 
+                                    (user["email"]))
+        foundUser = self.cursor.fetchone()
+        if util.convert_password_to_hash_string(user["password"],userId) == foundUser.Password :
+            return foundUser
+        return None
     #####
 
     ##### Testing #####

@@ -18,7 +18,7 @@ export class UserService {
   //Leave in for people who cant get docker working
   loginEndpoint = 'http://127.0.01:9090/login';
   logoutEndpoint = 'http://127.0.01:9090/logout';
-  registerEndpoint = 'http://127.0.01:9090/register';
+  registerEndpoint = 'http://127.0.01:9090/users';
 
 
   constructor(private http: HttpClient, private router: Router, private programService: ProgramService
@@ -61,7 +61,7 @@ export class UserService {
 
   registerUser(registerInfo: User) {
     const options = { headers: { 'Content-Type': 'application/json' } };
-    let response = this.http.post<User>(this.registerEndpoint, JSON.stringify(registerInfo), options).subscribe((user) => {
+    let response = this.http.post<User>(this.registerEndpoint, JSON.stringify(registerInfo), options).subscribe((user : User) => {
       if (user) {
         //set the session storage to save the user
         this.setUser(user);
