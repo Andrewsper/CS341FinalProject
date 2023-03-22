@@ -20,7 +20,7 @@ export class ProgramModalComponent implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: UserService,
+    public userService: UserService,
     private programService: ProgramService ) {
       this.program = {
         name: '',
@@ -31,12 +31,15 @@ export class ProgramModalComponent implements OnInit{
         length: 0,
         date: '',
         maximumCapacity: 0,
-        currentCapacity: 0
+        currentCapacity: 0,
+        location: ''
       };
       this.edit = data.edit;
     }
 
   ngOnInit(): void {
+    console.log(this.data.programID)
+
     this.programService.getProgram(this.data.programID).subscribe(
       (data) => {
         this.program = data;
@@ -52,11 +55,12 @@ export class ProgramModalComponent implements OnInit{
   }
 
   cancelRegistration() {
+
+    console.log(this.data.programID)
     if (this.programService.cancelRegistration(this.data.programID)) {
       this.userService.removeFromUserList(this.data.programID);
     }
     this.dialogRef.close();
   }
-
 
 }

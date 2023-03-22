@@ -13,7 +13,7 @@ import { ProgramsComponent } from './programs/programs.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard] },
+  { path: 'programs', component: ProgramsComponent },
   { path: '', component: UserHomePageComponent, canActivate: [AuthGuard] }
 ];
 

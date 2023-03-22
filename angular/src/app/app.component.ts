@@ -9,8 +9,6 @@ import { User } from './models/User';
 })
 export class AppComponent implements OnInit{
 
-  testString = "notChanged";
-
   constructor(public userService: UserService) {}
 
   ngOnInit( ): void{

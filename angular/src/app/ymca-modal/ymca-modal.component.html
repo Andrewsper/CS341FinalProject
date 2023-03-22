@@ -1,0 +1,14 @@
+<h1 mat-dialog-title class="title">{{title}}</h1>
+<mat-dialog-content>
+    <p class="description">{{content}}</p>
+</mat-dialog-content>
+
+<div *ngIf='type === "info"' class="controls">
+    <button mat-button class="sign-up" (click)="close()">{{buttonText}}</button>
+</div>  
+
+<div *ngIf='type === "confirm"' class="controls">
+    <button mat-button class="sign-up" (click)="yes()">Yes</button>
+    <button mat-button class="sign-up" (click)="no()">No</button>
+</div>  
+

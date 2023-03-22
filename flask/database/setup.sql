@@ -23,6 +23,7 @@ CREATE TABLE Programs (
     Name varchar(255) NOT NULL,
     Description varchar(255) NOT NULL,
     OfferingPeriod varchar(255) NOT NULL,
+    Location varchar(255) NOT NULL,
     Date TEXT NOT NULL,
     Price FLOAT NOT NULL,
     Length INTEGER NOT NULL,

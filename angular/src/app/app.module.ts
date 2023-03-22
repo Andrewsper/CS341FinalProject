@@ -19,6 +19,9 @@ import { ProgramService } from './services/program.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ProgramModalComponent } from './program-modal/program-modal.component';
+import { YmcaModalComponent } from './ymca-modal/ymca-modal.component';
+import { ModalService } from './services/modal.service';
+import { AddProgramComponent } from './add-program/add-program.component';
 
 
 
@@ -31,7 +34,9 @@ import { ProgramModalComponent } from './program-modal/program-modal.component';
     UserHomePageComponent,
     StaffHomePageComponent,
     ProgramsComponent,
-    ProgramModalComponent
+    ProgramModalComponent,
+    YmcaModalComponent,
+    AddProgramComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,7 @@ import { ProgramModalComponent } from './program-modal/program-modal.component';
     BrowserAnimationsModule,
     MatDialogModule
   ],
-  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog],
+  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
