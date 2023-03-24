@@ -303,13 +303,16 @@ class Database:
         return False
 
     def verify_user_login(self, user) -> dict:
-        cursor = self.reset_cursor()
-        cursor.execute("""SELECT *
+        self.reset_cursor()       
+        userId = self.get_user_id(user["email"])
+        self.cursor.execute("""SELECT *
                                     FROM Users
-                                    WHERE Email = ? AND Password = ?""", 
-                                    (user["email"], user["password"]))
-
-        return util.convert_user_to_json(cursor.fetchone())
+                                    WHERE Email = ? """, 
+                                    (user["email"]))
+        foundUser = self.cursor.fetchone()
+        if util.convert_password_to_hash_string(user["password"],userId) == foundUser.Password :
+            return foundUser
+        return None
 
     #####
 
