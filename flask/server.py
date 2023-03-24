@@ -100,7 +100,7 @@ def get_program(program_id):
     return database.get_program(program_id)
 
 @app.route("/program/<pid>/<uid>", methods=['DELETE'])
-def unRegister(pid,uid):
+def unregister(pid,uid):
     database.remove_registration(uid, pid)
     return jsonify("OK"), 200
 
