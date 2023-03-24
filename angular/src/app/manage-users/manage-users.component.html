@@ -1,0 +1,19 @@
+
+<h1>Manage Users</h1>
+
+<ul>
+    <li *ngFor="let user of userlist">
+        <span>
+            Name : {{user?.firstName}} {{user.lastName}}  
+        </span>      
+        Email: {{user?.email}}
+        <button class="demote"  *ngIf="user?.isMember" (click)="this.toggleMember(user.userid!)">Revoke Membership</button>
+        <button  class="promote" *ngIf="!user?.isMember" (click)="this.toggleMember(user.userid!)">Promote to Member</button>
+        <button class="demote" *ngIf="user?.isActive">Ban</button>
+        <button class="promote" *ngIf="!user?.isActive">UnBan</button>
+        <button class="demote" *ngIf="user?.isStaff">Demote from Staff</button>
+        <button class="promote" *ngIf="!user?.isStaff">Promote to Staff</button>
+
+
+    </li>
+</ul>

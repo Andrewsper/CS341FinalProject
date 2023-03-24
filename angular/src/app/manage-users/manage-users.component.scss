@@ -1,0 +1,26 @@
+ul{
+    list-style: none;
+    padding: 1em;
+}
+li{
+    padding: 1em;
+    border: 1px black solid;
+}
+button{
+    padding: 1em;
+    margin: 1em;
+    border-radius: 5%;
+    color: white;
+}
+
+button.promote{
+    background-color: rgb(88, 180, 88);
+}
+
+button.demote{
+    background-color: rgb(194, 118, 118);
+}
+button:hover{
+    cursor: pointer;
+    filter: brightness(125%);
+}

@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestService } from './services/test.service';
 import { YmcaHeaderComponent } from './ymca-header/ymca-header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -22,6 +20,7 @@ import { ProgramModalComponent } from './program-modal/program-modal.component';
 import { YmcaModalComponent } from './ymca-modal/ymca-modal.component';
 import { ModalService } from './services/modal.service';
 import { AddProgramComponent } from './add-program/add-program.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 
 
@@ -36,7 +35,8 @@ import { AddProgramComponent } from './add-program/add-program.component';
     ProgramsComponent,
     ProgramModalComponent,
     YmcaModalComponent,
-    AddProgramComponent
+    AddProgramComponent,
+    ManageUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +47,7 @@ import { AddProgramComponent } from './add-program/add-program.component';
     BrowserAnimationsModule,
     MatDialogModule
   ],
-  providers: [HttpClientModule, TestService, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog, ModalService],
+  providers: [HttpClientModule, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
