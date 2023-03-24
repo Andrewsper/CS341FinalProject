@@ -20,6 +20,7 @@ import { ProgramModalComponent } from './program-modal/program-modal.component';
 import { YmcaModalComponent } from './ymca-modal/ymca-modal.component';
 import { ModalService } from './services/modal.service';
 import { AddProgramComponent } from './add-program/add-program.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 
 
@@ -34,7 +35,8 @@ import { AddProgramComponent } from './add-program/add-program.component';
     ProgramsComponent,
     ProgramModalComponent,
     YmcaModalComponent,
-    AddProgramComponent
+    AddProgramComponent,
+    ManageUsersComponent
   ],
   imports: [
     BrowserModule,

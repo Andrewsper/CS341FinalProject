@@ -67,12 +67,14 @@ def register_user() -> tuple[str, int]:
     
     return resp
 
+@app.route("/users/<uid>/member", methods=['PUT'])
+@cross_origin()
+def toggle_user_member(uid):
+    return database.toggle_user_member(uid)
+
 ######
 
 ###### programs routes ######
-
-
-
 @app.route("/programs", methods=['GET'])
 def get_all_programs():
     return database.get_all_programs()
@@ -128,7 +130,7 @@ def add_user_to_program() -> tuple[str, int]:
 
 ###### user routes ######
 
-@app.route("/database/users", methods=['GET'])
+@app.route("/users", methods=['GET'])
 @cross_origin()
 def get_users() -> list[dict]:
     return database.get_all_users()

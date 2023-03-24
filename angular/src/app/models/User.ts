@@ -13,6 +13,7 @@ export class User{
         public zipCode?: String,
         public isStaff?: boolean,
         public isMember?: boolean,
+        public isActive?: boolean,
         public userid? : String,
         public ownedClasses?: number[],
         public classesTaken?: number[]

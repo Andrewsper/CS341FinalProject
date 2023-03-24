@@ -22,6 +22,8 @@ export class UserService {
   logoutEndpoint = 'http://127.0.0.1:9090/logout';
   registerEndpoint = 'http://127.0.0.1:9090/register';
   userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
+  usersEndpoint = 'http://127.0.0.1:9090/users';
+
 
 
   constructor(private http: HttpClient, private router: Router, private modalService: ModalService, private programService: ProgramService) { }
@@ -42,7 +44,7 @@ export class UserService {
       }
     }
     else {
-      this.router.navigate(["home"]);
+      this.router.navigate(["/"]);
     }
   }
 
@@ -68,6 +70,14 @@ export class UserService {
       }
     });
 
+  }
+
+  getAllUsers() {
+    return this.http.get<User[]>(this.usersEndpoint);
+  }
+
+  toggleMembership(uid : String){
+    this.http.put(this.usersEndpoint+'/'+uid+ "/member",{}).subscribe()
   }
 
   isMember(): boolean {
@@ -110,7 +120,7 @@ export class UserService {
     this.http.get<number[]>(this.userProgramsEndpoint+'/'+this.curUser.userid).subscribe(
       (programs) => {
         this.curUser.classesTaken = programs;
-        sessionStorage.setItem('user', JSON.stringify(this.curUser));
+        this.setUser(this.curUser);
     });
     return this.curUser.classesTaken;
   }

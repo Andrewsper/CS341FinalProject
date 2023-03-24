@@ -162,17 +162,36 @@ class Database:
 
     ######
 
+    ##### Updating Database #####
+    def toggle_user_member(self,user_id)-> tuple[str, int]:
+        if not self.check_for_user_by_id(user_id):
+            return "user not found", 204
+        cursor = self.reset_cursor()
+        # Soft delete users
+        cursor.execute("""UPDATE Users
+                                    SET IsMember = 
+                                    CASE WHEN IsMember = 1 THEN 0
+                                    ELSE 1 END
+                                    WHERE UserID = ?""", (user_id,))
+        self.commit_changes()
+
+        return self.success_response()
+
+    
+    
+    ######
+
     ##### Removing from Database #####
 
-    def remove_user(self, user: dict) -> tuple[str, int]:
-        if not self.check_for_user_by_email(user["email"]):
+    def remove_user(self, user_id) -> tuple[str, int]:
+        if not self.check_for_user_by_id(user_id):
             return "user not found", 204
 
         cursor = self.reset_cursor()
         # Soft delete users
         cursor.execute("""UPDATE Users
                                     SET IsActive = 0
-                                    WHERE Email = ?""", (user["email"],))
+                                    WHERE UserID = ?""", (user_id,))
         self.commit_changes()
 
         return self.success_response()
