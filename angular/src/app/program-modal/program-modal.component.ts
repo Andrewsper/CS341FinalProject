@@ -16,6 +16,7 @@ export class ProgramModalComponent implements OnInit{
   firstName: string = '';
   lastName: string = '';
   edit: boolean = false;
+  numRegistered: number = 1;
   
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
@@ -35,6 +36,7 @@ export class ProgramModalComponent implements OnInit{
         location: ''
       };
       this.edit = data.edit;
+      this.numRegistered = data.numRegistered;
     }
 
   ngOnInit(): void {
@@ -49,16 +51,16 @@ export class ProgramModalComponent implements OnInit{
   }
 
   signUp() {
-    this.programService.signUp(this.data.programID);
-    this.userService.addToUserList(this.data.programID);
+    if (this.numRegistered > 0){
+      this.programService.signUp(this.data.programID, this.numRegistered);
+    }
     this.dialogRef.close();
   }
 
   cancelRegistration() {
 
     console.log(this.data.programID)
-    if (this.programService.cancelRegistration(this.data.programID)) {
-      this.userService.removeFromUserList(this.data.programID);
+    if (this.programService.updateRegistration(this.data.programID, this.numRegistered)) {
     }
     this.dialogRef.close();
   }

@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import database.util as util
+from flask import jsonify
 
 class Database:
     
@@ -19,7 +20,7 @@ class Database:
         self.connection.commit()
 
     def success_response(self) -> tuple[str, int]:
-        return "ok", 200
+        return jsonify("ok"), 200
 
     def get_user_id(self, email: str) -> int:
         if not self.check_for_user_by_email(email):
@@ -70,7 +71,7 @@ class Database:
     
     def get_user_programs(self, userId: int):
         cursor = self.reset_cursor()
-        cursor.execute("""SELECT ProgramID FROM Signed_Up
+        cursor.execute("""SELECT ProgramID, NumRegistered FROM Signed_Up
                                 WHERE UserID = ?""", (userId,))
         userPrograms = cursor.fetchall()
         return util.convert_user_program_list(userPrograms)
@@ -136,26 +137,26 @@ class Database:
 
         return self.success_response()
 
-    def sign_up_for_program(self,program_id,user_id) -> tuple[str, int]:
+    def sign_up_for_program(self,program_id,user_id,numReg) -> tuple[str, int]:
 
 
         if not self.check_for_user_by_id(user_id):
-            return "user not found", 204
+            return jsonify("user not found"), 204
         if not self.check_for_program_by_id(program_id):
-            return "program not found", 204
+            return jsonify("program not found"), 204
         if self.user_already_signed_up(program_id, user_id):
-            return False
+            return jsonify(False)
         if not self.is_program_full_by_id(program_id):
-            return "program is full", 409
+            return jsonify("program is full"), 409
 
         cursor = self.reset_cursor()
         cursor.execute("""INSERT INTO Signed_UP 
-                                (UserID, ProgramID) 
-                                    VALUES (?, ?)""", 
-                                        (user_id, program_id))
+                                (UserID, ProgramID, NumRegistered) 
+                                    VALUES (?, ?, ?)""", 
+                                        (user_id, program_id, numReg))
         cursor.execute("""UPDATE Programs
-                                    SET CurrentCapacity = CurrentCapacity + 1
-                                    WHERE ProgramID = ?""", (program_id,))
+                                    SET CurrentCapacity = CurrentCapacity + ?
+                                    WHERE ProgramID = ?""", (numReg, program_id))
         self.commit_changes()
 
         return self.success_response()
@@ -176,6 +177,23 @@ class Database:
         self.commit_changes()
 
         return self.success_response()
+    
+    def update_registration(self, user_id, program_id, num_reg) -> bool:
+        cursor = self.reset_cursor()
+        cursor.execute("SELECT NumRegistered FROM Signed_Up WHERE UserID = ? AND ProgramID = ?", (user_id, program_id))
+        prev_num_reg = cursor.fetchone()
+        cursor.execute("SELECT MaximumCapacity, CurrentCapacity FROM Programs WHERE ProgramID = ?", (program_id,))
+        capacity = cursor.fetchone()
+        if (int(capacity[1]) + int(num_reg) - int(prev_num_reg[0])) > int(capacity[0]):
+            return False
+        cursor.execute("""UPDATE Signed_Up
+                            SET NumRegistered = ?
+                            WHERE UserID = ? AND ProgramID = ?""", (num_reg,user_id, program_id))
+        cursor.execute("""UPDATE Programs
+                            SET CurrentCapacity = CurrentCapacity + ?
+                            WHERE ProgramID = ?""", (int(num_reg) - int(prev_num_reg[0]), program_id))
+        self.commit_changes()
+        return True
 
     
     
