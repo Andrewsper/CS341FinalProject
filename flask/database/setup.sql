@@ -22,9 +22,9 @@ CREATE TABLE Programs (
     ProgramID INTEGER PRIMARY KEY AUTOINCREMENT,
     Name varchar(255) NOT NULL,
     Description varchar(255) NOT NULL,
-    OfferingPeriod varchar(255) NOT NULL, -- YYYY-MM-DD to YYYY-MM-DD where the second date is greater than the first
+    OfferingDateFrom varchar(255) NOT NULL, -- YYYY-MM-DD (start date)
+    OfferingDateTo varchar(255) NOT NULL, -- YYYY-MM-DD (end date)
     Location varchar(255) NOT NULL,
-    Date TEXT NOT NULL, -- YYYY-MM-DD
     Price FLOAT NOT NULL,
     Length INTEGER NOT NULL, -- in minutes
     DaysOffered INTEGER(1) NOT NULL, -- 0000001 = Sunday, 0000010 = Monday, etc.

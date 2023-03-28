@@ -85,36 +85,29 @@ def add_program() -> tuple[str, int]:
     program = request.get_json()
     return database.add_program(program)
 
-@app.route("/programs/<userId>", methods=['GET'])
-def get_user_programs(userId):
-    if userId is None:
+@app.route("/programs/<uid>", methods=['GET'])
+def get_user_programs(uid):
+    if uid is None:
         return database.get_all_programs()
-    return database.get_user_programs(userId)
+    return database.get_user_programs(uid)
 
 
+@app.route("/program/<pid>", methods=['GET'])
+def get_program_by_id(pid):
+    return database.get_program_by_id(pid)
 
-
-@app.route("/program/<program_id>", methods=['GET'])
-def get_program(program_id):
-    return database.get_program(program_id)
-
-@app.route("/program/<pid>/<uid>/<numReg>", methods=['PUT'])
-def unRegister(pid,uid,numReg):
-    if int(numReg) > 0:
-        database.update_registration(uid, pid, numReg)
+@app.route("/program/<pid>/<uid>/<num_registered>", methods=['PUT'])
+def unregister(pid, uid, num_registered):
+    if int(num_registered) > 0:
+        database.update_registration(uid, pid, num_registered)
     else:
         database.remove_registration(uid, pid)
     return jsonify("OK"), 200
 
-@app.route("/program/<pid>/<uid>/<numReg>",methods = ["POST"])
+@app.route("/program/<pid>/<uid>/<num_registered>", methods = ["POST"])
 @cross_origin()
-def signup(pid,uid,numReg):
-    req = request.get_json()
-    if database.sign_up_for_program(pid,uid,numReg):
-        return jsonify("OK"), 200
-    return jsonify("Sign up failed"), 400
-
-
+def signup(pid, uid, num_registered):
+    return database.sign_up_for_program(pid, uid, num_registered)
 
 @app.route("/database/programs/remove", methods=['POST'])
 @cross_origin()

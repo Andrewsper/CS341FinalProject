@@ -1,3 +1,5 @@
+import database.conflict_manager as conflict_manager
+
 def convert_program_to_json(program: list) -> dict:
     if program is None:
         return None
@@ -6,15 +8,15 @@ def convert_program_to_json(program: list) -> dict:
         "programID": program[0],
         "name": program[1],
         "description": program[2],
-        "offeringPeriod": program[3],
-        "location" : program[4],
-        "date": program[5],
+        "offeringDateFrom": program[3],
+        "offeringDateTo" : program[4],
+        "location": program[5],
         "price": program[6],
         "length": program[7],
-        "maximumCapacity": program[8],
-        "currentCapacity": program[9],
-        "daysOffered": program[10],
-        "startTime": program[11]
+        "daysOffered": conflict_manager.get_days_of_the_week(program[8]),
+        "startTime": program[9],
+        "maximumCapacity": program[10],
+        "currentCapacity": program[11]
     }
 
     return program_json
