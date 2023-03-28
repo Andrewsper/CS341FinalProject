@@ -60,7 +60,7 @@ def register_user() -> tuple[str, int]:
     resp: tuple[str, int] = database.add_user(user)
     
     createdUser = database.verify_user_login(user)
-    if (resp[1] == 200):
+    if (resp[1] == 200 and createdUser is not None):
         createdUser["password"] = ""
         session["user"] = createdUser
         return createdUser

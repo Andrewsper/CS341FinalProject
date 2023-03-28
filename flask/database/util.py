@@ -64,4 +64,9 @@ def convert_user_program_list(programs: list) -> list:
         newList.append([program[0],program[1]])
     newList.append(["-1",-1])
     return newList
-        
+
+def convert_password_to_hash_string(password : str, salt : int) -> str :
+    passKey = []
+    for letter in password:
+        passKey.append(str(hash(chr(ord(letter) + salt))))
+    hashString = ','.join(passKey)
