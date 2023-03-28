@@ -99,6 +99,14 @@ class Database:
                                         (user["firstName"], user["lastName"], user["address"], 
                                          user["phoneNumber"], user["email"], user["password"], 
                                          user["zipCode"], 0, False, True, True))
+        
+        # get id of the user we just added and hash the password
+        user_id = self.get_user_id(user["email"])
+        
+        cursor.execute("""UPDATE Users 
+                            SET Password = ? 
+                            WHERE UserID = ?""", (util.hash_password(user["password"], user_id), user_id))
+
         self.commit_changes()
 
         return self.success_response()
@@ -128,17 +136,17 @@ class Database:
         cursor = self.reset_cursor()
         cursor.execute("""INSERT INTO Programs 
                                 (Name, Description, Date, OfferingPeriod, Location, 
-                                Price, Length, MaximumCapacity, CurrentCapacity) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
+                                Price, Length, MaximumCapacity, CurrentCapacity,
+                                DaysOffered, StartTime) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
                                         (program["name"], program["description"], program["date"],
                                          program["offeringPeriod"], program["location"], program["price"], program["length"],
-                                         program["maximumCapacity"], 0))
+                                         program["maximumCapacity"], 0, program["daysOffered"], program["startTime"]))
         self.commit_changes()
 
         return self.success_response()
 
     def sign_up_for_program(self,program_id,user_id,numReg) -> tuple[str, int]:
-
 
         if not self.check_for_user_by_id(user_id):
             return jsonify("user not found"), 204
@@ -321,17 +329,24 @@ class Database:
         return False
 
     def verify_user_login(self, user) -> dict:
-        self.reset_cursor()       
-        userId = self.get_user_id(user["email"])
-        self.cursor.execute("""SELECT *
-                                    FROM Users
-                                    WHERE Email = ? """, 
-                                    (user["email"]))
-        foundUser = self.cursor.fetchone()
-        if util.convert_password_to_hash_string(user["password"],userId) == foundUser.Password :
-            return foundUser
-        return None
+        user_id = self.get_user_id(user["email"])
 
+        cursor = self.reset_cursor()       
+        cursor.execute("""SELECT *
+                            FROM Users
+                            WHERE Email = ? """, 
+                            (user["email"],))
+        
+        found_user = cursor.fetchone()
+        if found_user is None:
+            return None
+        
+        found_user = util.convert_user_to_json(found_user)
+        if int(util.hash_password(user["password"], user_id)) == int(found_user["password"]):
+            return found_user
+        
+        return None
+        
     #####
 
     ##### Testing #####

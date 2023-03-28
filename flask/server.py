@@ -29,14 +29,11 @@ def login() -> tuple[str, int]:
         print(session["user"])
         return session["user"]
 
-    loginData = request.get_json()
-    if loginData["email"] == "":
+    login_data = request.get_json()
+    if login_data["email"] == "":
         return jsonify("no email provided"), 400
-
-    try: 
-        user = database.verify_user_login(loginData)
-    except:
-        return jsonify("failed to login") , 401
+    
+    user = database.verify_user_login(login_data)
 
     if (user):
         user["password"] = ""
@@ -59,11 +56,14 @@ def register_user() -> tuple[str, int]:
     user = request.get_json()
     resp: tuple[str, int] = database.add_user(user)
     
-    createdUser = database.verify_user_login(user)
-    if (resp[1] == 200 and createdUser is not None):
-        createdUser["password"] = ""
-        session["user"] = createdUser
-        return createdUser
+    if resp[1] != 200:
+        return resp
+    
+    created_user = database.verify_user_login(user)
+    if created_user is not None:
+        created_user["password"] = ""
+        session["user"] = created_user
+        return created_user
     
     return resp
 
@@ -83,7 +83,6 @@ def get_all_programs():
 @cross_origin()
 def add_program() -> tuple[str, int]:
     program = request.get_json()
-    print(program)
     return database.add_program(program)
 
 @app.route("/programs/<userId>", methods=['GET'])

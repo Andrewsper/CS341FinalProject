@@ -11,8 +11,8 @@ CREATE TABLE Users (
     PhoneNumber varchar(255) NOT NULL,
     Email varchar(255) NOT NULL,
     Password varchar(255) NOT NULL,
-    ZipCode varchar(255) NOT NULL,
-    Balance FLOAT NOT NULL,
+    ZipCode varchar(255) NOT NULL, -- 5 digit zip code
+    Balance FLOAT NOT NULL, 
     IsStaff BOOLEAN NOT NULL,
     IsMember BOOLEAN NOT NULL,
     IsActive BOOLEAN NOT NULL
@@ -22,11 +22,14 @@ CREATE TABLE Programs (
     ProgramID INTEGER PRIMARY KEY AUTOINCREMENT,
     Name varchar(255) NOT NULL,
     Description varchar(255) NOT NULL,
-    OfferingPeriod varchar(255) NOT NULL,
+    OfferingPeriod varchar(255) NOT NULL, -- YYYY-MM-DD to YYYY-MM-DD where the second date is greater than the first
     Location varchar(255) NOT NULL,
-    Date TEXT NOT NULL,
+    Date TEXT NOT NULL, -- YYYY-MM-DD
     Price FLOAT NOT NULL,
-    Length INTEGER NOT NULL,
+    Length INTEGER NOT NULL, -- in minutes
+    DaysOffered INTEGER(1) NOT NULL, -- 0000001 = Sunday, 0000010 = Monday, etc.
+                                     -- Combinations like 0000011 = Sunday and Monday, etc.
+    StartTime TEXT NOT NULL, -- 24 hour time 0:00 - 23:59
     MaximumCapacity INTEGER NOT NULL,
     CurrentCapacity INTEGER NOT NULL
 );
@@ -34,7 +37,7 @@ CREATE TABLE Programs (
 CREATE TABLE Signed_Up (
     UserID INTEGER NOT NULL,
     ProgramID INTEGER NOT NULL,
-    NumRegistered INTEGER NOT NULL,
+    NumRegistered INTEGER NOT NULL, -- multiple people registered under one account
     FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
 );
