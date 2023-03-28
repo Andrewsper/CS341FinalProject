@@ -60,8 +60,8 @@ def convert_signed_up_to_json(signed_up: list) -> list:
 
 def convert_user_program_list(programs: list) -> list:
     newList: list = list()
-    for programID in programs:
-        newList.append(programID[0])
-    newList.append("-1")
+    for program in programs:
+        newList.append([program[0],program[1]])
+    newList.append(["-1",-1])
     return newList
         

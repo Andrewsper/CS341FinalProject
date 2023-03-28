@@ -16,7 +16,7 @@ export class User{
         public isActive?: boolean,
         public userid? : String,
         public ownedClasses?: number[],
-        public classesTaken?: number[]
+        public classesTaken?: number[][] // [programId, numRegistered]
     ){ }
 
     

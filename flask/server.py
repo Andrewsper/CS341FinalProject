@@ -31,19 +31,19 @@ def login() -> tuple[str, int]:
 
     loginData = request.get_json()
     if loginData["email"] == "":
-        return "no email provided" , 400
+        return jsonify("no email provided"), 400
 
     try: 
         user = database.verify_user_login(loginData)
     except:
-        return "failed to login" , 401
+        return jsonify("failed to login") , 401
 
     if (user):
         user["password"] = ""
         session["user"] = user
         return user
 
-    return "failed to login" , 401
+    return jsonify("failed to login") , 401
 
 
 @app.route("/logout",methods = ["POST"])
@@ -99,16 +99,19 @@ def get_user_programs(userId):
 def get_program(program_id):
     return database.get_program(program_id)
 
-@app.route("/program/<pid>/<uid>", methods=['DELETE'])
-def unRegister(pid,uid):
-    database.remove_registration(uid, pid)
+@app.route("/program/<pid>/<uid>/<numReg>", methods=['PUT'])
+def unRegister(pid,uid,numReg):
+    if int(numReg) > 0:
+        database.update_registration(uid, pid, numReg)
+    else:
+        database.remove_registration(uid, pid)
     return jsonify("OK"), 200
 
-@app.route("/program/<pid>/<uid>",methods = ["POST"])
+@app.route("/program/<pid>/<uid>/<numReg>",methods = ["POST"])
 @cross_origin()
-def signup(pid,uid):
+def signup(pid,uid,numReg):
     req = request.get_json()
-    if database.sign_up_for_program(pid,uid):
+    if database.sign_up_for_program(pid,uid,numReg):
         return jsonify("OK"), 200
     return jsonify("Sign up failed"), 400
 
