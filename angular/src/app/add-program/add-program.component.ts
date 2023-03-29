@@ -2,7 +2,7 @@ import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { ProgramService } from '../services/program.service';
 import { Program } from '../models/ProgramModel';
 import { MatDialog, MatDialogModule, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-add-program',
@@ -12,14 +12,23 @@ import { UserService } from '../services/user.service';
 export class AddProgramComponent implements OnInit{
 
   progForm !: FormGroup;
+  daysSelected: string[];
+  daysOfWeek: {name: string, checked: boolean}[];
 
   constructor(
     public dialogRef: MatDialogRef<AddProgramComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
     private programService: ProgramService,
-    private formBuilder: FormBuilder    
-  ) {}
+    private formBuilder: FormBuilder,
+
+  ) {
+    this.daysOfWeek = [{name: 'Sunday', checked: false}, {name: 'Monday', checked: false}, 
+    {name: 'Tuesday', checked: false}, {name: 'Wednesday', checked: false}, 
+    {name: 'Thursday', checked: false}, {name: 'Friday', checked: false}, 
+    {name: 'Saturday', checked: false}]
+    this.daysSelected = [];
+  }
 
   ngOnInit(): void {
     this.progForm = this.formBuilder.group({
@@ -30,21 +39,41 @@ export class AddProgramComponent implements OnInit{
       price: [''],
       location: [''],
       maxParticipants: [''],
-      duration: ['']
+      duration: [''],
+      startTime: [''],
+      daysOfWeek: new FormArray([])
     });
+
+    this.addCheckboxes();
+
+  }
+
+  get daysOfWeekFormArray() {
+    return this.progForm.get('daysOfWeek') as FormArray;
+  }
+
+  addCheckboxes() {
+    this.daysOfWeek.forEach(() => this.daysOfWeekFormArray.push(new FormControl(false)));
   }
 
   createProgram(): void {
+    this.daysSelected = this.progForm.value.daysOfWeek
+      .map((checked: any, i: number) => checked ? this.daysOfWeek[i].name : null)
+      .filter((v: any) => v !== null);
     let prog = new Program(this.progForm.value.name as string,
                             this.progForm.value.description as string,
-                            this.progForm.value.start + " - " + this.progForm.value.end as string,
+
+                            this.progForm.value.end as Date,
+                            this.progForm.value.start as Date,
+                            this.progForm.value.startTime as string,
                             this.progForm.value.price as number,
-                            this.progForm.value.start as string,
                             this.progForm.value.maxParticipants as number,
                             0,
                             this.progForm.value.location as string,
                             //substute value for length rn
-                            this.progForm.value.duration as number
+                            this.progForm.value.duration as number,
+                            0,
+                            this.daysSelected as string[]
                             );
 
     console.log(prog)

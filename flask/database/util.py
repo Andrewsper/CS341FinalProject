@@ -1,15 +1,22 @@
+import database.conflict_manager as conflict_manager
+
 def convert_program_to_json(program: list) -> dict:
+    if program is None:
+        return None
+    
     program_json = {
         "programID": program[0],
         "name": program[1],
         "description": program[2],
-        "offeringPeriod": program[3],
-        "location" : program[4],
-        "date": program[5],
+        "offeringDateFrom": program[3],
+        "offeringDateTo" : program[4],
+        "location": program[5],
         "price": program[6],
         "length": program[7],
-        "maximumCapacity": program[8],
-        "currentCapacity": program[9]
+        "daysOffered": conflict_manager.get_days_of_the_week(program[8]),
+        "startTime": program[9],
+        "maximumCapacity": program[10],
+        "currentCapacity": program[11]
     }
 
     return program_json
@@ -22,6 +29,9 @@ def convert_programs_to_json(programs: list) -> list:
     return programs_json
 
 def convert_user_to_json(user: list) -> dict:
+    if user is None:
+        return None
+    
     user_json = {
         "userid": user[0],
         "firstName": user[1],
@@ -31,7 +41,7 @@ def convert_user_to_json(user: list) -> dict:
         "phoneNumber": user[4],
         "email": user[5],
         #Never return password
-        "password": "",
+        "password": user[6],
         "balance": user[8],
         "isStaff": user[9],
         "isMember": user[10],
@@ -65,8 +75,8 @@ def convert_user_program_list(programs: list) -> list:
     newList.append(["-1",-1])
     return newList
 
-def convert_password_to_hash_string(password : str, salt : int) -> str :
-    passKey = []
-    for letter in password:
-        passKey.append(str(hash(chr(ord(letter) + salt))))
-    hashString = ','.join(passKey)
+def hash_password(password: str, salt: int) -> int:
+    hashed_password: int = 0
+    for char in password:
+        hashed_password += ord(char)
+    return hashed_password
