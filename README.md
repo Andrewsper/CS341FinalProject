@@ -1,20 +1,14 @@
 # CS341FinalProject
 CS341 Final Project YMCA Program Registration Software
 
-Python
-
-SQLITE3
-
-
-Backend : Flask 
+Backend : Flask, Python3, Sqlite3
 Frontend : Angular
 
 Packages
 =======================
 https://docs.python.org/3/library/calendar.html calendar
-https://www.mongodb.com/docs/drivers/pymongo/#pymongo PyMongo 
 
-Running docker container with Nginx proxy, MongoDB, Flask
+Running docker container with Nginx proxy, Flask
 
 To get working install docker (sudo apt install docker)
 
