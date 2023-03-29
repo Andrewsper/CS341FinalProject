@@ -12,17 +12,17 @@ import { ModalService } from './modal.service';
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  // loginEndpoint = 'http://0.0.0.0:5000/login';
-  // logoutEndpoint = 'http://0.0.0.0:5000/logout';
-  // registerEndpoint = 'http://0.0.0.0:5000/register';
-  // userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
-  
+  loginEndpoint = 'http://0.0.0.0:5000/login';
+  logoutEndpoint = 'http://0.0.0.0:5000/logout';
+  registerEndpoint = 'http://0.0.0.0:5000/register';
+  userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
+  usersEndpoint = 'http://127.0.0.1:5000/users';
   //Leave in for people who cant get docker working
-  loginEndpoint = 'http://127.0.0.1:9090/login';
-  logoutEndpoint = 'http://127.0.0.1:9090/logout';
-  registerEndpoint = 'http://127.0.0.1:9090/register';
-  userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
-  usersEndpoint = 'http://127.0.0.1:9090/users';
+  // loginEndpoint = 'http://127.0.0.1:9090/login';
+  // logoutEndpoint = 'http://127.0.0.1:9090/logout';
+  // registerEndpoint = 'http://127.0.0.1:9090/register';
+  // userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
+  // usersEndpoint = 'http://127.0.0.1:9090/users';
 
 
 
@@ -115,9 +115,9 @@ export class UserService {
     return user ? user.isStaff : false;
   }
 
-  getUserPrograms(): number[] | undefined{
+  getUserPrograms(): number[][] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    this.http.get<number[]>(this.userProgramsEndpoint+'/'+this.curUser.userid).subscribe(
+    this.http.get<number[][]>(this.userProgramsEndpoint+'/'+this.curUser.userid).subscribe(
       (programs) => {
         this.curUser.classesTaken = programs;
         this.setUser(this.curUser);
@@ -125,19 +125,14 @@ export class UserService {
     return this.curUser.classesTaken;
   }
 
-  removeFromUserList(programID: number) {
+  getNumRegistered(programID: number): number {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     if (user) {
-      this.curUser.classesTaken?.splice(this.curUser.classesTaken?.indexOf(programID), 1);
-      sessionStorage.setItem('user', JSON.stringify(this.curUser));
+      var program = this.curUser.classesTaken?.find((program) => program[0] === programID);
+      if (program) {
+        return program[1];
+      }
     }
-  }
-
-  addToUserList(programID: number) {
-    var user = JSON.parse(sessionStorage.getItem('user') as string);
-    if (user) {
-      this.curUser.classesTaken?.push(programID);
-      sessionStorage.setItem('user', JSON.stringify(this.curUser));
-    }
+    return 0;
   }
 }

@@ -16,7 +16,7 @@ import { AddProgramComponent } from '../add-program/add-program.component';
 export class ProgramsComponent implements OnInit {
 
   programs: Program[] = [];
-  userPrograms?: number[] = [];
+  userPrograms?: number[][] = [];
 
   constructor(
     private programService: ProgramService,
@@ -41,7 +41,8 @@ export class ProgramsComponent implements OnInit {
       width: '800px',
       data: {
         programID: programID,
-        edit: edit
+        edit: edit,
+        numRegistered: this.userService.getNumRegistered(programID)
       }
     });
 }
@@ -62,7 +63,7 @@ userSignedUp(programID: number): boolean {
   } else if (this.userService.curUser.classesTaken.length == 0) {
     return false;
   }
-  return this.userService.curUser.classesTaken.indexOf(programID) != -1;
+  return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
 }
 
 }

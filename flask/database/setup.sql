@@ -34,6 +34,7 @@ CREATE TABLE Programs (
 CREATE TABLE Signed_Up (
     UserID INTEGER NOT NULL,
     ProgramID INTEGER NOT NULL,
+    NumRegistered INTEGER NOT NULL,
     FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
 );
