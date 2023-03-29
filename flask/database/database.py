@@ -43,7 +43,6 @@ class Database:
         cursor.execute("""SELECT * FROM Signed_Up WHERE ProgramID = ? AND UserID = ?""", (program_id, user_id))
         return len(cursor.fetchall()) != 0
         
-
     #####
 
     ##### Getting from Database #####
@@ -137,7 +136,7 @@ class Database:
 
         return self.success_response()
 
-    def sign_up_for_program(self,program_id,user_id,numReg) -> tuple[str, int]:
+    def sign_up_for_program(self, program_id: int, user_id: int) -> tuple[str, int]:
 
 
         if not self.check_for_user_by_id(user_id):
@@ -164,7 +163,7 @@ class Database:
     ######
 
     ##### Updating Database #####
-    def toggle_user_member(self,user_id)-> tuple[str, int]:
+    def toggle_user_member(self, user_id: int)-> tuple[str, int]:
         if not self.check_for_user_by_id(user_id):
             return "user not found", 204
         cursor = self.reset_cursor()
@@ -195,13 +194,11 @@ class Database:
         self.commit_changes()
         return True
 
-    
-    
     ######
 
     ##### Removing from Database #####
 
-    def remove_user(self, user_id) -> tuple[str, int]:
+    def remove_user(self, user_id: int) -> tuple[str, int]:
         if not self.check_for_user_by_id(user_id):
             return "user not found", 204
 
@@ -252,9 +249,7 @@ class Database:
 
         user = cursor.fetchone()
 
-        if user:
-            return True
-        return False
+        return user is not None
 
     def check_for_user_by_id(self, user_id: int) -> bool:
         cursor = self.reset_cursor()
@@ -264,9 +259,7 @@ class Database:
 
         user = cursor.fetchone()
 
-        if user:
-            return True
-        return False
+        return user is not None
 
     def check_for_program_by_name(self, name: str) -> bool:
         cursor = self.reset_cursor()
@@ -275,9 +268,7 @@ class Database:
                                     WHERE Name = ?""", (name,))
         program = cursor.fetchone()
 
-        if program:
-            return True
-        return False
+        return program is not None
 
     def check_for_program_by_id(self, program_id: int) -> bool:
         cursor = self.reset_cursor()
@@ -286,9 +277,7 @@ class Database:
                                     WHERE ProgramID = ?""", (program_id,))
         program = cursor.fetchone()
 
-        if program:
-            return True
-        return False
+        return program is not None
 
     def is_program_full_by_name(self, name: str) -> int:
         if not self.check_for_program_by_name(name):
@@ -301,9 +290,7 @@ class Database:
 
         current_capacity, maximum_capacity = cursor.fetchone()
 
-        if current_capacity < maximum_capacity:
-            return True
-        return False
+        return current_capacity < maximum_capacity
 
     def is_program_full_by_id(self, program_id: int) -> int:
         if not self.check_for_program_by_id(program_id):
@@ -316,14 +303,11 @@ class Database:
 
         current_capacity, maximum_capacity = cursor.fetchone()
 
-        if current_capacity < maximum_capacity:
-            return True
-        return False
+        return current_capacity < maximum_capacity
 
-    def verify_user_login(self, user) -> dict:
-        self.reset_cursor()       
-        userId = self.get_user_id(user["email"])
-        self.cursor.execute("""SELECT *
+    def verify_user_login(self, user: dict) -> dict:
+        cursor = self.reset_cursor()
+        cursor.execute("""SELECT *
                                     FROM Users
                                     WHERE Email = ? """, 
                                     (user["email"]))
