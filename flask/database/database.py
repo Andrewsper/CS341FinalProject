@@ -106,7 +106,7 @@ class Database:
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", 
                                     (user["firstName"], user["lastName"], user["address"], 
                                         user["phoneNumber"], user["email"], user["password"], 
-                                        user["zipCode"], 0, False, True, True))
+                                        user["zipCode"], 0, False, False, True))
         
         # get id of the user we just added and hash the password
         user_id = self.get_user_id(user["email"])
@@ -203,6 +203,34 @@ class Database:
         cursor.execute("""UPDATE Users
                                     SET IsMember = 
                                     CASE WHEN IsMember = 1 THEN 0
+                                    ELSE 1 END
+                                    WHERE UserID = ?""", (user_id,))
+        self.commit_changes()
+
+        return self.success_response()
+    
+    def toggle_user_staff(self, user_id: int)-> tuple[str, int]:
+        if not self.check_for_user_by_id(user_id):
+            return "user not found", 204
+        cursor = self.reset_cursor()
+        # Soft delete users
+        cursor.execute("""UPDATE Users
+                                    SET IsStaff = 
+                                    CASE WHEN IsStaff = 1 THEN 0
+                                    ELSE 1 END
+                                    WHERE UserID = ?""", (user_id,))
+        self.commit_changes()
+
+        return self.success_response()
+    
+    def toggle_user_active(self, user_id: int)-> tuple[str, int]:
+        if not self.check_for_user_by_id(user_id):
+            return "user not found", 204
+        cursor = self.reset_cursor()
+        # Soft delete users
+        cursor.execute("""UPDATE Users
+                                    SET IsActive = 
+                                    CASE WHEN IsActive = 1 THEN 0
                                     ELSE 1 END
                                     WHERE UserID = ?""", (user_id,))
         self.commit_changes()
@@ -355,7 +383,7 @@ class Database:
         cursor = self.reset_cursor()       
         cursor.execute("""SELECT *
                             FROM Users
-                            WHERE Email = ? """, 
+                            WHERE Email = ? AND IsActive = 1""", 
                             (user["email"],))
         
         found_user = cursor.fetchone()
@@ -363,7 +391,7 @@ class Database:
             return None
         
         found_user = util.convert_user_to_json(found_user)
-        if int(util.hash_password(user["password"], user_id)) == int(found_user["password"]):
+        if (int(util.hash_password(user["password"], user_id)) == int(found_user["password"])):
             return found_user
         
         return None

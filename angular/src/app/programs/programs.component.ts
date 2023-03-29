@@ -5,7 +5,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ProgramModalComponent } from '../program-modal/program-modal.component';
 import { UserService } from '../services/user.service';
 import { AddProgramComponent } from '../add-program/add-program.component';
-
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { AddProgramComponent } from '../add-program/add-program.component';
 })
 export class ProgramsComponent implements OnInit {
 
-  programs: Program[] = [];
+  programs: Observable<Program[]> = this.programService.getAllPrograms();
   userPrograms?: number[][] = [];
 
   constructor(
@@ -27,8 +27,6 @@ export class ProgramsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateAllPrograms()
-    this.userPrograms = this.userService.getUserPrograms();
   }
 
   showCreateProgramModal(){
@@ -46,16 +44,6 @@ export class ProgramsComponent implements OnInit {
       }
     });
 }
-
-updateAllPrograms(){
-  this.programService.getAllPrograms().subscribe(
-    (data) => {
-      this.programs = data;
-    },
-    (err) => {
-      console.log(err);
-    });
-  }
   
 userSignedUp(programID: number): boolean {
   if (!this.userService.curUser.classesTaken) {

@@ -12,17 +12,17 @@ import { ModalService } from './modal.service';
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  loginEndpoint = 'http://0.0.0.0:5000/login';
-  logoutEndpoint = 'http://0.0.0.0:5000/logout';
-  registerEndpoint = 'http://0.0.0.0:5000/register';
-  userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
-  usersEndpoint = 'http://127.0.0.1:5000/users';
+  // loginEndpoint = 'http://0.0.0.0:5000/login';
+  // logoutEndpoint = 'http://0.0.0.0:5000/logout';
+  // registerEndpoint = 'http://0.0.0.0:5000/register';
+  // userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
+  // usersEndpoint = 'http://127.0.0.1:5000/users';
   //Leave in for people who cant get docker working
-  // loginEndpoint = 'http://127.0.0.1:9090/login';
-  // logoutEndpoint = 'http://127.0.0.1:9090/logout';
-  // registerEndpoint = 'http://127.0.0.1:9090/register';
-  // userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
-  // usersEndpoint = 'http://127.0.0.1:9090/users';
+  loginEndpoint = 'http://127.0.0.1:9090/login';
+  logoutEndpoint = 'http://127.0.0.1:9090/logout';
+  registerEndpoint = 'http://127.0.0.1:9090/register';
+  userProgramsEndpoint = 'http://127.0.0.1:9090/programs';
+  usersEndpoint = 'http://127.0.0.1:9090/users';
 
 
 
@@ -72,12 +72,20 @@ export class UserService {
 
   }
 
-  getAllUsers() {
+  getAllUsers() : Observable<User[]> {
     return this.http.get<User[]>(this.usersEndpoint);
   }
 
   toggleMembership(uid : String){
-    this.http.put(this.usersEndpoint+'/'+uid+ "/member",{}).subscribe()
+    return this.http.put(this.usersEndpoint+'/'+uid+ "/member",{});
+  }
+
+  toggleActive(uid : String){
+    return this.http.put(this.usersEndpoint+'/'+uid+ "/active",{});
+  }
+
+  toggleStaff(uid : String){
+    return this.http.put(this.usersEndpoint+'/'+uid+ "/staff",{});
   }
 
   isMember(): boolean {
