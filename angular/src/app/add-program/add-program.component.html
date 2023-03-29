@@ -32,6 +32,10 @@
             <label>Max Participants</label>
             <input formControlName="maxParticipants"  type="text">
         </div>
+            <label formArrayName="daysOfWeek" class="days" *ngFor="let day of daysOfWeek; let i = index">
+                <input [formControlName]="i" type="checkbox">
+                {{day.name}}
+            </label>
         <button type="submit">Create Program</button>
     </form>
 </div>

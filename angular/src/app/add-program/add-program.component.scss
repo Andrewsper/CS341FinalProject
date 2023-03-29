@@ -1,6 +1,6 @@
 form{
     padding: 1em;
-    font-size: 1.5em;
+    
 }
 
 button {
@@ -10,10 +10,21 @@ button {
 
 .input-field {
     margin: 10px;
+    font-size: 1.5em;
+    input {
+        width: 50%;
+        height: 2em;
+        float: right;
+    }
 }
 
-input {
-    width: 50%;
-    height: 2em;
-    float: right;
+.days {
+    input {
+        padding-left: 2em;
+    }
+    label {
+        font-size: 1em;
+        margin-left: 1em;
+    }
 }
+
