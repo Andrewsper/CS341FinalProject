@@ -15,6 +15,10 @@
         <span>Location: {{program.location}}</span>
         <span>Duration: {{program.length}}</span>
         <p>Description: {{ program.description }}</p>
+        <p><strong>Days Offered:</strong></p>
+        <ul>
+            <li *ngFor="let day of program.daysOffered" class="day-list">{{day}}</li>
+        </ul>
     </div>
 
     <div *ngIf="this.userService.isLoggedIn()" class="base">
