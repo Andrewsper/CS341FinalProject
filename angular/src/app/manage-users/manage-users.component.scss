@@ -13,6 +13,18 @@ button{
     color: white;
 }
 
+table{
+    border: 1px black solid;
+}
+td{
+    padding: 1em;
+    border: 1px black solid;
+}
+th{
+    background-color: lightgray;
+    padding: 1em;
+    border: 1px black solid;
+}
 button.promote{
     background-color: rgb(88, 180, 88);
 }

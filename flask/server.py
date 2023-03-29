@@ -72,6 +72,18 @@ def register_user() -> tuple[str, int]:
 def toggle_user_member(uid):
     return database.toggle_user_member(uid)
 
+
+@app.route("/users/<uid>/active", methods=['PUT'])
+@cross_origin()
+def toggle_user_active(uid):
+    return database.toggle_user_active(uid)
+
+
+@app.route("/users/<uid>/staff", methods=['PUT'])
+@cross_origin()
+def toggle_user_staff(uid):
+    return database.toggle_user_staff(uid)
+
 ######
 
 ###### programs routes ######
