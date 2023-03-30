@@ -12,9 +12,5 @@ export class Program {
     public length?: number,
     public programID?: number,
     public daysOffered?: string[]
-
-
-
-
     ){}
 }

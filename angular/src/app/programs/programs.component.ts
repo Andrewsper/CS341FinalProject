@@ -27,6 +27,7 @@ export class ProgramsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.getUserPrograms();
   }
 
   showCreateProgramModal(){
