@@ -130,6 +130,7 @@ export class UserService {
         this.curUser.classesTaken = programs;
         this.setUser(this.curUser);
     });
+    console.log(this.curUser.classesTaken);
     return this.curUser.classesTaken;
   }
 

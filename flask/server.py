@@ -110,6 +110,7 @@ def get_program_by_id(pid):
 
 @app.route("/program/<pid>/<uid>/<num_registered>", methods=['PUT'])
 def unregister(pid, uid, num_registered):
+    print(num_registered)
     if int(num_registered) > 0:
         database.update_registration(uid, pid, num_registered)
     else:

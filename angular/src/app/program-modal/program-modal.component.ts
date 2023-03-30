@@ -60,9 +60,8 @@ export class ProgramModalComponent implements OnInit{
   }
 
   cancelRegistration() {
-
-    console.log(this.data.programID)
-    if (this.programService.updateRegistration(this.data.programID, this.numRegistered)) {
+    console.log(this.numRegistered | 0);
+    if (this.programService.updateRegistration(this.data.programID, this.numRegistered | 0)) {
     }
     this.dialogRef.close();
   }
