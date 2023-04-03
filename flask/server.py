@@ -112,7 +112,9 @@ def get_program_by_id(pid):
 def unregister(pid, uid, num_registered):
     print(num_registered)
     if int(num_registered) > 0:
-        database.update_registration(uid, pid, num_registered)
+        result = database.update_registration(uid, pid, num_registered)
+        if not result: 
+            return jsonify("Failed to update registration"), 400
     else:
         database.remove_registration(uid, pid)
     return jsonify("OK"), 200
