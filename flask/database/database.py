@@ -177,10 +177,16 @@ class Database:
         if self.check_for_time_conflict(program_id, user_id):
             return jsonify("time conflict"), 409
         
-        if not self.is_program_full_by_id(program_id):
+        cursor = self.reset_cursor()
+        
+
+        cursor.execute("SELECT MaximumCapacity, CurrentCapacity FROM Programs WHERE ProgramID = ?", (program_id,))
+        capacity = cursor.fetchone()
+
+        if (int(capacity[1]) + int(num_registered)) > int(capacity[0]):
             return jsonify("program is full"), 409
 
-        cursor = self.reset_cursor()
+
         cursor.execute("""INSERT INTO Signed_UP 
                                 (UserID, ProgramID, NumRegistered) 
                                     VALUES (?, ?, ?)""", 
