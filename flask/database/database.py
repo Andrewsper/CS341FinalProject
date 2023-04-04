@@ -69,7 +69,7 @@ class Database:
 
         return util.convert_programs_to_json(programs)
     
-    def get_user_programs(self, user_id: int):
+    def get_user_programs_relation(self, user_id: int):
         cursor = self.reset_cursor()
         cursor.execute("""SELECT ProgramID, NumRegistered FROM Signed_Up
                                 WHERE UserID = ?""", (user_id,))

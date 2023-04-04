@@ -10,7 +10,6 @@ import { ModalService } from './modal.service';
 })
 export class ProgramService {
 
-  curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
   // programsEndpoint = 'http://0.0.0.0:5000/programs';
   // programEndpoint = 'http://0.0.0.0:5000/program/';
   // signUpEndpoint = 'http://0.0.0.0:5000/program';
@@ -35,7 +34,7 @@ export class ProgramService {
   }
 
   signUp(programID: number, numRegistered: number) { 
-    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid+"/"+numRegistered,{})
+    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.getCurUser().userid+"/"+numRegistered,{})
     .pipe(
       catchError((err) => this.handleError(err))
     ).subscribe();
@@ -48,8 +47,10 @@ export class ProgramService {
   // The function returns false if the registration was not successfully updated
 
   updateRegistration(programID: number, numRegistered: number): boolean {
+    console.log(this.getCurUser().userid);
+
     let success = true;
-    this.http.put<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid+"/"+numRegistered,{})
+    this.http.put<any>(this.signUpEndpoint+"/"+programID+"/"+this.getCurUser().userid+"/"+numRegistered,{})
     .pipe(
       catchError((err) => this.handleError(err))
     ).subscribe();
@@ -68,6 +69,11 @@ export class ProgramService {
         this.modalService.showModal("Registration conflict", "Error #0003");
     }
     return throwError(() => new Error("Something went wrong please try again"));
+  }
+
+  //This function is necessary as cur user will change each login 
+  getCurUser(): User{
+    return JSON.parse(sessionStorage.getItem('user') as string) as User;
   }
   
 }

@@ -97,11 +97,18 @@ def add_program() -> tuple[str, int]:
     program = request.get_json()
     return database.add_program(program)
 
+@app.route("/programs/relation/<uid>", methods=['GET'])
+def get_user_programs_relation(uid):
+    if uid is None:
+        return database.get_all_programs()
+    return database.get_user_programs_relation(uid)
+
 @app.route("/programs/<uid>", methods=['GET'])
 def get_user_programs(uid):
     if uid is None:
         return database.get_all_programs()
-    return database.get_user_programs(uid)
+    return database.get_all_programs_user_signed_up_for(uid)
+
 
 
 @app.route("/program/<pid>", methods=['GET'])

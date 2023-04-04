@@ -1,41 +1,52 @@
-<h1>Manage Users</h1>
-
-
-
-<table>
-    <tr>
-        <th>User Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>phoneNumber</th>
-        <th>Address</th>
-        <th>Zipcode</th>
-        <th>Member Status</th>
-        <th>Staff Status</th>
-        <th>Active Account</th>
-    </tr>
-    <tr *ngFor="let user of userlist | async">
-        <td>{{user?.userid}}</td>
-        <td>{{user?.firstName}}</td>
-        <td>{{user?.lastName}}</td>
-        <td>{{user?.email}}</td>
-        <td>{{user?.phoneNumber}}</td>
-        <td>{{user?.address}}</td>
-        <td>{{user?.zipCode}}</td>
-        <td>
-            <button class="demote" *ngIf="user?.isMember" (click)="this.toggleMember(user.userid!)">Revoke
-                Membership</button>
-            <button class="promote" *ngIf="!user?.isMember" (click)="this.toggleMember(user.userid!)">Promote to
-                Member</button>
-        </td>
-        <td>
-            <button class="demote" *ngIf="user?.isStaff" (click)="this.toggleStaff(user.userid!)">Demote from Staff</button>
-            <button class="promote" *ngIf="!user?.isStaff"(click)="this.toggleStaff(user.userid!)">Promote to Staff</button>
-        </td>
-        <td>
-            <button class="demote" *ngIf="user?.isActive"(click)="this.toggleActive(user.userid!)">Ban</button>
-            <button class="promote" *ngIf="!user?.isActive"(click)="this.toggleActive(user.userid!)">UnBan</button>
-        </td>
-    </tr>
-</table>
+<div class="page">
+    <h1>Manage Users</h1>
+    <form class="filterForm">
+        <label for="filter">Filter by Lastname </label>
+        <input type="text" name="filter" [(ngModel)]="filter">
+    </form>
+    <table>
+        <tr>
+            <th>User Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>phoneNumber</th>
+            <th>Address</th>
+            <th>Zipcode</th>
+            <th>Member Status</th>
+            <th>Staff Status</th>
+            <th>Active Account</th>
+            <th>Registered Programs</th>
+        </tr>
+        <tr *ngFor="let user of userlist | async" [attr.class]="filterUser(user)?null : 'hide'">
+            <td>{{user?.userid}}</td>
+            <td>{{user?.firstName}}</td>
+            <td>{{user?.lastName}}</td>
+            <td>{{user?.email}}</td>
+            <td>{{user?.phoneNumber}}</td>
+            <td>{{user?.address}}</td>
+            <td>{{user?.zipCode}}</td>
+            <td>
+                <button class="demote" *ngIf="user?.isMember" (click)="this.toggleMember(user.userid!)">Revoke
+                    Membership</button>
+                <button class="promote" *ngIf="!user?.isMember" (click)="this.toggleMember(user.userid!)">Promote to
+                    Member</button>
+            </td>
+            <td>
+                <button class="demote" *ngIf="user?.isStaff" (click)="this.toggleStaff(user.userid!)">Demote from
+                    Staff</button>
+                <button class="promote" *ngIf="!user?.isStaff" (click)="this.toggleStaff(user.userid!)">Promote to
+                    Staff</button>
+            </td>
+            <td>
+                <button class="demote" *ngIf="user?.isActive" (click)="this.toggleActive(user.userid!)">Ban</button>
+                <button class="promote" *ngIf="!user?.isActive" (click)="this.toggleActive(user.userid!)">UnBan</button>
+            </td>
+            <td>
+                <ul>
+                    <li *ngFor="let program of userProgramList.get(user.userid!)">{{program.name}}</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -27,7 +27,7 @@ export class ProgramsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUserPrograms();
+    this.userService.getUserProgramsRel();
   }
 
   showCreateProgramModal(){
@@ -46,7 +46,7 @@ export class ProgramsComponent implements OnInit {
         numRegistered: this.userService.getNumRegistered(programID)
       }
     }).afterClosed().subscribe(result => {
-      this.userService.getUserPrograms();
+      this.userService.getUserProgramsRel();
       this.programs = this.programService.getAllPrograms();
     });
 }
