@@ -102,6 +102,7 @@ export class UserService {
 
   logout() {
     sessionStorage.removeItem('user');
+    this.curUser = new User("","");
     this.http.post(this.logoutEndpoint, null).subscribe()
     this.router.navigate(["/login"]);
   }
@@ -123,15 +124,20 @@ export class UserService {
     return user ? user.isStaff : false;
   }
 
-  getUserPrograms(): number[][] | undefined{
+  getUserProgramsRel(): number[][] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-    this.http.get<number[][]>(this.userProgramsEndpoint+'/'+this.curUser.userid).subscribe(
+    this.http.get<number[][]>(this.userProgramsEndpoint+'/relation/'+this.curUser.userid).subscribe(
       (programs) => {
         this.curUser.classesTaken = programs;
         this.setUser(this.curUser);
     });
     return this.curUser.classesTaken;
   }
+
+  getUserPrograms(userId : String){
+    return this.http.get<Program[]>(this.userProgramsEndpoint+'/'+userId);
+  }
+
 
   getNumRegistered(programID: number): number {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
