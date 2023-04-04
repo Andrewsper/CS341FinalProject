@@ -4,6 +4,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Program } from '../models/ProgramModel';
 import { ProgramService } from '../services/program.service';
 import { UserService } from '../services/user.service';
+import { YmcaModalComponent } from '../ymca-modal/ymca-modal.component';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-program-modal',
@@ -22,7 +24,8 @@ export class ProgramModalComponent implements OnInit{
     public dialogRef: MatDialogRef<ProgramModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public userService: UserService,
-    private programService: ProgramService ) {
+    private programService: ProgramService,
+    private modalService: ModalService ) {
       this.program = {
         name: '',
         description: '',
@@ -53,17 +56,30 @@ export class ProgramModalComponent implements OnInit{
   }
 
   signUp() {
-    if (this.numRegistered > 0){
+    let error: boolean = false;
+
+    if (this.numRegistered < 0){
+      this.modalService.showModal("Number of registrants must be greater than 0", "Error #0002");
+      error = true;
+    }
+
+    if(!error) {
       this.programService.signUp(this.data.programID, this.numRegistered);
     }
-    this.dialogRef.close();
+
+    this.dialogRef.close("result");
   }
 
   cancelRegistration() {
-    console.log(this.numRegistered | 0);
-    if (this.programService.updateRegistration(this.data.programID, this.numRegistered | 0)) {
+    let error: boolean = false;
+
+    if (this.numRegistered < 0) {
+      this.modalService.showModal("Number of registrants must be greater than zero", "Error #0002");
     }
-    this.dialogRef.close();
+    if (!error) {
+      this.programService.updateRegistration(this.data.programID, this.numRegistered | 0);
+    }
+    this.dialogRef.close("result");
   }
 
 }

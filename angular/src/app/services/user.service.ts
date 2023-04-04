@@ -54,7 +54,7 @@ export class UserService {
     } else if (err.status !== 400){
       this.modalService.showModal("Something went wrong please try again", "Login Failed");
     }
-    return throwError(() => new Error("Something went wrong please try "));
+    return throwError(() => new Error("Something went wrong please try again"));
   }
 
 
@@ -130,7 +130,6 @@ export class UserService {
         this.curUser.classesTaken = programs;
         this.setUser(this.curUser);
     });
-    console.log(this.curUser.classesTaken);
     return this.curUser.classesTaken;
   }
 

@@ -31,7 +31,9 @@ export class ProgramsComponent implements OnInit {
   }
 
   showCreateProgramModal(){
-    this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'})
+    this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'}).afterClosed().subscribe(result => {
+      this.programs = this.programService.getAllPrograms();
+    });
   }
 
   showSignupModal(programID: number, edit: boolean) {
@@ -43,6 +45,9 @@ export class ProgramsComponent implements OnInit {
         edit: edit,
         numRegistered: this.userService.getNumRegistered(programID)
       }
+    }).afterClosed().subscribe(result => {
+      this.userService.getUserPrograms();
+      this.programs = this.programService.getAllPrograms();
     });
 }
   

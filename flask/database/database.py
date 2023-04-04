@@ -291,12 +291,14 @@ class Database:
     
     def remove_registration(self, userID: int, programID: int) -> bool:
         cursor = self.reset_cursor()
+        cursor.execute("""SELECT NumRegistered FROM Signed_Up WHERE UserID = ? AND ProgramID = ?""", (userID, programID))
+        num_registered = cursor.fetchone()
         cursor.execute("""DELETE FROM Signed_Up 
                                 WHERE UserID = ? AND ProgramID = ?""", 
                                 (userID, programID))
         cursor.execute("""UPDATE Programs
-                                SET CurrentCapacity = CurrentCapacity - 1
-                                WHERE ProgramID = ? AND CurrentCapacity > 0""", (programID,))
+                                SET CurrentCapacity = CurrentCapacity - ?
+                                WHERE ProgramID = ? AND CurrentCapacity > 0""", (num_registered[0], programID))
         self.commit_changes()
         return True
 
