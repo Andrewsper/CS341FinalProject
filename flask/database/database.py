@@ -175,7 +175,7 @@ class Database:
             return jsonify("user already signed up"), 409
         
         if self.check_for_time_conflict(program_id, user_id):
-            return jsonify("time conflict"), 409
+            return jsonify("program conflict"), 410
         
         cursor = self.reset_cursor()
         
