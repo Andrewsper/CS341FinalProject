@@ -21,6 +21,7 @@ import { YmcaModalComponent } from './ymca-modal/ymca-modal.component';
 import { ModalService } from './services/modal.service';
 import { AddProgramComponent } from './add-program/add-program.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { Convert24To12Pipe } from './pipes/time-pipe.pipe';
 
 
 
@@ -36,7 +37,8 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     ProgramModalComponent,
     YmcaModalComponent,
     AddProgramComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    Convert24To12Pipe
   ],
   imports: [
     BrowserModule,

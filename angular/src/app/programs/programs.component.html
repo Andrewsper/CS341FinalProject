@@ -8,12 +8,13 @@
     <h1 class="header">
         <span class="name">{{ program.name }}</span>
         <span class="date">{{ program.offeringDateFrom | date:"mediumDate"}} - {{ program.offeringDateTo | date:"mediumDate"}}</span>
+        <span class="date">{{ program.startTime | convert24To12 }}</span>
     </h1>
     <div class="info"> 
         <span>Current Capacity: {{program?.currentCapacity}}/{{program.maximumCapacity}}</span>
         <span>Price: ${{this.userService.isMember() ? program.price/2 : program.price}}</span>
         <span>Location: {{program.location}}</span>
-        <span>Duration: {{program.length}}</span>
+        <span>Duration: {{program.length}} min</span>
         <p>Description: {{ program.description }}</p>
         <p><strong>Days Offered:</strong></p>
         <ul>
