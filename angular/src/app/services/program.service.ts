@@ -35,8 +35,17 @@ export class ProgramService {
   }
 
   signUp(programID: number, numRegistered: number) { 
-    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid+"/"+numRegistered,{}).subscribe();
+    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.curUser.userid+"/"+numRegistered,{})
+    .pipe(
+      catchError((err) => this.handleError(err))
+    ).subscribe();
   }
+
+  // This code updates the registration of the current user for a specified program
+  // The programID is the id of the program
+  // The numRegistered is the number of people currently registered for the program
+  // The function returns true if the registration was successfully updated
+  // The function returns false if the registration was not successfully updated
 
   updateRegistration(programID: number, numRegistered: number): boolean {
     let success = true;
@@ -48,11 +57,11 @@ export class ProgramService {
   }
 
   addProgram( p :Program){
-    this.http.post(this.programsEndpoint,p).subscribe()
+    this.http.post<Program>(this.programsEndpoint,p).subscribe()
   }
 
   handleError(err: HttpErrorResponse){
-    if(err.status == 400) {
+    if(err.status == 400 || err.status == 409) {
       this.modalService.showModal("Registration exceeded program capacity", "Error #0001");
     }
     return throwError(() => new Error("Something went wrong please try again"));
