@@ -64,6 +64,9 @@ export class ProgramService {
     if(err.status == 400 || err.status == 409) {
       this.modalService.showModal("Registration exceeded program capacity", "Error #0001");
     }
+    if(err.status == 410) {
+        this.modalService.showModal("Registration conflict", "Error #0003");
+    }
     return throwError(() => new Error("Something went wrong please try again"));
   }
   

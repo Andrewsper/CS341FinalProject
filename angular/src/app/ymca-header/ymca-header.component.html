@@ -3,7 +3,7 @@
         <span >YMCA</span>
     </div>
     <nav>
-        <a *ngIf="this.userService.isLoggedIn() && this.userService.curUser.isStaff" routerLink = "users">User Manager</a>
+        <a *ngIf="this.userService.isLoggedIn() && this.userService.isStaff()" routerLink = "users">User Manager</a>
         <a routerLink="programs">Programs</a>
         <a *ngIf="!this.userService.isLoggedIn()" routerLink="login">Login</a>
         <a *ngIf="!this.userService.isLoggedIn()" routerLink="register">Register</a>
