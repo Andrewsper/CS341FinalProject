@@ -7,10 +7,12 @@
 <div *ngFor="let program of programs" class="program">
     <h1 class="header">
         <span class="name">{{ program.name }}</span>
+        <br/>
+        <span class="id">Program ID: {{program.programID}}</span>
         <span class="date">{{ program.offeringDateFrom | date:"mediumDate"}} - {{ program.offeringDateTo | date:"mediumDate"}}</span>
         <span class="date">{{ program.startTime | convert24To12 }}</span>
     </h1>
-    <div class="info"> 
+    <div class="info">
         <span>Current Capacity: {{program?.currentCapacity}}/{{program.maximumCapacity}}</span>
         <span>Price: ${{this.userService.isMember() ? program.price/2 : program.price}}</span>
         <span>Location: {{program.location}}</span>

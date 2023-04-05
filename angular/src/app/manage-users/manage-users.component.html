@@ -6,13 +6,13 @@
     </form>
     <table>
         <tr>
-            <th>User Id</th>
+            <th>User ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>phoneNumber</th>
+            <th>Phone Number</th>
             <th>Address</th>
-            <th>Zipcode</th>
+            <th>Zip Code</th>
             <th>Member Status</th>
             <th>Staff Status</th>
             <th>Active Account</th>
@@ -44,7 +44,10 @@
             </td>
             <td>
                 <ul>
-                    <li *ngFor="let program of userProgramList.get(user.userid!)">{{program.name}}</li>
+                    <li *ngFor="let program of userProgramList.get(user.userid!)">
+                        {{program.name}}
+                        : Program ID {{program.programID}}
+                    </li>
                 </ul>
             </td>
         </tr>
