@@ -2,7 +2,7 @@
     <form [formGroup]="progForm" (ngSubmit)="createProgram()">
         <div class="input-field">
             <label>Name</label>
-            <input formControlName="name"  type="text">
+            <input formControlName="name" type="text">
         </div>
         <div class="input-field">
             <label>Description</label>
@@ -10,11 +10,15 @@
         </div>
         <div class="input-field">
             <label>Start Date</label>
-            <input formControlName="start"  type="date">
+            <input formControlName="start" type="date">
         </div>
         <div class="input-field">
             <label>End Date</label>
             <input formControlName="end" type="date">
+        </div>
+        <div class="input-field">
+            <label>Start Time</label>
+            <input formControlName="startTime" type="time">
         </div>
         <div class="input-field">
             <label>Duration</label>
@@ -22,7 +26,7 @@
         </div>
         <div class="input-field">
             <label>Price</label>
-            <input formControlName="price"  type="text">
+            <input formControlName="price" type="text">
         </div>
         <div class="input-field">
             <label>Location</label>
@@ -30,12 +34,12 @@
         </div>
         <div class="input-field">
             <label>Max Participants</label>
-            <input formControlName="maxParticipants"  type="text">
+            <input formControlName="maxParticipants" type="text">
         </div>
-            <label formArrayName="daysOfWeek" class="days" *ngFor="let day of daysOfWeek; let i = index">
-                <input [formControlName]="i" type="checkbox">
-                {{day.name}}
-            </label>
+        <label formArrayName="daysOfWeek" class="days" *ngFor="let day of daysOfWeek; let i = index">
+            <input [formControlName]="i" type="checkbox">
+            {{day.name}}
+        </label>
         <button type="submit">Create Program</button>
     </form>
 </div>

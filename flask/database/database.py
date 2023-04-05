@@ -146,9 +146,6 @@ class Database:
         return self.success_response()
 
     def add_program(self, program: dict) -> tuple[str, int]:
-        if self.check_for_program_by_name(program["name"]):
-            return "program already exists", 409
-
         days_offered_binary = conflict_manager.convert_days_to_binary(program["daysOffered"])
 
         cursor = self.reset_cursor()
