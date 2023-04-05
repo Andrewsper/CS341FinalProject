@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ProgramsComponent implements OnInit {
 
-  programs: Observable<Program[]> = this.programService.getAllPrograms();
+  programs?: Program [];
   userPrograms?: number[][] = [];
 
   constructor(
@@ -27,12 +27,13 @@ export class ProgramsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getProg();
     this.userService.getUserProgramsRel();
   }
 
-  showCreateProgramModal(){
+  async showCreateProgramModal(){
     this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'}).afterClosed().subscribe(result => {
-      this.programs = this.programService.getAllPrograms();
+        this.getProg();
     });
   }
 
@@ -46,9 +47,14 @@ export class ProgramsComponent implements OnInit {
         numRegistered: this.userService.getNumRegistered(programID)
       }
     }).afterClosed().subscribe(result => {
+      
       this.userService.getUserProgramsRel();
-      this.programs = this.programService.getAllPrograms();
+      this.getProg();
     });
+}
+
+async getProg(){
+  this.programs = await this.programService.getAllPrograms().toPromise();
 }
   
 userSignedUp(programID: number): boolean {
