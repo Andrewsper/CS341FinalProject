@@ -31,7 +31,7 @@ export class ProgramsComponent implements OnInit {
     this.userService.getUserProgramsRel();
   }
 
-  async showCreateProgramModal(){
+  showCreateProgramModal(){
     this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'}).afterClosed().subscribe(result => {
         this.getProg();
     });
@@ -48,7 +48,7 @@ export class ProgramsComponent implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       
-      this.userService.getUserProgramsRel();
+      this.getUserProgramsRelation();
       this.getProg();
     });
 }
@@ -56,7 +56,11 @@ export class ProgramsComponent implements OnInit {
 async getProg(){
   this.programs = await this.programService.getAllPrograms().toPromise();
 }
-  
+
+async getUserProgramsRelation(){
+  await this.userService.getUserProgramsRel();
+}
+
 userSignedUp(programID: number): boolean {
   if (!this.userService.curUser.classesTaken) {
     return false;

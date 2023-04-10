@@ -72,7 +72,7 @@ export class ProgramService {
   }
 
   //This function is necessary as cur user will change each login 
-  getCurUser(): User{
+  private getCurUser(): User{
     return JSON.parse(sessionStorage.getItem('user') as string) as User;
   }
   

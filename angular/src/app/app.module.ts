@@ -11,7 +11,6 @@ import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth-guard';
 import { StaffGuard } from './guards/staff-guard';
 import { UserHomePageComponent } from './user-home-page/user-home-page.component';
-import { StaffHomePageComponent } from './staff-home-page/staff-home-page.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { ProgramService } from './services/program.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +31,6 @@ import { Convert24To12Pipe } from './pipes/time-pipe.pipe';
     LoginComponent,
     RegisterComponent,
     UserHomePageComponent,
-    StaffHomePageComponent,
     ProgramsComponent,
     ProgramModalComponent,
     YmcaModalComponent,
