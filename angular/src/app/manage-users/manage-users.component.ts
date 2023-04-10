@@ -23,7 +23,11 @@ export class ManageUsersComponent {
   filter = '';
 
   ngOnInit(){
+    this.updateData();
 
+  }
+
+  updateData() {
     this.userService.getAllUsers().subscribe((users)=>{
       users.forEach((user)=>this.getUserProgramList(user.userid!));
     });
@@ -31,13 +35,15 @@ export class ManageUsersComponent {
 
   toggleMember(uid:String){
     this.userService.toggleMembership(uid).subscribe(()=>{this.userlist= this.userService.getAllUsers()});
-    
+    this.updateData();
   }
   toggleActive(uid:String){
-    this.userService.toggleActive(uid).subscribe(()=>{this.userlist= this.userService.getAllUsers()});;
+    this.userService.toggleActive(uid).subscribe(()=>{this.userlist= this.userService.getAllUsers()});
+    this.updateData();
   }
   toggleStaff(uid:String){
-    this.userService.toggleStaff(uid).subscribe(()=>{this.userlist= this.userService.getAllUsers()});;
+    this.userService.toggleStaff(uid).subscribe(()=>{this.userlist= this.userService.getAllUsers()});
+    this.updateData();
   }
 
   getUserProgramList(uid : String){
