@@ -4,6 +4,7 @@ import { Program } from '../models/ProgramModel';
 import { MatDialog, MatDialogModule, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
+import { ModalService } from '../services/modal.service';
 @Component({
   selector: 'app-add-program',
   templateUrl: './add-program.component.html',
@@ -21,6 +22,7 @@ export class AddProgramComponent implements OnInit{
     private userService: UserService,
     private programService: ProgramService,
     private formBuilder: FormBuilder,
+    private modalService: ModalService
 
   ) {
     this.daysOfWeek = [{name: 'Sunday', checked: false}, {name: 'Monday', checked: false}, 
@@ -57,6 +59,10 @@ export class AddProgramComponent implements OnInit{
   }
 
   createProgram(): void {
+    if(new Date(this.progForm.value.start).getTime() > new Date(this.progForm.value.end).getTime()) {
+      this.modalService.showModal("invalid date selection", "Error #0004");
+      return;
+    }
     this.daysSelected = this.progForm.value.daysOfWeek
       .map((checked: any, i: number) => checked ? this.daysOfWeek[i].name : null)
       .filter((v: any) => v !== null);
