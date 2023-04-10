@@ -231,6 +231,13 @@ class Database:
             return "user not found", 204
         cursor = self.reset_cursor()
         # Soft delete users
+        cursor.execute("""SELECT ProgramId FROM Signed_Up WHERE UserID = ?""", (user_id,))
+        
+        signedUpPrograms = cursor.fetchall()
+        
+        for program in signedUpPrograms:
+            self.remove_registration(user_id, program[0])
+        
         cursor.execute("""UPDATE Users
                                     SET IsActive = 
                                     CASE WHEN IsActive = 1 THEN 0
