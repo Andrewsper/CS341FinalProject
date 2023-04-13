@@ -18,6 +18,13 @@ CREATE TABLE Users (
     IsActive BOOLEAN NOT NULL
 );
 
+CREATE TABLE UserNotifications (
+    UserID INTEGER NOT NULL,
+    Message TEXT NOT NULL,
+    Expiration varchar(255) NOT NULL, -- YYYY-MM-DD
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+
 CREATE TABLE Programs (
     ProgramID INTEGER PRIMARY KEY AUTOINCREMENT,
     Name varchar(255) NOT NULL,
