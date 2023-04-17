@@ -131,11 +131,10 @@ def unregister(pid, uid, num_registered):
 def signup(pid, uid, num_registered):
     return database.sign_up_for_program(pid, uid, num_registered)
 
-@app.route("/database/programs/remove", methods=['POST'])
+@app.route("/program/<pid>", methods=['DELETE'])
 @cross_origin()
-def remove_program() -> tuple[str, int]:
-    program = request.get_json()
-    return database.remove_program(program)
+def remove_program(pid: int) -> tuple[str, int]:
+    return database.remove_program(pid)
 
 @app.route("/database/programs/add/user", methods=['POST'])
 @cross_origin()
@@ -168,6 +167,15 @@ def get_signed_up() -> list[dict]:
     return database.get_all_signed_up()
 
 ######
+
+###### Notifications routes ######
+@app.route("/notifications/<uid>", methods=['GET'])
+@cross_origin()
+def get_user_notifications(uid) -> list[dict]:
+    notifications = database.get_user_notifications(uid)
+    if notifications is None:
+        return jsonify("No notifications found"), 404
+    return database.get_user_notifications(uid), 200
 
 ###### Testing Routes ######
 

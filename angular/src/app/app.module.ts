@@ -22,6 +22,7 @@ import { AddProgramComponent } from './add-program/add-program.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { Convert24To12Pipe } from './pipes/time-pipe.pipe';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationService } from './services/notification.service';
 
 
 
@@ -49,7 +50,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     BrowserAnimationsModule,
     MatDialogModule
   ],
-  providers: [HttpClientModule, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog, ModalService],
+  providers: [HttpClientModule, UserService, AuthGuard, StaffGuard, ProgramService, MatDialog, ModalService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

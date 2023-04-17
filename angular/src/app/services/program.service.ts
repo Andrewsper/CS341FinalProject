@@ -61,6 +61,12 @@ export class ProgramService {
     this.http.post<Program>(this.programsEndpoint,p).subscribe()
   }
 
+  removeProgram(programID: Number) {
+    this.http.delete(this.programEndpoint + programID).pipe(
+      catchError((err) => this.handleError(err))
+    ).subscribe();
+  }
+
   handleError(err: HttpErrorResponse){
     if(err.status == 400 || err.status == 409) {
       this.modalService.showModal("Registration exceeded program capacity", "Error #0001");
