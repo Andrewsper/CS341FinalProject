@@ -33,12 +33,12 @@ export class YmcaModalComponent {
 
   yes() {
     this.closeEvent.emit(true);
-    this.close();
+    this.dialogRef.close(true)
   }
 
   no() {
     this.closeEvent.emit(false);
-    this.close();
+    this.dialogRef.close(false);
   }
 
 }
