@@ -1,4 +1,19 @@
+r"""This module contains the conflict manager for the database
+
+Author: Eric
+
+Date Modified: 2023-04-25
+"""
+
 def get_binary_representation(num: int) -> int:
+    r"""Converts a number to its binary representation
+    
+    Args:
+        num (int): The number to be converted to binary
+        
+    Returns:
+        int: The binary representation of the number
+    """
     return int(bin(num)[2:], base=2)
 
 days_of_the_week = {
@@ -12,6 +27,14 @@ days_of_the_week = {
 }
 
 def get_days_of_the_week(days: int) -> list[str]:
+    r"""Converts a binary number to a list of days of the week
+    
+    Args:
+        days (int): The number to be converted to a list of days of the week
+        
+    Returns:
+        list[str]: A list of days of the week
+    """
     days_offered = list()
     for key, value in days_of_the_week.items():
         if value & days:
@@ -19,16 +42,43 @@ def get_days_of_the_week(days: int) -> list[str]:
     return days_offered
 
 def convert_days_to_binary(days: list[str]) -> int:
+    r"""Converts a list of days of the week to a binary number
+
+    Args:
+        days (list[str]): A list of days of the week
+
+    Returns:
+        int: A binary number representing the days of the week
+    """
     binary = 0
     for day in days:
         binary |= days_of_the_week[day]
     return binary
 
 def convert_military_time_to_minutes(time: str) -> int:
+    r"""Converts a time in military format to minutes
+
+    Args:
+        time (str): A time in military format
+
+    Returns:
+        int: The time in minutes
+    """
     time = time.split(":")
     return int(time[0]) * 60 + int(time[1])
 
 def check_for_potential_conflict(existing_program_start: int, existing_program_end: int, new_program_start: int, new_program_end: int):
+    r"""Checks if there is a potential conflict between two programs
+
+    Args:
+        existing_program_start (int): The start time of the existing program in minutes
+        existing_program_end (int): The end time of the existing program in minutes
+        new_program_start (int): The start time of the new program in minutes
+        new_program_end (int): The end time of the new program in minutes
+
+    Returns:
+        bool: True if there is a potential conflict, False otherwise
+    """
     if existing_program_start <= new_program_start and new_program_end <= existing_program_end:
         return True
     if new_program_start <= existing_program_start and existing_program_end <= new_program_end:
@@ -41,13 +91,15 @@ def check_for_potential_conflict(existing_program_start: int, existing_program_e
     return False
 
 def check_for_conflicts(user_program: list, new_program: dict) -> bool:
+    r"""Checks if there is a conflict between a user's existing programs and a new program
+    
+    Args:
+        user_program (list): A list of the user's existing programs
+        new_program (dict): The new program to be checked for conflicts
+        
+    Returns:
+        bool: True if there is a conflict, False otherwise
     """
-    Check if a program conflicts with any other program in the list
-
-    Returns True if there is a conflict, False otherwise
-    """
-    print("user_program", user_program)
-    print("new_program", new_program)
     
     if len(user_program) == 0 or len(new_program) == 0:
         return False
