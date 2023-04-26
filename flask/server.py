@@ -128,6 +128,20 @@ def toggle_user_staff(uid):
     """
     return database.toggle_user_staff(uid)
 
+@app.route("/users/<uid>/<fid>", methods=['PUT'])
+@cross_origin()
+def set_family(uid, fid):
+    r"""Sets a user's family
+    
+    Args:
+        uid (int): The user's id
+        fid (int): The family's id
+
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
+    return database.set_user_family(uid, fid)
+
 ######
 
 ###### programs routes ######

@@ -413,6 +413,30 @@ class Database:
         self.commit_changes()
         return True
     
+    def set_user_family(self, user_id: int, family_id: int) -> tuple[str, int]:
+        r"""Sets a user's family id
+
+        Args:
+            user_id (int): The id of the user
+            family_id (int): The id of the family
+
+        Returns:
+            tuple[str, int]: A tuple containing the response and the status code
+        """
+        if not self.check_for_user_by_id(user_id):
+            return "user not found", 204
+        if not self.check_for_family_by_id(family_id):
+            return "family not found", 204
+        
+        cursor = self.reset_cursor()
+        # Soft delete users
+        cursor.execute("""UPDATE Users
+                                SET FamilyID = ?
+                                WHERE UserID = ?""", (family_id, user_id))
+        self.commit_changes()
+
+        return self.success_response()
+    
     ######
 
     ##### Removing from Database #####
@@ -483,6 +507,19 @@ class Database:
     #####
 
     ##### Validation #####
+
+    def check_for_family_id(self, family_id: int) -> bool:
+        r"""Checks if a family exists in the database
+
+        Args:
+            family_id (int): The id of the family
+
+        Returns:
+            bool: True if the family exists, False otherwise
+        """
+        cursor = self.reset_cursor()
+        cursor.execute("""SELECT FamilyID FROM User WHERE FamilyID = ?""", (family_id,))
+        return cursor.fetchone() is not None
 
     def check_for_time_conflict(self, program_id: int, user_id: int) -> bool:
         r"""Checks if a user has a time conflict with a program

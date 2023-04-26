@@ -76,7 +76,8 @@ def convert_user_to_json(user: list) -> dict:
         "balance": user[8],
         "isStaff": user[9],
         "isMember": user[10],
-        "isActive": user[11]
+        "isActive": user[11],
+        "FamilyID": user[12]
     }
     
     return user_json
