@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS UserNotifications;
 DROP TABLE IF EXISTS Programs;
 DROP TABLE IF EXISTS Signed_Up;
 DROP TABLE IF EXISTS Owns;
@@ -19,7 +20,7 @@ CREATE TABLE Users (
     FamilyID INTEGER NOT NULL
 );
 
-CREATE TABLE UserNotifications (
+CREATE TABLE UserNotifications(
     UserID INTEGER NOT NULL,
     Message TEXT NOT NULL,
     Expiration varchar(255) NOT NULL, -- YYYY-MM-DD

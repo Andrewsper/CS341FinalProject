@@ -1,5 +1,5 @@
 INSERT INTO Users (FirstName, LastNAme, Address, PhoneNumber, Email, Password, ZipCode, Balance, IsStaff, IsMember, IsActive, FamilyID)
-VALUES ("Mr.", "Admin", "123 Admin Street", "1234567890", "admin@admin.gov", 883, "66666", 0, 1, 1, 1, 1);
+VALUES ("Mr. Admin", "Moderator", "123 Admin Street", "1234567890", "admin@admin.gov", 883, "66666", 0, 1, 1, 1, 1);
 
 INSERT INTO Users (FirstName, LastName, Address, PhoneNumber, Email, Password, ZipCode, Balance, IsStaff, IsMember, IsActive, FamilyID)
 VALUES ("Jane", "Doe", "123 Jane Street", "1234567890", "jdoe@email.com", 883, "53256", 0, 0, 1, 1, 2);
