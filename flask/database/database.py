@@ -212,7 +212,15 @@ class Database:
 
         return self.success_response()
     
-    def notify_user(self, program_id: int):
+    def notify_user(self, program_id: int) -> None:
+        r"""Notifies all users signed up for a program that the program has been cancelled
+
+        Args:
+            program_id (int): The id of the program
+
+        Returns:
+            None
+        """
         cursor = self.reset_cursor()
         cursor.execute("SELECT OfferingDateTo, Name, Location, OfferingDateFrom FROM Programs WHERE ProgramID = ?", (program_id,))
         program = cursor.fetchone()
@@ -484,16 +492,8 @@ class Database:
 
         return self.success_response()
 
-    def remove_program(self, programID: int) -> tuple[str, int]:
-        r"""Removes a program from the database
-
-        Args:
-            program (dict): The program to remove
-
-        Returns:
-            tuple[str, int]: A tuple containing the response and the status code
-        """
-        if not self.check_for_program_by_id(programID):
+    def remove_program(self, program: dict) -> tuple[str, int]:
+        if not self.check_for_program_by_name(program["name"]):
             return "program not found", 204
         
         self.notify_user(programID)
