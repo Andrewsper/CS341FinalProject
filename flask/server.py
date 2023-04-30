@@ -1,5 +1,10 @@
+r"""This module contains the server for the application
+
+Author: Eric, Will, Andrew
+
+Date Modified: 2023-04-25
+"""
 import os
-import json
 from flask import Flask, jsonify, render_template, request, session
 from flask_session import Session
 from flask_cors import CORS, cross_origin
@@ -16,6 +21,7 @@ Session(app)
 @app.route("/")
 @cross_origin()
 def hello():
+    r"""Returns the index page"""
     return render_template("index.html")
 
 
@@ -24,7 +30,11 @@ def hello():
 @app.route("/login",methods = ["POST"])
 @cross_origin()
 def login() -> tuple[str, int]:
+    r"""Logs a user in
     
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     if "user" in session :
         print(session["user"])
         return session["user"]
@@ -35,7 +45,7 @@ def login() -> tuple[str, int]:
     
     user = database.verify_user_login(login_data)
 
-    if (user):
+    if user:
         user["password"] = ""
         session["user"] = user
         return user
@@ -46,6 +56,11 @@ def login() -> tuple[str, int]:
 @app.route("/logout",methods = ["POST"])
 @cross_origin()
 def logout() -> tuple[str, int]:
+    r"""Logs a user out
+    
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     if "user" in session :
         session.pop("user",None)
     return 'ok', 200
@@ -53,6 +68,11 @@ def logout() -> tuple[str, int]:
 @app.route("/register", methods=['POST'])
 @cross_origin()
 def register_user() -> tuple[str, int]:
+    r"""Registers a user
+    
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     user = request.get_json()
     resp: tuple[str, int] = database.add_user(user)
     
@@ -70,54 +90,133 @@ def register_user() -> tuple[str, int]:
 @app.route("/users/<uid>/member", methods=['PUT'])
 @cross_origin()
 def toggle_user_member(uid):
+    r"""Toggles a user's membership status
+    
+    Args:
+        uid (int): The user's id
+
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     return database.toggle_user_member(uid)
 
 
 @app.route("/users/<uid>/active", methods=['PUT'])
 @cross_origin()
 def toggle_user_active(uid):
+    r"""Toggles a user's active status
+    
+    Args:
+        uid (int): The user's id
+
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     return database.toggle_user_active(uid)
 
 
 @app.route("/users/<uid>/staff", methods=['PUT'])
 @cross_origin()
 def toggle_user_staff(uid):
+    r"""Toggles a user's staff status
+
+    Args:
+        uid (int): The user's id
+
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
     return database.toggle_user_staff(uid)
+
+@app.route("/users/<uid>/<fid>", methods=['PUT'])
+@cross_origin()
+def set_family(uid, fid):
+    r"""Sets a user's family
+    
+    Args:
+        uid (int): The user's id
+        fid (int): The family's id
+
+    Returns:
+        tuple[str, int]: A tuple containing the user information and the status code
+    """
+    return database.set_user_family(uid, fid)
 
 ######
 
 ###### programs routes ######
 @app.route("/programs", methods=['GET'])
 def get_all_programs():
+    r"""Gets all programs
+    
+    Returns:
+        list[dict]: A list of all programs
+    """
     return database.get_all_programs()
 
 @app.route("/programs", methods=['POST'])
 @cross_origin()
 def add_program() -> tuple[str, int]:
+    r"""Adds a program to the database
+    
+    Returns:
+        tuple[str, int]: A tuple containing the program information and the status code
+    """
     program = request.get_json()
     return database.add_program(program)
 
 @app.route("/programs/relation/<uid>", methods=['GET'])
 def get_user_programs_relation(uid):
+    r"""Gets all programs a user is signed up for
+    
+    Args:
+        uid (int): The user's id
+    
+    Returns:
+        list[dict]: A list of all programs a user is signed up for
+    """
     if uid is None:
         return database.get_all_programs()
     return database.get_user_programs_relation(uid)
 
 @app.route("/programs/<uid>", methods=['GET'])
 def get_user_programs(uid):
+    r"""Gets all programs a user is signed up for
+    
+    Args:
+        uid (int): The user's id
+    
+    Returns:
+        list[dict]: A list of all programs a user is signed up for
+    """
     if uid is None:
         return database.get_all_programs()
     return database.get_all_programs_user_signed_up_for(uid)
 
-
-
 @app.route("/program/<pid>", methods=['GET'])
 def get_program_by_id(pid):
+    r"""Gets a program by its id
+
+    Args:
+        pid (int): The program's id
+
+    Returns:
+        dict: The program
+    """
     return database.get_program_by_id(pid)
 
 @app.route("/program/<pid>/<uid>/<num_registered>", methods=['PUT'])
 def unregister(pid, uid, num_registered):
-    print(num_registered)
+    r"""Unregisters a user from a program
+
+    Args:
+        pid (int): The program's id
+        uid (int): The user's id
+        num_registered (int): The number of people registered for the program
+
+    Returns:
+        tuple[str, int]: A tuple containing the program information and the status code
+    """
     if int(num_registered) > 0:
         result = database.update_registration(uid, pid, num_registered)
         if not result: 
@@ -129,6 +228,16 @@ def unregister(pid, uid, num_registered):
 @app.route("/program/<pid>/<uid>/<num_registered>", methods = ["POST"])
 @cross_origin()
 def signup(pid, uid, num_registered):
+    r"""Registers a user for a program
+
+    Args:
+        pid (int): The program's id
+        uid (int): The user's id
+        num_registered (int): The number of people registered for the program
+
+    Returns:
+        tuple[str, int]: A tuple containing the program information and the status code
+    """
     return database.sign_up_for_program(pid, uid, num_registered)
 
 @app.route("/program/<pid>", methods=['DELETE'])
@@ -149,6 +258,11 @@ def add_user_to_program() -> tuple[str, int]:
 @app.route("/users", methods=['GET'])
 @cross_origin()
 def get_users() -> list[dict]:
+    r"""Gets all users
+
+    Returns:
+        list[dict]: A list of all users
+    """
     return database.get_all_users()
 
 @app.route("/database/users/remove", methods=['DELETE'])
@@ -194,5 +308,3 @@ def test():
 if __name__ == "__main__":
     database = Database()
     app.run(host='0.0.0.0', port=os.environ.get("FLASK_SERVER_PORT", 9090),debug=True) 
-    
-    

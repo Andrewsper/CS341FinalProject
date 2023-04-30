@@ -15,7 +15,8 @@ CREATE TABLE Users (
     Balance FLOAT NOT NULL, 
     IsStaff BOOLEAN NOT NULL,
     IsMember BOOLEAN NOT NULL,
-    IsActive BOOLEAN NOT NULL
+    IsActive BOOLEAN NOT NULL,
+    FamilyID INTEGER NOT NULL
 );
 
 CREATE TABLE UserNotifications (
