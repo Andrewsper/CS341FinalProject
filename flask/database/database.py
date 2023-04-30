@@ -681,7 +681,6 @@ class Database:
         Returns:
             dict: The user's information if the login was successful, None otherwise
         """
-        user_id = self.get_user_id(user["email"])
 
         cursor = self.reset_cursor()       
         cursor.execute("""SELECT *
@@ -692,8 +691,20 @@ class Database:
         found_user = cursor.fetchone()
         if found_user is None:
             return None
-        
+
         found_user = util.convert_user_to_json(found_user)
+
+        cursor = self.reset_cursor()
+        family_id = found_user["familyid"]
+
+        cursor.execute("""SELECT UserID, FirstName, LastName
+                            FROM Users
+                            WHERE FamilyID = ? AND IsActive = 1""",
+                            (family_id,))
+        
+        family_members = cursor.fetchall()
+        
+        found_user = util.add_family_to_user(found_user, family_members)
         if (int(util.hash_password(user["password"])) == int(found_user["password"])):
             return found_user
         
