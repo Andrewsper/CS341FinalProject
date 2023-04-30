@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { YmcaModalComponent } from '../ymca-modal/ymca-modal.component';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ModalService {
@@ -9,8 +10,9 @@ export class ModalService {
         public dialog: MatDialog
     ) { }
 
-    showModal(message: string, title: string, buttonText: string = 'Ok', type: string = 'info') {
-        this.dialog.open(YmcaModalComponent, {
+    showModal(message: string, title: string, buttonText: string = 'Ok', type: string = 'info'): Observable<any> {
+        let ret = false;
+        return this.dialog.open(YmcaModalComponent, {
             height: '200px',
             width: '400px',
             data: {
@@ -19,7 +21,8 @@ export class ModalService {
                 buttonText: buttonText,
                 type: type
             }
-        });
+        }).afterClosed();
+        
     }
 
 

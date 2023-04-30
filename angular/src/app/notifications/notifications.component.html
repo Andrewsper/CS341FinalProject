@@ -1,0 +1,9 @@
+<div>
+    <h3>Your notifications:</h3>
+
+    <div *ngFor="let notification of notifications" class="notif">
+        <p>{{notification}}</p>
+    </div>
+
+    <p *ngIf="notifications.length == 0">You have no notifications</p>
+</div>

@@ -13,7 +13,6 @@ import { PipeTransform, Pipe } from '@angular/core';
 
 export class ManageUsersComponent {
 
-
   constructor(public userService : UserService){
     
   }

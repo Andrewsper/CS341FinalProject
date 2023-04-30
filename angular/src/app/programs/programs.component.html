@@ -31,6 +31,8 @@
             *ngIf="!userSignedUp(program.programID!)">Sign Up</button>
         <button *ngIf="userSignedUp(program.programID!)" (click)="showSignupModal(program.programID!, true)">Edit
             Registration</button>
+        <button *ngIf="this.userService?.curUser?.isStaff" (click)="cancelProgram(program.programID!)">Cancel
+            Program</button>
     </div>
 </div>
 

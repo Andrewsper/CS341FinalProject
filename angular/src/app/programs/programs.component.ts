@@ -6,6 +6,7 @@ import { ProgramModalComponent } from '../program-modal/program-modal.component'
 import { UserService } from '../services/user.service';
 import { AddProgramComponent } from '../add-program/add-program.component';
 import { Observable } from 'rxjs';
+import { ModalService } from '../services/modal.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ProgramsComponent implements OnInit {
     private programService: ProgramService,
     public dialog: MatDialog,
     public userService: UserService,
+    public modalService: ModalService
   ) {
 
   }
@@ -68,6 +70,16 @@ userSignedUp(programID: number): boolean {
     return false;
   }
   return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
+}
+
+cancelProgram(programID: number) {
+  let deleted = false;
+  this.modalService.showModal("Are you sure you want to cancel this program?", "Cancel Program", "", "confirm")
+    .subscribe(result => { if(result) {this.programService.removeProgram(programID)} });
+    console.log(deleted);
+
+  this.getUserProgramsRelation();
+  this.getProg();
 }
 
 }

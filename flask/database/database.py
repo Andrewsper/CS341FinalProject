@@ -7,6 +7,7 @@ Date Modified: 2023-04-25
 import sqlite3
 import database.conflict_manager as conflict_manager
 import database.util as util
+import datetime
 from flask import jsonify
 
 class Database:
@@ -95,7 +96,7 @@ class Database:
             dict: The program with the given id
         """
         cursor = self.reset_cursor()
-        cursor.execute("""SELECT * FROM Programs WHERE ProgramID = ?""", program_id)
+        cursor.execute("""SELECT * FROM Programs WHERE ProgramID = ?""", (program_id,))
         return util.convert_program_to_json(cursor.fetchone())
     
     def get_all_users(self) -> list[dict]:
@@ -165,6 +166,15 @@ class Database:
         signed_up = cursor.fetchall()
 
         return util.convert_signed_up_to_json(signed_up)
+    
+    def get_user_notifications(self, user_id: int) -> list[dict]:
+        cursor = self.reset_cursor()
+        cursor.execute("""SELECT Message, Expiration FROM UserNotifications WHERE UserID = ?""", (user_id,))
+        notifications = cursor.fetchall()
+        notifications = filter(lambda notification: datetime.datetime.strptime(notification[1], "%Y-%m-%d") > datetime.datetime.today(), notifications)
+        notifications = [notification[0] for notification in notifications]
+        
+        return jsonify(notifications)
 
     #####
 
@@ -201,6 +211,18 @@ class Database:
         self.commit_changes()
 
         return self.success_response()
+    
+    def notify_user(self, program_id: int):
+        cursor = self.reset_cursor()
+        cursor.execute("SELECT OfferingDateTo, Name, Location, OfferingDateFrom FROM Programs WHERE ProgramID = ?", (program_id,))
+        program = cursor.fetchone()
+        expiration_date = program[0]
+        cursor.execute("SELECT UserID FROM Signed_Up WHERE ProgramID = ?", (program_id,))
+        users_signed_up = cursor.fetchall()
+        message = f"Program {program[1]} at {program[2]} starting date {program[3]} has been cancelled."
+        for user in users_signed_up:
+            cursor.execute("INSERT INTO UserNotifications (UserID, Message, Expiration) VALUES (?, ?, ?)", (user[0], message, expiration_date))
+        self.commit_changes()
 
     ##### For staff and membership we will user promotion and demotion end points on already existing users
     # Thus we should user update on user id
@@ -462,7 +484,7 @@ class Database:
 
         return self.success_response()
 
-    def remove_program(self, program: dict) -> tuple[str, int]:
+    def remove_program(self, programID: int) -> tuple[str, int]:
         r"""Removes a program from the database
 
         Args:
@@ -471,13 +493,15 @@ class Database:
         Returns:
             tuple[str, int]: A tuple containing the response and the status code
         """
-        if not self.check_for_program_by_name(program["name"]):
+        if not self.check_for_program_by_id(programID):
             return "program not found", 204
+        
+        self.notify_user(programID)
         
         cursor = self.reset_cursor()
         # Hard delete programs
-        cursor.execute("""DELETE FROM Programs
-                                    WHERE Name = ?""", (program["name"],))
+        cursor.execute("""DELETE FROM Programs WHERE ProgramID = ?""", (programID,))
+        cursor.execute("""DELETE FROM Signed_Up WHERE ProgramID = ?""", (programID,))
         self.commit_changes()
 
         return self.success_response()

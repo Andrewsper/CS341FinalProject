@@ -240,6 +240,17 @@ def signup(pid, uid, num_registered):
     """
     return database.sign_up_for_program(pid, uid, num_registered)
 
+@app.route("/program/<pid>", methods=['DELETE'])
+@cross_origin()
+def remove_program(pid: int) -> tuple[str, int]:
+    return database.remove_program(pid)
+
+@app.route("/database/programs/add/user", methods=['POST'])
+@cross_origin()
+def add_user_to_program() -> tuple[str, int]:
+    req = request.get_json()
+    return database.add_user_to_program(req)
+
 ######
 
 ###### user routes ######
@@ -253,6 +264,44 @@ def get_users() -> list[dict]:
         list[dict]: A list of all users
     """
     return database.get_all_users()
+
+@app.route("/database/users/remove", methods=['DELETE'])
+@cross_origin()
+def remove_user() -> tuple[str, int]:
+    user = request.get_json()
+    return database.remove_user(user)
+    
+######
+
+###### signed up routes ######
+
+@app.route("/database/signedup", methods=['GET'])
+@cross_origin()
+def get_signed_up() -> list[dict]:
+    return database.get_all_signed_up()
+
+######
+
+###### Notifications routes ######
+@app.route("/notifications/<uid>", methods=['GET'])
+@cross_origin()
+def get_user_notifications(uid) -> list[dict]:
+    notifications = database.get_user_notifications(uid)
+    if notifications is None:
+        return jsonify("No notifications found"), 404
+    return database.get_user_notifications(uid), 200
+
+###### Testing Routes ######
+
+@app.route("/testing/add/user", methods=['POST'])
+@cross_origin()
+def add_user_test() -> tuple[str, int]:
+    return database.add_test_user()
+
+@app.route("/test", methods=['GET'])
+@cross_origin()
+def test():
+    return "it has been changed"
 
 ######
 

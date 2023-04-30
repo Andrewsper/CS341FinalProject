@@ -58,7 +58,13 @@ export class ProgramService {
   }
 
   addProgram( p :Program){
-    this.http.post<Program>(this.programsEndpoint,p).subscribe()
+    this.http.post<Program>(this.programsEndpoint,p).subscribe();
+  }
+
+  removeProgram(programID: Number) {
+    this.http.delete(this.programEndpoint + programID).pipe(
+      catchError((err) => this.handleError(err))
+    ).subscribe();
   }
 
   handleError(err: HttpErrorResponse){
