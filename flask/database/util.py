@@ -77,7 +77,7 @@ def convert_user_to_json(user: list) -> dict:
         "isStaff": user[9],
         "isMember": user[10],
         "isActive": user[11],
-        "FamilyID": user[12]
+        "familyid": user[12]
     }
     
     return user_json
@@ -131,12 +131,34 @@ def convert_user_program_list(programs: list) -> list:
     newList.append(["-1",-1])
     return newList
 
+def add_family_to_user(user: dict, family: list) -> dict:
+    r"""Adds family information to a user
+
+    Args:
+        user (dict): A json object containing the user information
+        family (list): A list containing the family information from the database
+
+    Returns:
+        dict: A json object containing the user information with family information added
+    """
+    if len(family) == 0:
+        return user
+
+    family_list: list = list()
+    for row in family:
+        family_dict = {"UserID": row[0], "FirstName": row[1], "LastName": row[2]}
+        family_list.append(family_dict)
+    
+    user["Family"] = family_list
+
+    return user
+
+
 def hash_password(password: str) -> int:
-    r"""Hashes a password using a salt
+    r"""Hashes a password
 
     Args:
         password (str): The password to be hashed
-        salt (int): The salt to be used in the hashing
 
     Returns:
         int: The hashed password

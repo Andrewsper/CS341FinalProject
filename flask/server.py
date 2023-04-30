@@ -27,7 +27,7 @@ def hello():
 
 ###### Base routes ######
 
-@app.route("/login",methods = ["POST"])
+@app.route("/login", methods = ["POST"])
 @cross_origin()
 def login() -> tuple[str, int]:
     r"""Logs a user in
