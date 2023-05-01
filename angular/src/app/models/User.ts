@@ -1,3 +1,4 @@
+import { FamilyMember } from "./FamilyMemberModel";
 import { Program } from "./ProgramModel";
 
 
@@ -16,7 +17,8 @@ export class User{
         public isActive?: boolean,
         public userid? : String,
         public ownedClasses?: number[],
-        public classesTaken?: number[][] // [programId, numRegistered]
+        public classesTaken?: number[][], // [programId, numRegistered]
+        public Family?: FamilyMember[]
     ){ }
 
     

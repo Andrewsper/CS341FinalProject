@@ -179,6 +179,10 @@ def get_user_programs_relation(uid):
         return database.get_all_programs()
     return database.get_user_programs_relation(uid)
 
+@app.route("/programs/family/<uid>", methods=['GET'])
+def get_family_member_programs(uid):
+    return database.get_family_member_programs(uid)
+
 @app.route("/programs/<uid>", methods=['GET'])
 def get_user_programs(uid):
     r"""Gets all programs a user is signed up for
@@ -217,12 +221,8 @@ def unregister(pid, uid, num_registered):
     Returns:
         tuple[str, int]: A tuple containing the program information and the status code
     """
-    if int(num_registered) > 0:
-        result = database.update_registration(uid, pid, num_registered)
-        if not result: 
-            return jsonify("Failed to update registration"), 400
-    else:
-        database.remove_registration(uid, pid)
+
+    database.remove_registration(uid, pid)
     return jsonify("OK"), 200
 
 @app.route("/program/<pid>/<uid>/<num_registered>", methods = ["POST"])

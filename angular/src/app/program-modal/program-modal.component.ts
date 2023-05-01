@@ -6,6 +6,7 @@ import { ProgramService } from '../services/program.service';
 import { UserService } from '../services/user.service';
 import { YmcaModalComponent } from '../ymca-modal/ymca-modal.component';
 import { ModalService } from '../services/modal.service';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-program-modal',
@@ -19,6 +20,7 @@ export class ProgramModalComponent implements OnInit{
   lastName: string = '';
   edit: boolean = false;
   numRegistered: number = 1;
+  famMemberSelected: number = 0;
   
   constructor(
     public dialogRef: MatDialogRef<ProgramModalComponent>,
@@ -57,14 +59,13 @@ export class ProgramModalComponent implements OnInit{
 
   signUp() {
     let error: boolean = false;
-
     if (this.numRegistered < 0){
       this.modalService.showModal("Number of registrants must be greater than 0", "Error #0002");
       error = true;
     }
 
     if(!error) {
-      this.programService.signUp(this.data.programID, this.numRegistered);
+      this.programService.signUp(this.data.programID, this.famMemberSelected);
     }
 
     this.dialogRef.close("result");
@@ -77,9 +78,13 @@ export class ProgramModalComponent implements OnInit{
       this.modalService.showModal("Number of registrants must be greater than zero", "Error #0002");
     }
     if (!error) {
-      this.programService.updateRegistration(this.data.programID, this.numRegistered | 0);
+      this.programService.updateRegistration(this.data.programID, this.famMemberSelected | 0);
     }
     this.dialogRef.close("result");
+  }
+
+  famMemberIsSignedUp() : boolean | undefined{
+    return this.userService.curUser.Family?.find((famMember) => famMember.UserID == this.famMemberSelected)?.Programs?.includes(this.data.programID);
   }
 
 }

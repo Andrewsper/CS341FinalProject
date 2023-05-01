@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { AddProgramComponent } from '../add-program/add-program.component';
 import { Observable } from 'rxjs';
 import { ModalService } from '../services/modal.service';
+import { FamilyMember } from '../models/FamilyMemberModel';
 
 
 @Component({
@@ -51,12 +52,17 @@ export class ProgramsComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       
       this.getUserProgramsRelation();
+      this.getFamPrograms();
       this.getProg();
     });
 }
 
 async getProg(){
   this.programs = await this.programService.getAllPrograms().toPromise();
+}
+
+async getFamPrograms() {
+  await this.userService.updateFamilyMemberPrograms();
 }
 
 async getUserProgramsRelation(){

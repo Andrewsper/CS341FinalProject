@@ -97,6 +97,18 @@ export class UserService {
     sessionStorage.setItem('user', JSON.stringify(user));
   }
 
+  async updateFamilyMemberPrograms() {
+    var user = JSON.parse(sessionStorage.getItem('user') as string);
+    if (user) {
+      this.http.get<Program[]>(this.userProgramsEndpoint+'/family/'+user.userid).subscribe(
+        (fam) => {
+          user.Family = fam;
+          this.setUser(user);
+      });
+    }
+    this.curUser = user;
+  }
+
   // getUser(): User | undefined{
   // }
 
@@ -147,6 +159,8 @@ export class UserService {
         return program[1];
       }
     }
+    this.setUser(user);
+    this.curUser = user;
     return 0;
   }
 }
