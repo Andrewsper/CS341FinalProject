@@ -70,12 +70,35 @@ async getUserProgramsRelation(){
 }
 
 userSignedUp(programID: number): boolean {
+  var memList : FamilyMember[] = [];
+  if (this.userService.curUser.Family != null) {
+    memList = this.userService.curUser.Family;
+  }
+  for (let i = 0; i < memList.length; i++) {
+    if (memList[i].Programs.includes(programID)) {
+      return true;
+    }
+  }
   if (!this.userService.curUser.classesTaken) {
     return false;
   } else if (this.userService.curUser.classesTaken.length == 0) {
     return false;
   }
   return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
+}
+
+famMemberSignedUp(programID: number): string[] {
+  var memList : FamilyMember[] = [];
+  if (this.userService.curUser.Family != null) {
+    memList = this.userService.curUser.Family;
+  }
+  var res: string[] = [];
+  for (let i = 0; i < memList.length; i++) {
+    if (memList[i].Programs.includes(programID)) {
+      res.push(memList[i].FirstName + " " + memList[i].LastName);
+    }
+  }
+  return res;
 }
 
 cancelProgram(programID: number) {

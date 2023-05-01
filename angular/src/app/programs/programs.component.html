@@ -22,6 +22,12 @@
         <ul>
             <li *ngFor="let day of program.daysOffered" class="day-list">{{day}}</li>
         </ul>
+        <p><strong>Family Members Signed Up For This Program:</strong></p>
+        <ul>
+            <li *ngFor="let famMember of famMemberSignedUp(program.programID!)" class="day-list">
+                {{famMember}}
+            </li>
+        </ul>
     </div>
 
     <div *ngIf="this.userService.isLoggedIn()" class="base">
