@@ -1,6 +1,8 @@
-<h1 mat-dialog-title class="title">{{program.name}}<h1 mat-dialog-title class="date">{{program.offeringDateFrom | date:'mediumDate'}}</h1></h1>
+<h1 mat-dialog-title class="title">{{program.name}}<h1 mat-dialog-title class="date">{{program.offeringDateFrom |
+        date:'mediumDate'}}</h1>
+</h1>
 <mat-dialog-content>
-    <div class="info"> 
+    <div class="info">
         <span>Current Capacity: {{program.currentCapacity}}/{{program.maximumCapacity}}</span>
         <span>Price: ${{this.userService.isMember() ? program.price/2 : program.price}}</span>
         <span>Location: {{program.location}}</span>
@@ -11,11 +13,14 @@
 
 
 <div class="controls">
-    <label># of Registrants:</label>
-    <input id="numRegistered" [(ngModel)]="numRegistered" class="sign-up">
-    <button mat-button class="sign-up" (click)="signUp()" *ngIf="!edit">Sign Up</button>
-    <button mat-button class="sign-up" (click)="cancelRegistration()" *ngIf="edit && this.numRegistered == 0">Cancel Registration</button>
-    <button mat-button class="sign-up" (click)="cancelRegistration()" *ngIf="edit && (this.numRegistered > 0)">Edit Registration</button>
+    <mat-form-field>
+        <mat-select class="sign-up" name="languages" id="fam-member"[(value)]="famMemberSelected">
+            <mat-option *ngFor="let member of userService.curUser.Family" [value]="member.UserID">{{member.FirstName}}
+                {{member.LastName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-button class="sign-up" (click)="signUp()" *ngIf="!famMemberIsSignedUp()">Sign Up</button>
+    <button mat-button class="sign-up" (click)="cancelRegistration()" *ngIf="famMemberIsSignedUp()">Cancel
+        Registration</button>
     <button mat-button mat-dialog-close class="cancel">Cancel</button>
-</div>  
-
+</div>

@@ -33,8 +33,8 @@ export class ProgramService {
 
   }
 
-  signUp(programID: number, numRegistered: number) { 
-    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+this.getCurUser().userid+"/"+numRegistered,{})
+  signUp(programID: number, userID: number) { 
+    this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+userID+"/"+"1",{})
     .pipe(
       catchError((err) => this.handleError(err))
     ).subscribe();
@@ -46,11 +46,11 @@ export class ProgramService {
   // The function returns true if the registration was successfully updated
   // The function returns false if the registration was not successfully updated
 
-  updateRegistration(programID: number, numRegistered: number): boolean {
+  updateRegistration(programID: number, userID: number): boolean {
     console.log(this.getCurUser().userid);
 
     let success = true;
-    this.http.put<any>(this.signUpEndpoint+"/"+programID+"/"+this.getCurUser().userid+"/"+numRegistered,{})
+    this.http.put<any>(this.signUpEndpoint+"/"+programID+"/"+userID+"/"+"1",{})
     .pipe(
       catchError((err) => this.handleError(err))
     ).subscribe();

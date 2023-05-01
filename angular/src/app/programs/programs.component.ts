@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { AddProgramComponent } from '../add-program/add-program.component';
 import { Observable } from 'rxjs';
 import { ModalService } from '../services/modal.service';
+import { FamilyMember } from '../models/FamilyMemberModel';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ProgramsComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       
       this.getUserProgramsRelation();
+      this.getFamPrograms();
       this.getProg();
     });
 }
@@ -59,17 +61,44 @@ async getProg(){
   this.programs = await this.programService.getAllPrograms().toPromise();
 }
 
+async getFamPrograms() {
+  await this.userService.updateFamilyMemberPrograms();
+}
+
 async getUserProgramsRelation(){
   await this.userService.getUserProgramsRel();
 }
 
 userSignedUp(programID: number): boolean {
+  var memList : FamilyMember[] = [];
+  if (this.userService.curUser.Family != null) {
+    memList = this.userService.curUser.Family;
+  }
+  for (let i = 0; i < memList.length; i++) {
+    if (memList[i].Programs.includes(programID)) {
+      return true;
+    }
+  }
   if (!this.userService.curUser.classesTaken) {
     return false;
   } else if (this.userService.curUser.classesTaken.length == 0) {
     return false;
   }
   return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
+}
+
+famMemberSignedUp(programID: number): string[] {
+  var memList : FamilyMember[] = [];
+  if (this.userService.curUser.Family != null) {
+    memList = this.userService.curUser.Family;
+  }
+  var res: string[] = [];
+  for (let i = 0; i < memList.length; i++) {
+    if (memList[i].Programs.includes(programID)) {
+      res.push(memList[i].FirstName + " " + memList[i].LastName);
+    }
+  }
+  return res;
 }
 
 cancelProgram(programID: number) {

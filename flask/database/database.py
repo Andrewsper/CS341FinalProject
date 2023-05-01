@@ -81,11 +81,45 @@ class Database:
         cursor.execute("""SELECT * FROM Signed_Up WHERE ProgramID = ? AND UserID = ?""", (program_id, user_id))
 
         return len(cursor.fetchall()) != 0
+    
+    
+        
         
     #####
 
     ##### Getting from Database #####
-    
+    def get_family_member_programs(self, userID: int):
+        cursor = self.reset_cursor()       
+        cursor.execute("""SELECT *
+                            FROM Users
+                            WHERE UserID = ? AND IsActive = 1""", 
+                            (userID,))
+        
+        found_user = cursor.fetchone()
+        if found_user is None:
+            return None
+
+        found_user = util.convert_user_to_json(found_user)
+
+        cursor = self.reset_cursor()
+        family_id = found_user["familyid"]
+
+        cursor.execute("""SELECT UserID, FirstName, LastName
+                            FROM Users
+                            WHERE FamilyID = ? AND IsActive = 1""",
+                            (family_id,))
+        
+        family_members = cursor.fetchall()
+
+        found_user = util.add_family_to_user(found_user, family_members)
+        
+        for member in found_user["Family"]:
+            cursor.execute("""SELECT ProgramID FROM Signed_Up WHERE UserID = ?""", (member["UserID"],))
+            programs = cursor.fetchall()
+            member["Programs"] = [program[0] for program in programs]
+        return jsonify(found_user["Family"]), 200
+        
+        
     def get_program_by_id(self, program_id: int) -> dict:
         r"""Gets the program with the given id
 
@@ -325,11 +359,11 @@ class Database:
 
         cursor.execute("""INSERT INTO Signed_UP 
                                 (UserID, ProgramID, NumRegistered) 
-                                    VALUES (?, ?, ?)""", 
-                                        (user_id, program_id, num_registered))
+                                    VALUES (?, ?, 1)""", 
+                                        (user_id, program_id))
         cursor.execute("""UPDATE Programs
                                     SET CurrentCapacity = CurrentCapacity + ?
-                                    WHERE ProgramID = ?""", (num_registered, program_id))
+                                    WHERE ProgramID = ?""", (1, program_id))
         self.commit_changes()
 
         return self.success_response()
@@ -703,8 +737,13 @@ class Database:
                             (family_id,))
         
         family_members = cursor.fetchall()
-        
+
         found_user = util.add_family_to_user(found_user, family_members)
+        
+        for member in found_user["Family"]:
+            cursor.execute("""SELECT ProgramID FROM Signed_Up WHERE UserID = ?""", (member["UserID"],))
+            programs = cursor.fetchall()
+            member["Programs"] = [program[0] for program in programs]
         if (int(util.hash_password(user["password"])) == int(found_user["password"])):
             return found_user
         

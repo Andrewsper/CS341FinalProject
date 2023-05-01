@@ -50,10 +50,3 @@ CREATE TABLE Signed_Up (
     FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
 );
-
-CREATE TABLE Owns (
-    UserID INTEGER NOT NULL,
-    ProgramID INTEGER NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES User(UserID),
-    FOREIGN KEY (ProgramID) REFERENCES Program(ProgramID)
-);
