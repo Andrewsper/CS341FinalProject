@@ -89,6 +89,11 @@ userSignedUp(programID: number): boolean {
 
 famMemberSignedUp(programID: number): string[] {
   var memList : FamilyMember[] = [];
+
+  if (this.userService.curUser == null) {
+    return [];
+  }
+
   if (this.userService.curUser.Family != null) {
     memList = this.userService.curUser.Family;
   }

@@ -138,6 +138,11 @@ export class UserService {
 
   getUserProgramsRel(): number[][] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
+
+    if (!this.curUser) {
+      return undefined;
+    }
+
     this.http.get<number[][]>(this.userProgramsEndpoint+'/relation/'+this.curUser.userid).subscribe(
       (programs) => {
         this.curUser.classesTaken = programs;
