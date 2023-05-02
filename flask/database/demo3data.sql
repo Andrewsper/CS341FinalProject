@@ -21,3 +21,18 @@ VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 20
 
 INSERT INTO Programs (Name, Description, OfferingDateFrom, OfferingDateTo, Location, Price, Length, DaysOffered, StartTime, MaximumCapacity, CurrentCapacity)
 VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 200, 40, 2, "18:00", 2, 0);
+
+INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
+VALUES (2, 1, 1);
+
+INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
+VALUES (2, 4, 1);
+
+INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
+VALUES (3, 2, 1);
+
+INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
+VALUES (3, 3, 1);
+
+INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
+VALUES (4, 4, 1);

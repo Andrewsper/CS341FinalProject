@@ -26,7 +26,10 @@ export class UserHomePageComponent {
     this.userService.getUserProgramsRel();
   }
  async getUserProgramList(){
-    this.programs= await this.userService.getUserPrograms(this.userService.curUser.userid!).toPromise();
+    if (!this.userService.curUser) {
+      return;
+    }
+    this.programs = await this.userService.getUserPrograms(this.userService.curUser.userid!).toPromise();
   }
 
   userSignedUp(programID: number): boolean {

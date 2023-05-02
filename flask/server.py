@@ -63,7 +63,7 @@ def logout() -> tuple[str, int]:
     """
     if "user" in session :
         session.pop("user",None)
-    return 'ok', 200
+    return jsonify('ok'), 200
 
 @app.route("/register", methods=['POST'])
 @cross_origin()
