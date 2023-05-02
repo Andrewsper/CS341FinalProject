@@ -526,8 +526,8 @@ class Database:
 
         return self.success_response()
 
-    def remove_program(self, program: dict) -> tuple[str, int]:
-        if not self.check_for_program_by_name(program["name"]):
+    def remove_program(self, programID: dict) -> tuple[str, int]:
+        if not self.check_for_program_by_id(programID):
             return "program not found", 204
         
         self.notify_user(programID)
