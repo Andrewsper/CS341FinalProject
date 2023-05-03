@@ -17,8 +17,9 @@ import { FamilyMember } from '../models/FamilyMemberModel';
 })
 export class ProgramsComponent implements OnInit {
 
-  programs?: Program [];
+  programs?: Program[];
   userPrograms?: number[][] = [];
+  filter= '';
 
   constructor(
     private programService: ProgramService,
@@ -32,6 +33,13 @@ export class ProgramsComponent implements OnInit {
   ngOnInit(): void {
     this.getProg();
     this.userService.getUserProgramsRel();
+    this.filter = '';
+    if(!this.programs){
+      return;
+    }
+    for (let i = 0;i < this.programs!.length;i++) {
+      this.programs[i].show = true;
+    }
   }
 
   showCreateProgramModal(){
@@ -59,6 +67,7 @@ export class ProgramsComponent implements OnInit {
 
 async getProg(){
   this.programs = await this.programService.getAllPrograms().toPromise();
+  this.filterPrograms()
 }
 
 async getFamPrograms() {
@@ -114,6 +123,20 @@ cancelProgram(programID: number) {
 
   this.getUserProgramsRelation();
   this.getProg();
+}
+
+filterPrograms() {
+  console.log("filtering");
+  if(!this.programs) {
+    return;
+  }
+  for(let i = 0;i < this.programs?.length;i++) {
+    if( this.filter == '' || this.programs[i].name.toLowerCase().includes(this.filter.toLowerCase())) {
+      this.programs[i].show = true;
+    } else {
+      this.programs[i].show = false;
+    }
+  }
 }
 
 }

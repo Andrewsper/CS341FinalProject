@@ -1,10 +1,14 @@
 
 
 <button *ngIf="this.userService?.curUser?.isStaff" (click)="showCreateProgramModal()">Add a program</button>
-
+<form class="filterForm">
+    <label for="filter">Filter by Program Name </label>
+    <input type="text" name="filter" [(ngModel)]="filter" (keyup)="filterPrograms()">
+</form>
 <div *ngIf="!this.userService.isLoggedIn()" class="nologin">You are currently not logged in, To register for a class please log in or register an account with us. Thank You!</div>
 
-<div *ngFor="let program of programs" class="program">
+<div *ngFor="let program of programs">
+    <div *ngIf="program.show" class="program">
     <h1 class="header">
         <span class="name">{{ program.name }}</span>
         <br/>
@@ -41,6 +45,7 @@
         <button *ngIf="this.userService?.curUser?.isStaff" (click)="cancelProgram(program.programID!)">Cancel
             Program</button>
     </div>
+</div>
 </div>
 
 <!-- <div *ngIf="programs.length === 0">No programs to display</div> -->

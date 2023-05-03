@@ -11,16 +11,16 @@ INSERT INTO Users (FirstName, LastName, Address, PhoneNumber, Email, Password, Z
 VALUES ("Aini", "Anderson", "123 Aini Street", "1234567890", "aanderson@email.com", 883, "32564", 0, 0, 1, 1, 3);
 
 INSERT INTO Programs (Name, Description, OfferingDateFrom, OfferingDateTo, Location, Price, Length, DaysOffered, StartTime, MaximumCapacity, CurrentCapacity)
-VALUES ("Shark", "Participants must have passed pike level before.", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 96, 40, 1, "17:00", 8, 0);
+VALUES ("Shark", "Participants must have passed pike level before.", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 96, 40, 1, "17:00", 8, 1);
 
 INSERT INTO Programs (Name, Description, OfferingDateFrom, OfferingDateTo, Location, Price, Length, DaysOffered, StartTime, MaximumCapacity, CurrentCapacity)
-VALUES ("Shark", "Participants must have passed pike level before.", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 130, 40, 10, "18:00", 8, 0);
+VALUES ("Shark", "Participants must have passed pike level before.", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 130, 40, 10, "18:00", 8, 1);
 
 INSERT INTO Programs (Name, Description, OfferingDateFrom, OfferingDateTo, Location, Price, Length, DaysOffered, StartTime, MaximumCapacity, CurrentCapacity)
-VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 200, 40, 1, "17:00", 1, 0);
+VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 200, 40, 1, "17:00", 1, 1);
 
 INSERT INTO Programs (Name, Description, OfferingDateFrom, OfferingDateTo, Location, Price, Length, DaysOffered, StartTime, MaximumCapacity, CurrentCapacity)
-VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 200, 40, 2, "18:00", 2, 0);
+VALUES ("Log Rolling", "", "2023-05-21", "2023-06-25", "YMCA Onalaska pool,", 200, 40, 2, "18:00", 2, 2);
 
 INSERT INTO Signed_Up (UserID, ProgramID, NumRegistered)
 VALUES (2, 1, 1);
