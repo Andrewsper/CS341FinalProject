@@ -1,3 +1,13 @@
+/**
+ * This module contains the functionality of the programs component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
+
+
 import { Component, OnInit } from '@angular/core';
 import { ProgramService } from '../services/program.service';
 import { Program } from '../models/ProgramModel';
@@ -29,7 +39,7 @@ export class ProgramsComponent implements OnInit {
   ) {
 
   }
-
+  //inits the component
   ngOnInit(): void {
     this.getProg();
     this.userService.getUserProgramsRel();
@@ -42,12 +52,13 @@ export class ProgramsComponent implements OnInit {
     }
   }
 
+  //shows the create program modal
   showCreateProgramModal(){
     this.dialog.open(AddProgramComponent,{height:'600px',width:'800px'}).afterClosed().subscribe(result => {
         this.getProg();
     });
   }
-
+  //shows the signup modal
   showSignupModal(programID: number, edit: boolean) {
     this.dialog.open(ProgramModalComponent, {
       height: '600px',
@@ -65,19 +76,23 @@ export class ProgramsComponent implements OnInit {
     });
 }
 
+//gets the program data
 async getProg(){
   this.programs = await this.programService.getAllPrograms().toPromise();
   this.filterPrograms()
 }
 
+//gets the family program data
 async getFamPrograms() {
   await this.userService.updateFamilyMemberPrograms();
 }
 
+//gets the user programs relation
 async getUserProgramsRelation(){
   await this.userService.getUserProgramsRel();
 }
 
+//returns whether or not a user is signed up for a program
 userSignedUp(programID: number): boolean {
   var memList : FamilyMember[] = [];
   if (this.userService.curUser.Family != null) {
@@ -95,6 +110,7 @@ userSignedUp(programID: number): boolean {
   }
   return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
 }
+//returns whether or not a family member is signed up for a program
 
 famMemberSignedUp(programID: number): string[] {
   var memList : FamilyMember[] = [];
@@ -114,7 +130,7 @@ famMemberSignedUp(programID: number): string[] {
   }
   return res;
 }
-
+//cancels a users program registration
 cancelProgram(programID: number) {
   let deleted = false;
   this.modalService.showModal("Are you sure you want to cancel this program?", "Cancel Program", "", "confirm")
@@ -125,6 +141,7 @@ cancelProgram(programID: number) {
   this.getProg();
 }
 
+//filters the programs by name
 filterPrograms() {
   console.log("filtering");
   if(!this.programs) {

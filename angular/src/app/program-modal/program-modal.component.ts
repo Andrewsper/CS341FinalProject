@@ -1,3 +1,12 @@
+/**
+ * This module contains the functionality of the program-modal component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
+
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -46,6 +55,7 @@ export class ProgramModalComponent implements OnInit{
       this.numRegistered = data.numRegistered;
     }
 
+  //inits the component
   ngOnInit(): void {
     console.log(this.data.programID)
 
@@ -56,7 +66,7 @@ export class ProgramModalComponent implements OnInit{
     );
 
   }
-
+  //sends the sign up api call with the form data
   signUp() {
     let error: boolean = false;
     if (this.numRegistered < 0){
@@ -71,6 +81,7 @@ export class ProgramModalComponent implements OnInit{
     this.dialogRef.close("result");
   }
 
+  //sends the cancel api call
   cancelRegistration() {
     let error: boolean = false;
 
@@ -83,6 +94,7 @@ export class ProgramModalComponent implements OnInit{
     this.dialogRef.close("result");
   }
 
+  //boolean to see whether or not a family member is signed up
   famMemberIsSignedUp() : boolean | undefined{
     return this.userService.curUser.Family?.find((famMember) => famMember.UserID == this.famMemberSelected)?.Programs?.includes(this.data.programID);
   }

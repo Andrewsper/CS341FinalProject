@@ -1,3 +1,11 @@
+
+/**
+ * This service communicates with the program api
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
@@ -10,11 +18,7 @@ import { ModalService } from './modal.service';
 })
 export class ProgramService {
 
-  // programsEndpoint = 'http://0.0.0.0:5000/programs';
-  // programEndpoint = 'http://0.0.0.0:5000/program/';
-  // signUpEndpoint = 'http://0.0.0.0:5000/program';
 
-  //test endpoints
   programsEndpoint = 'http://127.0.0.1:9090/programs';
   programEndpoint = 'http://127.0.0.1:9090/program/';
   signUpEndpoint = 'http://127.0.0.1:9090/program';
@@ -24,15 +28,18 @@ export class ProgramService {
   
   }
 
+  //this returns the observable for the getall programs api call
   getAllPrograms(): Observable<Program[]> {
     return this.http.get<Program[]>(this.programsEndpoint);
   }
+  //this returns the observable for the get program by id api call
 
   getProgram(programID: number): Observable<Program> {
     return this.http.get<Program>(this.programEndpoint + programID);
 
   }
 
+  //This program makes the api call to signup the current user for a program
   signUp(programID: number, userID: number) { 
     this.http.post<any>(this.signUpEndpoint+"/"+programID+"/"+userID+"/"+"1",{})
     .pipe(
@@ -57,16 +64,18 @@ export class ProgramService {
     return success;
   }
 
+  //this makes the api call to create a program
   addProgram( p :Program){
     this.http.post<Program>(this.programsEndpoint,p).subscribe();
   }
-
+  //this makes an api call to remove a program
   removeProgram(programID: Number) {
     this.http.delete(this.programEndpoint + programID).pipe(
       catchError((err) => this.handleError(err))
     ).subscribe();
   }
 
+  //this handels errors from the api calls
   handleError(err: HttpErrorResponse){
     if(err.status == 400 || err.status == 409) {
       this.modalService.showModal("Registration exceeded program capacity", "Error #0001");

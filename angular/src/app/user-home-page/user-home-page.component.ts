@@ -1,3 +1,11 @@
+/**
+ * This module contains the functionality of the home-page component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 import { Component } from '@angular/core';
 import { Program } from '../models/ProgramModel';
 import { ProgramService } from '../services/program.service';
@@ -20,11 +28,13 @@ export class UserHomePageComponent {
 
 
   ){}
-
+    //inits the component
   ngOnInit(): void {
     this.getUserProgramList();
     this.userService.getUserProgramsRel();
   }
+
+//gets all of the programs the current user is signed up for
  async getUserProgramList(){
     if (!this.userService.curUser) {
       return;
@@ -32,6 +42,7 @@ export class UserHomePageComponent {
     this.programs = await this.userService.getUserPrograms(this.userService.curUser.userid!).toPromise();
   }
 
+  //boolean to see whether or not a user has signed up for a program
   userSignedUp(programID: number): boolean {
     if (!this.userService.curUser.classesTaken) {
       return false;
@@ -41,7 +52,7 @@ export class UserHomePageComponent {
     return this.userService.curUser.classesTaken.some((program) => program[0] == programID);
   }
 
-
+  //shows sign up modal
   showSignupModal(programID: number, edit: boolean) {
     this.dialog.open(ProgramModalComponent, {
       height: '600px',

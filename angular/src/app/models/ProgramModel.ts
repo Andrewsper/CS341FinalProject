@@ -1,3 +1,10 @@
+/**
+ * This module contains model for the program class
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 export class Program {
     constructor(
     public name: string,

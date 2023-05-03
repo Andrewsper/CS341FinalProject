@@ -1,3 +1,11 @@
+/**
+ * This module contains the functionality of the create program component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { ProgramService } from '../services/program.service';
 import { Program } from '../models/ProgramModel';
@@ -15,7 +23,6 @@ export class AddProgramComponent implements OnInit{
   progForm !: FormGroup;
   daysSelected: string[];
   daysOfWeek: {name: string, checked: boolean}[];
-
   constructor(
     public dialogRef: MatDialogRef<AddProgramComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,6 +39,7 @@ export class AddProgramComponent implements OnInit{
     this.daysSelected = [];
   }
 
+//inits form data
   ngOnInit(): void {
     this.progForm = this.formBuilder.group({
       name: [''],
@@ -54,10 +62,12 @@ export class AddProgramComponent implements OnInit{
     return this.progForm.get('daysOfWeek') as FormArray;
   }
 
+  //adds check boxes for the form
   addCheckboxes() {
     this.daysOfWeek.forEach(() => this.daysOfWeekFormArray.push(new FormControl(false)));
   }
 
+  //sends a create form request to the server
   createProgram(): void {
     if(new Date(this.progForm.value.start).getTime() > new Date(this.progForm.value.end).getTime()) {
       this.modalService.showModal("invalid date selection", "Error #0004");

@@ -1,3 +1,11 @@
+/**
+ * This is the routing configuartion for the page
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';

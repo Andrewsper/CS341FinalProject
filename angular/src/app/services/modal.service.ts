@@ -1,3 +1,12 @@
+/**
+ * This service contains the functionality of the modal component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
+
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { YmcaModalComponent } from '../ymca-modal/ymca-modal.component';

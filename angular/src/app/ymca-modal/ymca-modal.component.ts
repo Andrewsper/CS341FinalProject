@@ -1,3 +1,11 @@
+/**
+ * This module contains the functionality of the ymca-modal component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 

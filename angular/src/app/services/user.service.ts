@@ -1,3 +1,11 @@
+
+/**
+ * This service communicates with the user api
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
@@ -12,12 +20,7 @@ import { ModalService } from './modal.service';
 export class UserService {
 
   curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
-  // loginEndpoint = 'http://0.0.0.0:5000/login';
-  // logoutEndpoint = 'http://0.0.0.0:5000/logout';
-  // registerEndpoint = 'http://0.0.0.0:5000/register';
-  // userProgramsEndpoint = 'http://127.0.0.1:5000/programs';
-  // usersEndpoint = 'http://127.0.0.1:5000/users';
-  //Leave in for people who cant get docker working
+
   loginEndpoint = 'http://127.0.0.1:9090/login';
   logoutEndpoint = 'http://127.0.0.1:9090/logout';
   registerEndpoint = 'http://127.0.0.1:9090/register';
@@ -29,6 +32,7 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router, private modalService: ModalService, private programService: ProgramService) { }
 
 
+  //send a login request to the api with the loginInfo param info
   validateLogin(loginInfo?: User) {
     //If the session already has a user saved set it to the current user to it
     if (!sessionStorage.getItem('user')) {
@@ -47,7 +51,7 @@ export class UserService {
       this.router.navigate(["/"]);
     }
   }
-
+  //handels api error responses
   handleError(err: HttpErrorResponse){
     if (err.status === 401) {
       this.modalService.showModal("Invalid login please try again", "Login Failed");
@@ -57,6 +61,7 @@ export class UserService {
     return throwError(() => new Error("Something went wrong please try again"));
   }
 
+  //send a register request to the api with the registerInfo param info
 
   registerUser(registerInfo: User) {
     const options = { headers: { 'Content-Type': 'application/json' } };
@@ -72,31 +77,38 @@ export class UserService {
 
   }
 
+  //gets all of the user info from the api
   getAllUsers() : Observable<User[]> {
     return this.http.get<User[]>(this.usersEndpoint);
   }
 
+  //sends a request to the api to toggle the member status of the user with the same user id as the param
   toggleMembership(uid : String){
     return this.http.put(this.usersEndpoint+'/'+uid+ "/member",{});
   }
+  //sends a request to the api to toggle the active status of the user with the same user id as the param
 
   toggleActive(uid : String){
     return this.http.put(this.usersEndpoint+'/'+uid+ "/active",{});
   }
+  //sends a request to the api to toggle the staff status of the user with the same user id as the param
 
   toggleStaff(uid : String){
     return this.http.put(this.usersEndpoint+'/'+uid+ "/staff",{});
   }
 
+  //checks to see if the current member is a member
   isMember(): boolean {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     return user ? user.isMember : false;
   }
 
+  //sets the current user to the paramter user info
   setUser(user : User){
     sessionStorage.setItem('user', JSON.stringify(user));
   }
 
+  //updates family member programs via api call
   async updateFamilyMemberPrograms() {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     if (user) {
@@ -109,9 +121,7 @@ export class UserService {
     this.curUser = user;
   }
 
-  // getUser(): User | undefined{
-  // }
-
+//sends a logout request ot the api and removes user data from the session storage
   logout() {
     sessionStorage.removeItem('user');
     this.curUser = new User("","");
@@ -119,23 +129,25 @@ export class UserService {
     this.router.navigate(["/login"]);
   }
 
-
+  //gets the first name of the current user
   getFirstName():String | undefined{
     return sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') as string).firstName : undefined;
   }
 
+  //checks to see if there is a user logged in 
   isLoggedIn(): boolean {
     if (JSON.parse(sessionStorage.getItem('user') as string) as User) {
       return true;
     }
     return false;
   }
-
+  //checks to see if the current user is a staff
   isStaff(): boolean {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     return user ? user.isStaff : false;
   }
 
+  //gets the relation table of the current user and their programs
   getUserProgramsRel(): number[][] | undefined{
     this.curUser = JSON.parse(sessionStorage.getItem('user') as string) as User;
 
@@ -151,11 +163,12 @@ export class UserService {
     return this.curUser.classesTaken;
   }
 
+  //gets all of the programs the user with userId has signed up for
   getUserPrograms(userId : String){
     return this.http.get<Program[]>(this.userProgramsEndpoint+'/'+userId);
   }
 
-
+  //gets the ammount of users signed up for a program
   getNumRegistered(programID: number): number {
     var user = JSON.parse(sessionStorage.getItem('user') as string);
     if (user) {

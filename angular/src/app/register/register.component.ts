@@ -1,3 +1,12 @@
+/**
+ * This module contains the functionality of the register component
+
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -19,7 +28,7 @@ export class RegisterComponent {
     private userService: UserService,
     private router: Router) { }
 
-
+    //inits form data and component
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: [''],
@@ -34,6 +43,7 @@ export class RegisterComponent {
     })
   }
 
+  //verifies register validity
   checkLogin(): boolean {
     if (this.form.value.password != this.form.value.confirmPassword) {
       this.errorText = "Passwords do not match";
@@ -45,7 +55,7 @@ export class RegisterComponent {
     }
     return true;
   }
-
+  //sends a register request to the api
   async register() {
     if (!this.checkLogin()) {
       return;

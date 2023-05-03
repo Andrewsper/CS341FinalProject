@@ -1,3 +1,10 @@
+
+/**
+ * This module contains model for the user class
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
 import { FamilyMember } from "./FamilyMemberModel";
 import { Program } from "./ProgramModel";
 

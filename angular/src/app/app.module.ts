@@ -1,3 +1,11 @@
+/**
+ * This is the angular config file 
+ * 
+Author: Will, Andrew
+
+Date Modified: 2023-04-25
+ */
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
