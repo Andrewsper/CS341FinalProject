@@ -11,6 +11,7 @@ export class Program {
     public location: string,
     public length?: number,
     public programID?: number,
-    public daysOffered?: string[]
+    public daysOffered?: string[],
+    public show?: boolean
     ){}
 }
